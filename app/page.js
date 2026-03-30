@@ -1,6 +1,6 @@
 // FILE: app/page.js
-// VERSION: v3 - UI polish for premium readability
-// PURPOSE: Clean, structured display of affordability results
+// VERSION: v4 - Add toggle for breakdown (clean UX)
+// PURPOSE: Show simple result first, optional detailed breakdown
 
 "use client";
 
@@ -13,6 +13,7 @@ export default function Home() {
   const [price, setPrice] = useState("");
 
   const [result, setResult] = useState(null);
+  const [showBreakdown, setShowBreakdown] = useState(false);
 
   async function handleCheck() {
     const res = await fetch("/api/affordability", {
@@ -28,6 +29,7 @@ export default function Home() {
 
     const data = await res.json();
     setResult(data.result);
+    setShowBreakdown(false); // reset toggle each time
   }
 
   return (
@@ -65,11 +67,7 @@ export default function Home() {
 
         <button
           onClick={handleCheck}
-          style={{
-            marginTop: 10,
-            padding: "8px 12px",
-            cursor: "pointer"
-          }}
+          style={{ marginTop: 10, padding: "8px 12px", cursor: "pointer" }}
         >
           Check Affordability
         </button>
@@ -78,64 +76,76 @@ export default function Home() {
       {result && (
         <div style={{ marginTop: 30, maxWidth: 600 }}>
 
-          {/* SUMMARY BLOCK */}
+          {/* SUMMARY CARD */}
           <div
             style={{
               padding: 20,
               border: "1px solid #ddd",
               borderRadius: 8,
-              marginBottom: 20
+              marginBottom: 15
             }}
           >
             <p><strong>Can Afford:</strong> {result.canAfford ? "Yes" : "No"}</p>
             <p><strong>Monthly Left:</strong> ${result.monthlyAvailable}</p>
             <p><strong>Estimated Payment:</strong> ${result.monthlyPayment}</p>
             <p><strong>Savings After:</strong> ${result.remainingSavings}</p>
+
+            <p style={{ marginTop: 10 }}>
+              {result.canAfford
+                ? "You are in a safe position for this purchase."
+                : "This purchase may stretch your finances."}
+            </p>
           </div>
 
-          {/* EXPLANATION BLOCK */}
-          <div
+          {/* TOGGLE BUTTON */}
+          <button
+            onClick={() => setShowBreakdown(!showBreakdown)}
             style={{
-              padding: 20,
-              border: "1px solid #ddd",
-              borderRadius: 8,
-              background: "#f9f9f9"
+              marginBottom: 10,
+              padding: "6px 10px",
+              cursor: "pointer"
             }}
           >
-            <h3 style={{ marginBottom: 10 }}>How this was calculated</h3>
+            {showBreakdown ? "Hide full breakdown" : "Show full breakdown"}
+          </button>
 
-            {result.explanation.split("\n").map((line, index) => {
-              if (line.includes("STEP")) {
-                return (
-                  <p key={index} style={{ fontWeight: "bold", marginTop: 10 }}>
-                    {line}
-                  </p>
-                );
-              }
+          {/* BREAKDOWN */}
+          {showBreakdown && (
+            <div
+              style={{
+                padding: 20,
+                border: "1px solid #ddd",
+                borderRadius: 8,
+                background: "#f9f9f9"
+              }}
+            >
+              <h3 style={{ marginBottom: 10 }}>Detailed Breakdown</h3>
 
-              if (line.includes("=")) {
+              {result.explanation.split("\n").map((line, index) => {
+                if (line.includes("STEP")) {
+                  return (
+                    <p key={index} style={{ fontWeight: "bold", marginTop: 10 }}>
+                      {line}
+                    </p>
+                  );
+                }
+
+                if (line.includes("Result")) {
+                  return (
+                    <p key={index} style={{ marginTop: 15, fontWeight: "bold" }}>
+                      {line}
+                    </p>
+                  );
+                }
+
                 return (
                   <p key={index} style={{ marginLeft: 10 }}>
                     {line}
                   </p>
                 );
-              }
-
-              if (line.includes("Result")) {
-                return (
-                  <p key={index} style={{ marginTop: 15, fontWeight: "bold" }}>
-                    {line}
-                  </p>
-                );
-              }
-
-              return (
-                <p key={index} style={{ marginLeft: 10 }}>
-                  {line}
-                </p>
-              );
-            })}
-          </div>
+              })}
+            </div>
+          )}
 
         </div>
       )}

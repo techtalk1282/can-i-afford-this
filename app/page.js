@@ -1,5 +1,6 @@
 // FILE: app/page.js
-// VERSION: v2 - Display backend explanation + fix UI clarity
+// VERSION: v3 - UI polish for premium readability
+// PURPOSE: Clean, structured display of affordability results
 
 "use client";
 
@@ -30,56 +31,112 @@ export default function Home() {
   }
 
   return (
-    <main style={{ padding: 40 }}>
-      <h1>Can I Afford This</h1>
+    <main style={{ padding: 40, fontFamily: "Arial, sans-serif" }}>
+      <h1 style={{ fontSize: 36, marginBottom: 20 }}>Can I Afford This</h1>
 
-      <input
-        placeholder="Monthly Income"
-        value={income}
-        onChange={(e) => setIncome(e.target.value)}
-      />
-      <br />
+      <div style={{ maxWidth: 300 }}>
+        <input
+          placeholder="Monthly Income"
+          value={income}
+          onChange={(e) => setIncome(e.target.value)}
+        />
+        <br />
 
-      <input
-        placeholder="Monthly Expenses"
-        value={expenses}
-        onChange={(e) => setExpenses(e.target.value)}
-      />
-      <br />
+        <input
+          placeholder="Monthly Expenses"
+          value={expenses}
+          onChange={(e) => setExpenses(e.target.value)}
+        />
+        <br />
 
-      <input
-        placeholder="Savings"
-        value={savings}
-        onChange={(e) => setSavings(e.target.value)}
-      />
-      <br />
+        <input
+          placeholder="Savings"
+          value={savings}
+          onChange={(e) => setSavings(e.target.value)}
+        />
+        <br />
 
-      <input
-        placeholder="Item Price"
-        value={price}
-        onChange={(e) => setPrice(e.target.value)}
-      />
-      <br />
+        <input
+          placeholder="Item Price"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+        />
+        <br />
 
-      <button onClick={handleCheck}>Check Affordability</button>
+        <button
+          onClick={handleCheck}
+          style={{
+            marginTop: 10,
+            padding: "8px 12px",
+            cursor: "pointer"
+          }}
+        >
+          Check Affordability
+        </button>
+      </div>
 
       {result && (
-        <div style={{ marginTop: 20 }}>
-          <p><strong>Can Afford:</strong> {result.canAfford ? "Yes" : "No"}</p>
+        <div style={{ marginTop: 30, maxWidth: 600 }}>
 
-          <p><strong>Monthly Left:</strong> ${result.monthlyAvailable}</p>
+          {/* SUMMARY BLOCK */}
+          <div
+            style={{
+              padding: 20,
+              border: "1px solid #ddd",
+              borderRadius: 8,
+              marginBottom: 20
+            }}
+          >
+            <p><strong>Can Afford:</strong> {result.canAfford ? "Yes" : "No"}</p>
+            <p><strong>Monthly Left:</strong> ${result.monthlyAvailable}</p>
+            <p><strong>Estimated Payment:</strong> ${result.monthlyPayment}</p>
+            <p><strong>Savings After:</strong> ${result.remainingSavings}</p>
+          </div>
 
-          <p><strong>Estimated Payment:</strong> ${result.monthlyPayment}</p>
+          {/* EXPLANATION BLOCK */}
+          <div
+            style={{
+              padding: 20,
+              border: "1px solid #ddd",
+              borderRadius: 8,
+              background: "#f9f9f9"
+            }}
+          >
+            <h3 style={{ marginBottom: 10 }}>How this was calculated</h3>
 
-          <p><strong>Savings After:</strong> ${result.remainingSavings}</p>
+            {result.explanation.split("\n").map((line, index) => {
+              if (line.includes("STEP")) {
+                return (
+                  <p key={index} style={{ fontWeight: "bold", marginTop: 10 }}>
+                    {line}
+                  </p>
+                );
+              }
 
-          <hr />
+              if (line.includes("=")) {
+                return (
+                  <p key={index} style={{ marginLeft: 10 }}>
+                    {line}
+                  </p>
+                );
+              }
 
-          <h3>How this was calculated:</h3>
+              if (line.includes("Result")) {
+                return (
+                  <p key={index} style={{ marginTop: 15, fontWeight: "bold" }}>
+                    {line}
+                  </p>
+                );
+              }
 
-          <pre style={{ whiteSpace: "pre-wrap" }}>
-            {result.explanation}
-          </pre>
+              return (
+                <p key={index} style={{ marginLeft: 10 }}>
+                  {line}
+                </p>
+              );
+            })}
+          </div>
+
         </div>
       )}
     </main>

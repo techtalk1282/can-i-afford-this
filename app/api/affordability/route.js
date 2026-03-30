@@ -1,3 +1,7 @@
+// FILE: app/api/affordability/route.js
+// VERSION: v2 - Step-by-step explanation logic added
+// PURPOSE: Backend affordability engine with full transparency math + explanations
+
 export async function GET() {
   return Response.json({
     message: "Affordability API is working"
@@ -18,12 +22,13 @@ export async function POST(req) {
     loanTermYears = 5
   } = body;
 
+  // ---- CORE CALCULATION ----
   const monthlyAvailable = income - expenses;
 
   let monthlyPayment = 0;
   let remainingSavings = savings;
   let canAfford = false;
-  let recommendation = "";
+  let explanation = "";
 
   // ---- CASH PURCHASE ----
   if (paymentType === "cash") {
@@ -33,9 +38,26 @@ export async function POST(req) {
       remainingSavings >= 3000 && // safety buffer
       monthlyAvailable > 0;
 
-    recommendation = canAfford
-      ? "Comfortable"
-      : "Not recommended — leaves insufficient savings buffer";
+    explanation = `
+Monthly income: $${income}
+Monthly expenses: $${expenses}
+
+Money left each month:
+$${income} - $${expenses} = $${monthlyAvailable}
+
+Savings before purchase: $${savings}
+Purchase price: $${price}
+
+Savings after purchase:
+$${savings} - $${price} = $${remainingSavings}
+
+Result:
+${
+  canAfford
+    ? "You can afford this purchase while maintaining a safe savings buffer."
+    : "This purchase is not recommended because it reduces your savings below a safe level."
+}
+`;
   }
 
   // ---- FINANCING ----
@@ -50,17 +72,42 @@ export async function POST(req) {
       (loanAmount * monthlyRate) /
       (1 - Math.pow(1 + monthlyRate, -totalMonths));
 
+    const roundedPayment = Math.round(monthlyPayment);
+
     remainingSavings = savings - downPayment;
 
-    const leftoverAfterPayment = monthlyAvailable - monthlyPayment;
+    const leftoverAfterPayment = Math.round(monthlyAvailable - monthlyPayment);
 
     canAfford =
-      leftoverAfterPayment > 500 && // breathing room
+      leftoverAfterPayment > 500 && // breathing room threshold
       remainingSavings >= 3000;
 
-    recommendation = canAfford
-      ? "Comfortable"
-      : "Not recommended — payment too high or savings too low";
+    explanation = `
+Monthly income: $${income}
+Monthly expenses: $${expenses}
+
+Money left each month:
+$${income} - $${expenses} = $${monthlyAvailable}
+
+Loan amount:
+$${price} - $${downPayment} = $${loanAmount}
+
+Estimated monthly payment:
+$${roundedPayment}
+
+Money left after payment:
+$${monthlyAvailable} - $${roundedPayment} = $${leftoverAfterPayment}
+
+Savings after down payment:
+$${savings} - $${downPayment} = $${remainingSavings}
+
+Result:
+${
+  canAfford
+    ? "You can afford this purchase with a comfortable monthly buffer."
+    : "This purchase is not recommended because the remaining monthly buffer is too low or savings are insufficient."
+}
+`;
   }
 
   return Response.json({
@@ -70,7 +117,7 @@ export async function POST(req) {
       monthlyAvailable,
       monthlyPayment: Math.round(monthlyPayment),
       remainingSavings,
-      recommendation
+      explanation
     }
   });
 }

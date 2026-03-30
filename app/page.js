@@ -1,6 +1,6 @@
 // FILE: app/page.js
-// VERSION: v4 - Add toggle for breakdown (clean UX)
-// PURPOSE: Show simple result first, optional detailed breakdown
+// VERSION: v5 - Remove "STEP" labels and convert to clean financial breakdown
+// PURPOSE: Improve UX by removing instructional tone and making output feel professional
 
 "use client";
 
@@ -29,7 +29,14 @@ export default function Home() {
 
     const data = await res.json();
     setResult(data.result);
-    setShowBreakdown(false); // reset toggle each time
+    setShowBreakdown(false);
+  }
+
+  // 🔥 Helper to clean labels
+  function formatLine(line) {
+    return line
+      .replace(/STEP \d+ — /g, "") // remove STEP labels
+      .replace("Result:", "Summary:");
   }
 
   return (
@@ -97,7 +104,7 @@ export default function Home() {
             </p>
           </div>
 
-          {/* TOGGLE BUTTON */}
+          {/* TOGGLE */}
           <button
             onClick={() => setShowBreakdown(!showBreakdown)}
             style={{
@@ -122,25 +129,38 @@ export default function Home() {
               <h3 style={{ marginBottom: 10 }}>Detailed Breakdown</h3>
 
               {result.explanation.split("\n").map((line, index) => {
-                if (line.includes("STEP")) {
+                const cleanLine = formatLine(line);
+
+                if (!cleanLine.trim()) return null;
+
+                // Section headers (former STEP titles)
+                if (
+                  cleanLine.includes("Monthly leftover") ||
+                  cleanLine.includes("Loan amount") ||
+                  cleanLine.includes("Estimated monthly payment") ||
+                  cleanLine.includes("Money left after payment") ||
+                  cleanLine.includes("Savings after") ||
+                  cleanLine.includes("Safety rules")
+                ) {
                   return (
                     <p key={index} style={{ fontWeight: "bold", marginTop: 10 }}>
-                      {line}
+                      {cleanLine}
                     </p>
                   );
                 }
 
-                if (line.includes("Result")) {
+                // Summary line
+                if (cleanLine.includes("Summary")) {
                   return (
                     <p key={index} style={{ marginTop: 15, fontWeight: "bold" }}>
-                      {line}
+                      {cleanLine}
                     </p>
                   );
                 }
 
                 return (
                   <p key={index} style={{ marginLeft: 10 }}>
-                    {line}
+                    {cleanLine}
                   </p>
                 );
               })}

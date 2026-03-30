@@ -1,3 +1,9 @@
+export async function GET() {
+  return Response.json({
+    message: "Affordability API is working"
+  });
+}
+
 export async function POST(req) {
   const body = await req.json();
 
@@ -8,10 +14,11 @@ export async function POST(req) {
     price
   } = body;
 
-  // Basic logic (we will improve later)
   const monthlyAvailable = income - expenses;
 
-  const canAfford = monthlyAvailable > 0 && savings >= price * 0.2;
+  const canAfford =
+    monthlyAvailable > 0 &&
+    savings >= price * 0.2;
 
   return Response.json({
     success: true,

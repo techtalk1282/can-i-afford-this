@@ -1,6 +1,6 @@
 // FILE: app/api/affordability/route.js
-// VERSION: v2 - Step-by-step explanation logic added
-// PURPOSE: Backend affordability engine with full transparency math + explanations
+// VERSION: v3 - Clean structured explanation with explicit step math
+// PURPOSE: Make calculations crystal clear + user-trust focused
 
 export async function GET() {
   return Response.json({
@@ -16,13 +16,12 @@ export async function POST(req) {
     expenses,
     savings,
     price,
-    paymentType, // "cash" or "finance"
+    paymentType,
     downPayment = 0,
     interestRate = 0.07,
     loanTermYears = 5
   } = body;
 
-  // ---- CORE CALCULATION ----
   const monthlyAvailable = income - expenses;
 
   let monthlyPayment = 0;
@@ -30,44 +29,40 @@ export async function POST(req) {
   let canAfford = false;
   let explanation = "";
 
-  // ---- CASH PURCHASE ----
+  // ---- CASH ----
   if (paymentType === "cash") {
     remainingSavings = savings - price;
 
     canAfford =
-      remainingSavings >= 3000 && // safety buffer
+      remainingSavings >= 3000 &&
       monthlyAvailable > 0;
 
     explanation = `
-Monthly income: $${income}
-Monthly expenses: $${expenses}
+STEP 1 — Monthly leftover
+$${income} (income) - $${expenses} (expenses) = $${monthlyAvailable}
 
-Money left each month:
-$${income} - $${expenses} = $${monthlyAvailable}
-
-Savings before purchase: $${savings}
-Purchase price: $${price}
-
-Savings after purchase:
+STEP 2 — Savings after purchase
 $${savings} - $${price} = $${remainingSavings}
+
+STEP 3 — Safety check
+Minimum recommended savings: $3000
 
 Result:
 ${
   canAfford
-    ? "You can afford this purchase while maintaining a safe savings buffer."
-    : "This purchase is not recommended because it reduces your savings below a safe level."
+    ? "You are in a safe position to make this purchase."
+    : "This purchase would reduce your savings below a safe level."
 }
 `;
   }
 
-  // ---- FINANCING ----
+  // ---- FINANCE ----
   if (paymentType === "finance") {
     const loanAmount = price - downPayment;
 
     const monthlyRate = interestRate / 12;
     const totalMonths = loanTermYears * 12;
 
-    // Loan payment formula
     monthlyPayment =
       (loanAmount * monthlyRate) /
       (1 - Math.pow(1 + monthlyRate, -totalMonths));
@@ -79,33 +74,34 @@ ${
     const leftoverAfterPayment = Math.round(monthlyAvailable - monthlyPayment);
 
     canAfford =
-      leftoverAfterPayment > 500 && // breathing room threshold
+      leftoverAfterPayment > 500 &&
       remainingSavings >= 3000;
 
     explanation = `
-Monthly income: $${income}
-Monthly expenses: $${expenses}
+STEP 1 — Monthly leftover
+$${income} (income) - $${expenses} (expenses) = $${monthlyAvailable}
 
-Money left each month:
-$${income} - $${expenses} = $${monthlyAvailable}
+STEP 2 — Loan amount
+$${price} (price) - $${downPayment} (down payment) = $${loanAmount}
 
-Loan amount:
-$${price} - $${downPayment} = $${loanAmount}
+STEP 3 — Estimated monthly payment
+Calculated loan payment = $${roundedPayment}
 
-Estimated monthly payment:
-$${roundedPayment}
-
-Money left after payment:
+STEP 4 — Money left after payment
 $${monthlyAvailable} - $${roundedPayment} = $${leftoverAfterPayment}
 
-Savings after down payment:
+STEP 5 — Savings after down payment
 $${savings} - $${downPayment} = $${remainingSavings}
+
+STEP 6 — Safety rules
+• Minimum leftover after payment: $500  
+• Minimum savings: $3000  
 
 Result:
 ${
   canAfford
-    ? "You can afford this purchase with a comfortable monthly buffer."
-    : "This purchase is not recommended because the remaining monthly buffer is too low or savings are insufficient."
+    ? "You can afford this purchase with a safe financial buffer."
+    : "This purchase is not recommended based on your current numbers."
 }
 `;
   }

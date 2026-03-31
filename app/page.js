@@ -140,8 +140,7 @@ export default function Home() {
   style={{
     width: "100%",
     maxWidth: 1180,
-    transform: "scale(0.94)",
-    transformOrigin: "top center",
+    
   }}
 >
         <header style={{ textAlign: "center", marginBottom: 24 }}>
@@ -553,7 +552,7 @@ lineHeight: 1.25,
 
               <p
                 style={{
-                  margin: "20px 0 0 0",
+                  margin: "12px 0 0 0"
                   fontSize: 18,
                   lineHeight: 1.5,
                   color: "#374151",

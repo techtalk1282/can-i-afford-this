@@ -148,7 +148,8 @@ export default function Home() {
 
           <p
             style={{
-              margin: "20px 0 0 0",
+             margin: "12px 0 0 0",
+             lineHeight: 1.25,
               fontSize: 22,
               lineHeight: 1.3,
               color: "#1f2937",
@@ -160,7 +161,8 @@ export default function Home() {
 
           <p
             style={{
-              margin: "14px 0 0 0",
+              margin: "4px 0 0 0",
+lineHeight: 1.25,
               fontSize: 18,
               lineHeight: 1.5,
               color: "#6b7280",

@@ -137,9 +137,11 @@ export default function Home() {
   }}
 >
       <div
-      style={{
-      width: "100%",
-      maxWidth: 1180,
+  style={{
+    width: "100%",
+    maxWidth: 1180,
+    transform: "scale(0.94)",
+    transformOrigin: "top center",
   }}
 >
         <header style={{ textAlign: "center", marginBottom: 24 }}>

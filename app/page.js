@@ -126,10 +126,11 @@ export default function Home() {
   return (
     <main
   style={{
-    minHeight: "100vh",
+    height: "100vh",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    overflow: "auto",
     background: "#f5f7fb",
     padding: "20px",
     fontFamily: "Arial, sans-serif",

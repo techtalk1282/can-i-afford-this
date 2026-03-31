@@ -551,13 +551,13 @@ lineHeight: 1.25,
               </div>
 
               <p
-                style={{
-                  margin: "12px 0 0 0"
-                  fontSize: 18,
-                  lineHeight: 1.5,
-                  color: "#374151",
-                }}
-              >
+  style={{
+    margin: "12px 0 0 0",
+    fontSize: 18,
+    lineHeight: 1.5,
+    color: "#374151",
+  }}
+>
                 {result.canAfford
                   ? "You are in a safe position for this purchase."
                   : "This purchase may stretch your finances."}

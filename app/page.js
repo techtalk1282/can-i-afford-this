@@ -128,16 +128,16 @@ export default function Home() {
       style={{
         minHeight: "100vh",
         background: "#f5f7fb",
-        padding: "56px 24px 80px",
+       padding: "40px 20px 60px",
         fontFamily: "Arial, sans-serif",
       }}
     >
       <div style={{ maxWidth: 1180, margin: "0 auto" }}>
-        <header style={{ textAlign: "center", marginBottom: 40 }}>
+        <header style={{ textAlign: "center", marginBottom: 24 }}>
           <h1
             style={{
               margin: 0,
-              fontSize: 56,
+              fontSize: 48,
               lineHeight: 1.05,
               fontWeight: 800,
               color: "#111827",
@@ -149,7 +149,7 @@ export default function Home() {
           <p
             style={{
               margin: "20px 0 0 0",
-              fontSize: 28,
+              fontSize: 22,
               lineHeight: 1.3,
               color: "#1f2937",
               fontWeight: 500,
@@ -174,7 +174,7 @@ export default function Home() {
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-            gap: 28,
+            gap: 20,
             alignItems: "stretch",
           }}
         >
@@ -183,7 +183,7 @@ export default function Home() {
               background: "#ffffff",
               border: "1px solid #e5e7eb",
               borderRadius: 20,
-              padding: 28,
+              padding: 22,
               boxShadow: "0 16px 40px rgba(15, 23, 42, 0.08)",
             }}
           >
@@ -343,7 +343,7 @@ export default function Home() {
               background: "#ffffff",
               border: "1px solid #dfe4ea",
               borderRadius: 20,
-              padding: 28,
+              padding: 22,
               boxShadow: "0 18px 45px rgba(15, 23, 42, 0.10)",
             }}
           >

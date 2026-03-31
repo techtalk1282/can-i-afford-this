@@ -1,6 +1,6 @@
 // FILE: app/page.js
-// VERSION: v6 - Landing page rebuild with side-by-side example and input cards
-// PURPOSE: Create the approved premium landing layout while preserving the current affordability flow and backend integration
+// VERSION: v7 - Restore natural page flow and preserve landing hero + results scrolling
+// PURPOSE: Fix cutoff and broken upward scrolling by removing viewport-locked centered layout while keeping the approved landing design
 
 "use client";
 
@@ -43,9 +43,7 @@ export default function Home() {
   }
 
   function formatLine(line) {
-    return line
-      .replace(/STEP \d+ — /g, "")
-      .replace("Result:", "Summary:");
+    return line.replace(/STEP \d+ — /g, "").replace("Result:", "Summary:");
   }
 
   function parseExplanation(explanation) {
@@ -125,25 +123,21 @@ export default function Home() {
 
   return (
     <main
-  style={{
-    height: "100vh",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    overflow: "auto",
-    background: "#f5f7fb",
-    padding: "20px",
-    fontFamily: "Arial, sans-serif",
-  }}
->
+      style={{
+        minHeight: "100vh",
+        background: "#f5f7fb",
+        padding: "24px 20px 48px",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
       <div
-  style={{
-    width: "100%",
-    maxWidth: 1180,
-    
-  }}
->
-        <header style={{ textAlign: "center", marginBottom: 24 }}>
+        style={{
+          width: "100%",
+          maxWidth: 1180,
+          margin: "0 auto",
+        }}
+      >
+        <header style={{ textAlign: "center", marginBottom: 20 }}>
           <h1
             style={{
               margin: 0,
@@ -158,10 +152,9 @@ export default function Home() {
 
           <p
             style={{
-             margin: "12px 0 0 0",
-             lineHeight: 1.25,
+              margin: "12px 0 0 0",
               fontSize: 22,
-              lineHeight: 1.3,
+              lineHeight: 1.25,
               color: "#1f2937",
               fontWeight: 500,
             }}
@@ -172,9 +165,8 @@ export default function Home() {
           <p
             style={{
               margin: "4px 0 0 0",
-lineHeight: 1.25,
               fontSize: 18,
-              lineHeight: 1.5,
+              lineHeight: 1.25,
               color: "#6b7280",
             }}
           >
@@ -551,13 +543,13 @@ lineHeight: 1.25,
               </div>
 
               <p
-  style={{
-    margin: "12px 0 0 0",
-    fontSize: 18,
-    lineHeight: 1.5,
-    color: "#374151",
-  }}
->
+                style={{
+                  margin: "12px 0 0 0",
+                  fontSize: 18,
+                  lineHeight: 1.5,
+                  color: "#374151",
+                }}
+              >
                 {result.canAfford
                   ? "You are in a safe position for this purchase."
                   : "This purchase may stretch your finances."}

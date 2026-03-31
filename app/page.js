@@ -23,18 +23,27 @@ export default function Home() {
 
   const [result, setResult] = useState(null);
   const [showBreakdown, setShowBreakdown] = useState(false);
-
+// SANITIZED VALUES (frontend-safe)
+const safeIncome = sanitizeNumber(income);
+const safeExpenses = sanitizeNumber(expenses);
+const safeSavings = sanitizeNumber(savings);
+const safePrice = sanitizeNumber(price);
   async function handleCheck() {
     const res = await fetch("/api/affordability", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-     body: JSON.stringify({
-  income: sanitizeNumber(income),
-  expenses: sanitizeNumber(expenses),
-  savings: sanitizeNumber(savings),
-  price: sanitizeNumber(price),
+     const cleanIncome = sanitizeNumber(income);
+const cleanExpenses = sanitizeNumber(expenses);
+const cleanSavings = sanitizeNumber(savings);
+const cleanPrice = sanitizeNumber(price);
+
+body: JSON.stringify({
+  income: cleanIncome,
+  expenses: cleanExpenses,
+  savings: cleanSavings,
+  price: cleanPrice,
   paymentType: "finance",
 })
     });
@@ -52,8 +61,15 @@ export default function Home() {
   }
 
   function formatLine(line) {
-    return line.replace(/STEP \d+ — /g, "").replace("Result:", "Summary:");
-  }
+  let cleaned = line
+    .replace(/STEP \d+ — /g, "")
+    .replace("Result:", "Summary:");
+
+  // FIX NEGATIVE NUMBERS IN DISPLAY (frontend protection)
+  cleaned = cleaned.replace(/\$-([0-9]+)/g, "$0");
+
+  return cleaned;
+}
 
   function parseExplanation(explanation) {
     const lines = explanation.split("\n").map(formatLine);

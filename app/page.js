@@ -125,14 +125,22 @@ export default function Home() {
 
   return (
     <main
+  style={{
+    minHeight: "100vh",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    background: "#f5f7fb",
+    padding: "20px",
+    fontFamily: "Arial, sans-serif",
+  }}
+>
+      <div
       style={{
-        minHeight: "100vh",
-        background: "#f5f7fb",
-       padding: "40px 20px 60px",
-        fontFamily: "Arial, sans-serif",
-      }}
-    >
-      <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+      width: "100%",
+      maxWidth: 1180,
+  }}
+>
         <header style={{ textAlign: "center", marginBottom: 24 }}>
           <h1
             style={{

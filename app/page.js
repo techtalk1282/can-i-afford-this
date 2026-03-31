@@ -1,3 +1,7 @@
+// FILE: app/page.js
+// VERSION: v6 - Landing page rebuild with side-by-side example and input cards
+// PURPOSE: Create the approved premium landing layout while preserving the current affordability flow and backend integration
+
 "use client";
 
 import { useState } from "react";
@@ -29,6 +33,13 @@ export default function Home() {
     const data = await res.json();
     setResult(data.result);
     setShowBreakdown(false);
+
+    setTimeout(() => {
+      const resultSection = document.getElementById("result-section");
+      if (resultSection) {
+        resultSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 100);
   }
 
   function formatLine(line) {
@@ -37,7 +48,6 @@ export default function Home() {
       .replace("Result:", "Summary:");
   }
 
-  // 🔥 Extract sections into structured blocks
   function parseExplanation(explanation) {
     const lines = explanation.split("\n").map(formatLine);
 
@@ -73,118 +83,549 @@ export default function Home() {
     return sections;
   }
 
-  return (
-    <main style={{ padding: 40, fontFamily: "Arial, sans-serif" }}>
-      <h1 style={{ fontSize: 36, marginBottom: 20 }}>
-        Can I Afford This
-      </h1>
-
-      <div style={{ maxWidth: 300 }}>
-        <input placeholder="Monthly Income" value={income} onChange={(e) => setIncome(e.target.value)} />
-        <br />
-        <input placeholder="Monthly Expenses" value={expenses} onChange={(e) => setExpenses(e.target.value)} />
-        <br />
-        <input placeholder="Savings" value={savings} onChange={(e) => setSavings(e.target.value)} />
-        <br />
-        <input placeholder="Item Price" value={price} onChange={(e) => setPrice(e.target.value)} />
-        <br />
-
-        <button
-          onClick={handleCheck}
-          style={{ marginTop: 10, padding: "8px 12px", cursor: "pointer" }}
+  function renderBreakdownCard(title, content, key) {
+    return (
+      <div
+        key={key}
+        style={{
+          background: "#ffffff",
+          border: "1px solid #e5e7eb",
+          borderRadius: 16,
+          padding: 20,
+          boxShadow: "0 10px 30px rgba(15, 23, 42, 0.06)",
+        }}
+      >
+        <h3
+          style={{
+            margin: "0 0 12px 0",
+            fontSize: 20,
+            fontWeight: 700,
+            color: "#111827",
+          }}
         >
-          Check Affordability
-        </button>
-      </div>
+          {title}
+        </h3>
 
-      {result && (
-        <div style={{ marginTop: 30, maxWidth: 900 }}>
-
-          {/* SUMMARY */}
-          <div
+        {content.map((line, index) => (
+          <p
+            key={index}
             style={{
-              padding: 20,
-              borderRadius: 10,
-              background: "#ffffff",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-              marginBottom: 20,
+              margin: index === 0 ? 0 : "10px 0 0 0",
+              fontSize: 17,
+              lineHeight: 1.5,
+              color: "#374151",
             }}
           >
-            <p><strong>Can Afford:</strong> {result.canAfford ? "Yes" : "No"}</p>
-            <p><strong>Monthly Left:</strong> ${result.monthlyAvailable}</p>
-            <p><strong>Estimated Payment:</strong> ${result.monthlyPayment}</p>
-            <p><strong>Savings After:</strong> ${result.remainingSavings}</p>
+            {line}
+          </p>
+        ))}
+      </div>
+    );
+  }
 
-            <p style={{ marginTop: 10 }}>
-              {result.canAfford
-                ? "You are in a safe position for this purchase."
-                : "This purchase may stretch your finances."}
+  return (
+    <main
+      style={{
+        minHeight: "100vh",
+        background: "#f5f7fb",
+        padding: "56px 24px 80px",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
+      <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+        <header style={{ textAlign: "center", marginBottom: 40 }}>
+          <h1
+            style={{
+              margin: 0,
+              fontSize: 56,
+              lineHeight: 1.05,
+              fontWeight: 800,
+              color: "#111827",
+            }}
+          >
+            Can I Afford This?
+          </h1>
+
+          <p
+            style={{
+              margin: "20px 0 0 0",
+              fontSize: 28,
+              lineHeight: 1.3,
+              color: "#1f2937",
+              fontWeight: 500,
+            }}
+          >
+            Know what you should spend — before you spend it.
+          </p>
+
+          <p
+            style={{
+              margin: "14px 0 0 0",
+              fontSize: 18,
+              lineHeight: 1.5,
+              color: "#6b7280",
+            }}
+          >
+            Make smarter purchase decisions in seconds. No signup required.
+          </p>
+        </header>
+
+        <section
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+            gap: 28,
+            alignItems: "stretch",
+          }}
+        >
+          <div
+            style={{
+              background: "#ffffff",
+              border: "1px solid #e5e7eb",
+              borderRadius: 20,
+              padding: 28,
+              boxShadow: "0 16px 40px rgba(15, 23, 42, 0.08)",
+            }}
+          >
+            <h2
+              style={{
+                margin: 0,
+                fontSize: 24,
+                fontWeight: 800,
+                color: "#111827",
+                textAlign: "center",
+              }}
+            >
+              See How It Works
+            </h2>
+
+            <p
+              style={{
+                margin: "10px 0 24px 0",
+                fontSize: 17,
+                color: "#6b7280",
+                textAlign: "center",
+              }}
+            >
+              A quick example using real numbers
             </p>
+
+            <div
+              style={{
+                background: "#f9fafb",
+                border: "1px solid #e5e7eb",
+                borderRadius: 16,
+                overflow: "hidden",
+                marginBottom: 20,
+              }}
+            >
+              {[
+                ["Monthly Income", "$6,200"],
+                ["Monthly Expenses", "$4,000"],
+                ["Savings", "$15,000"],
+                ["Item Price", "$40,000"],
+                ["Financing", "Loan"],
+              ].map(([label, value], index) => (
+                <div
+                  key={label}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "16px 18px",
+                    borderBottom: index === 4 ? "none" : "1px solid #e5e7eb",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: 18,
+                      color: "#374151",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {label}
+                  </span>
+
+                  <span
+                    style={{
+                      fontSize: 18,
+                      color: "#111827",
+                      fontWeight: 700,
+                    }}
+                  >
+                    {value}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div
+              style={{
+                background: "linear-gradient(180deg, #effaf5 0%, #f7fffb 100%)",
+                border: "1px solid #cdeee0",
+                borderRadius: 16,
+                padding: 20,
+                marginBottom: 18,
+              }}
+            >
+              <p
+                style={{
+                  margin: 0,
+                  fontSize: 17,
+                  fontWeight: 800,
+                  color: "#0f766e",
+                }}
+              >
+                YES — You can afford this
+              </p>
+
+              <p
+                style={{
+                  margin: "8px 0 0 0",
+                  fontSize: 16,
+                  lineHeight: 1.5,
+                  color: "#374151",
+                }}
+              >
+                You are in a safe financial position.
+              </p>
+            </div>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+                gap: 14,
+              }}
+            >
+              {[
+                ["Monthly Left", "$2,000"],
+                ["Est. Payment", "$396"],
+                ["Savings After", "$10,000"],
+              ].map(([label, value]) => (
+                <div
+                  key={label}
+                  style={{
+                    background: "#f9fafb",
+                    border: "1px solid #e5e7eb",
+                    borderRadius: 14,
+                    padding: 16,
+                  }}
+                >
+                  <p
+                    style={{
+                      margin: 0,
+                      fontSize: 14,
+                      color: "#6b7280",
+                      lineHeight: 1.4,
+                    }}
+                  >
+                    {label}
+                  </p>
+
+                  <p
+                    style={{
+                      margin: "8px 0 0 0",
+                      fontSize: 22,
+                      fontWeight: 800,
+                      color: "#111827",
+                    }}
+                  >
+                    {value}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <button
-            onClick={() => setShowBreakdown(!showBreakdown)}
-            style={{ marginBottom: 15, padding: "6px 10px", cursor: "pointer" }}
+          <div
+            style={{
+              background: "#ffffff",
+              border: "1px solid #dfe4ea",
+              borderRadius: 20,
+              padding: 28,
+              boxShadow: "0 18px 45px rgba(15, 23, 42, 0.10)",
+            }}
           >
-            {showBreakdown ? "Hide full breakdown" : "Show full breakdown"}
-          </button>
+            <h2
+              style={{
+                margin: 0,
+                fontSize: 24,
+                fontWeight: 800,
+                color: "#111827",
+                textAlign: "center",
+              }}
+            >
+              Check Before You Spend
+            </h2>
 
-          {showBreakdown && (() => {
-            const sections = parseExplanation(result.explanation);
+            <p
+              style={{
+                margin: "10px 0 24px 0",
+                fontSize: 17,
+                color: "#6b7280",
+                textAlign: "center",
+              }}
+            >
+              Enter your details to get your answer
+            </p>
 
-            return (
+            <div
+              style={{
+                display: "grid",
+                gap: 16,
+              }}
+            >
+              {[
+                {
+                  label: "Monthly Income",
+                  value: income,
+                  setValue: setIncome,
+                  placeholder: "Enter monthly income",
+                },
+                {
+                  label: "Monthly Expenses",
+                  value: expenses,
+                  setValue: setExpenses,
+                  placeholder: "Enter monthly expenses",
+                },
+                {
+                  label: "Savings",
+                  value: savings,
+                  setValue: setSavings,
+                  placeholder: "Enter current savings",
+                },
+                {
+                  label: "Item Price",
+                  value: price,
+                  setValue: setPrice,
+                  placeholder: "Enter item price",
+                },
+              ].map((field) => (
+                <div key={field.label}>
+                  <label
+                    style={{
+                      display: "block",
+                      marginBottom: 8,
+                      fontSize: 16,
+                      fontWeight: 700,
+                      color: "#374151",
+                    }}
+                  >
+                    {field.label}
+                  </label>
+
+                  <input
+                    value={field.value}
+                    onChange={(e) => field.setValue(e.target.value)}
+                    placeholder={field.placeholder}
+                    style={{
+                      width: "100%",
+                      height: 52,
+                      borderRadius: 12,
+                      border: "1px solid #d1d5db",
+                      padding: "0 16px",
+                      fontSize: 17,
+                      color: "#111827",
+                      background: "#ffffff",
+                      outline: "none",
+                      boxSizing: "border-box",
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={handleCheck}
+              style={{
+                width: "100%",
+                marginTop: 22,
+                height: 56,
+                border: "none",
+                borderRadius: 999,
+                background: "linear-gradient(135deg, #1f8a70 0%, #43b692 100%)",
+                color: "#ffffff",
+                fontSize: 22,
+                fontWeight: 800,
+                cursor: "pointer",
+                boxShadow: "0 14px 30px rgba(31, 138, 112, 0.28)",
+              }}
+            >
+              Check My Affordability →
+            </button>
+
+            <p
+              style={{
+                margin: "14px 0 0 0",
+                textAlign: "center",
+                fontSize: 16,
+                color: "#6b7280",
+              }}
+            >
+              Takes 10 seconds • No commitment
+            </p>
+          </div>
+        </section>
+
+        {result && (
+          <section id="result-section" style={{ marginTop: 40 }}>
+            <div
+              style={{
+                background: "#ffffff",
+                border: "1px solid #e5e7eb",
+                borderRadius: 20,
+                padding: 28,
+                boxShadow: "0 18px 45px rgba(15, 23, 42, 0.08)",
+                marginBottom: 18,
+              }}
+            >
+              <h2
+                style={{
+                  margin: 0,
+                  fontSize: 28,
+                  fontWeight: 800,
+                  color: "#111827",
+                }}
+              >
+                Your Result
+              </h2>
+
               <div
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: 15,
+                  gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+                  gap: 16,
+                  marginTop: 20,
                 }}
               >
-
-                {/* CARD BUILDER */}
                 {[
-                  ["Monthly leftover", sections.monthly],
-                  ["Loan amount", sections.loan],
-                  ["Estimated payment", sections.payment],
-                  ["After payment", sections.afterPayment],
-                  ["Savings after", sections.savings],
-                  ["Safety rules", sections.safety],
-                ].map(([title, content], i) => (
+                  ["Can Afford", result.canAfford ? "Yes" : "No"],
+                  ["Monthly Left", `$${result.monthlyAvailable}`],
+                  ["Estimated Payment", `$${result.monthlyPayment}`],
+                  ["Savings After", `$${result.remainingSavings}`],
+                ].map(([label, value]) => (
                   <div
-                    key={i}
+                    key={label}
                     style={{
-                      padding: 15,
-                      borderRadius: 10,
-                      background: "#f8f9fb",
-                      boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
+                      background: "#f9fafb",
+                      border: "1px solid #e5e7eb",
+                      borderRadius: 14,
+                      padding: 18,
                     }}
                   >
-                    <strong>{title}</strong>
-                    {content.map((line, idx) => (
-                      <p key={idx} style={{ marginTop: 5 }}>{line}</p>
-                    ))}
+                    <p
+                      style={{
+                        margin: 0,
+                        fontSize: 14,
+                        color: "#6b7280",
+                      }}
+                    >
+                      {label}
+                    </p>
+
+                    <p
+                      style={{
+                        margin: "10px 0 0 0",
+                        fontSize: 24,
+                        fontWeight: 800,
+                        color: "#111827",
+                      }}
+                    >
+                      {value}
+                    </p>
                   </div>
                 ))}
+              </div>
 
-                {/* SUMMARY FULL WIDTH */}
+              <p
+                style={{
+                  margin: "20px 0 0 0",
+                  fontSize: 18,
+                  lineHeight: 1.5,
+                  color: "#374151",
+                }}
+              >
+                {result.canAfford
+                  ? "You are in a safe position for this purchase."
+                  : "This purchase may stretch your finances."}
+              </p>
+            </div>
+
+            <button
+              onClick={() => setShowBreakdown(!showBreakdown)}
+              style={{
+                marginBottom: 18,
+                height: 48,
+                padding: "0 18px",
+                borderRadius: 12,
+                border: "1px solid #d1d5db",
+                background: "#ffffff",
+                color: "#111827",
+                fontSize: 16,
+                fontWeight: 700,
+                cursor: "pointer",
+              }}
+            >
+              {showBreakdown ? "Hide full breakdown" : "Show full breakdown"}
+            </button>
+
+            {showBreakdown && (() => {
+              const sections = parseExplanation(result.explanation);
+
+              return (
                 <div
                   style={{
-                    gridColumn: "span 2",
-                    padding: 15,
-                    borderRadius: 10,
-                    background: "#eef2ff",
-                    fontWeight: "bold",
+                    display: "grid",
+                    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+                    gap: 16,
                   }}
                 >
-                  {sections.summary}
+                  {renderBreakdownCard("Monthly leftover", sections.monthly, "monthly")}
+                  {renderBreakdownCard("Loan amount", sections.loan, "loan")}
+                  {renderBreakdownCard("Estimated payment", sections.payment, "payment")}
+                  {renderBreakdownCard("After payment", sections.afterPayment, "afterPayment")}
+                  {renderBreakdownCard("Savings after", sections.savings, "savings")}
+                  {renderBreakdownCard("Safety rules", sections.safety, "safety")}
+
+                  <div
+                    style={{
+                      gridColumn: "1 / -1",
+                      background: "#eef6ff",
+                      border: "1px solid #d7e8ff",
+                      borderRadius: 16,
+                      padding: 20,
+                      boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
+                    }}
+                  >
+                    <h3
+                      style={{
+                        margin: 0,
+                        fontSize: 20,
+                        fontWeight: 800,
+                        color: "#111827",
+                      }}
+                    >
+                      Summary
+                    </h3>
+
+                    <p
+                      style={{
+                        margin: "12px 0 0 0",
+                        fontSize: 17,
+                        lineHeight: 1.6,
+                        color: "#374151",
+                      }}
+                    >
+                      {sections.summary.replace("Summary:", "").trim()}
+                    </p>
+                  </div>
                 </div>
-
-              </div>
-            );
-          })()}
-
-        </div>
-      )}
+              );
+            })()}
+          </section>
+        )}
+      </div>
     </main>
   );
 }

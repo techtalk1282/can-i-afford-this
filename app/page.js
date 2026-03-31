@@ -184,7 +184,7 @@ lineHeight: 1.25,
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-            gap: 20,
+            gap: 16,
             alignItems: "stretch",
           }}
         >
@@ -193,7 +193,7 @@ lineHeight: 1.25,
               background: "#ffffff",
               border: "1px solid #e5e7eb",
               borderRadius: 20,
-              padding: 22,
+              padding: 18,
               boxShadow: "0 16px 40px rgba(15, 23, 42, 0.08)",
             }}
           >
@@ -353,7 +353,7 @@ lineHeight: 1.25,
               background: "#ffffff",
               border: "1px solid #dfe4ea",
               borderRadius: 20,
-              padding: 22,
+              padding: 18,
               boxShadow: "0 18px 45px rgba(15, 23, 42, 0.10)",
             }}
           >
@@ -431,7 +431,7 @@ lineHeight: 1.25,
                     placeholder={field.placeholder}
                     style={{
                       width: "100%",
-                      height: 52,
+                      height: 46,
                       borderRadius: 12,
                       border: "1px solid #d1d5db",
                       padding: "0 16px",
@@ -588,7 +588,7 @@ lineHeight: 1.25,
                   style={{
                     display: "grid",
                     gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-                    gap: 16,
+                    gap: 12,
                   }}
                 >
                   {renderBreakdownCard("Monthly leftover", sections.monthly, "monthly")}

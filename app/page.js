@@ -29,24 +29,24 @@ const safeExpenses = sanitizeNumber(expenses);
 const safeSavings = sanitizeNumber(savings);
 const safePrice = sanitizeNumber(price);
   async function handleCheck() {
-    const res = await fetch("/api/affordability", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-     const cleanIncome = sanitizeNumber(income);
+    const cleanIncome = sanitizeNumber(income);
 const cleanExpenses = sanitizeNumber(expenses);
 const cleanSavings = sanitizeNumber(savings);
 const cleanPrice = sanitizeNumber(price);
 
-body: JSON.stringify({
-  income: cleanIncome,
-  expenses: cleanExpenses,
-  savings: cleanSavings,
-  price: cleanPrice,
-  paymentType: "finance",
-})
-    });
+const res = await fetch("/api/affordability", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    income: cleanIncome,
+    expenses: cleanExpenses,
+    savings: cleanSavings,
+    price: cleanPrice,
+    paymentType: "finance",
+  }),
+});
 
     const data = await res.json();
     setResult(data.result);

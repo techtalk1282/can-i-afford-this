@@ -6,6 +6,15 @@
 
 import { useState } from "react";
 
+function sanitizeNumber(value) {
+  const cleaned = value.replace(/[^0-9.]/g, "");
+  const parsed = parseFloat(cleaned);
+
+  if (isNaN(parsed) || parsed < 0) return 0;
+
+  return parsed;
+}
+
 export default function Home() {
   const [income, setIncome] = useState("");
   const [expenses, setExpenses] = useState("");
@@ -21,13 +30,13 @@ export default function Home() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        income: Number(income),
-        expenses: Number(expenses),
-        savings: Number(savings),
-        price: Number(price),
-        paymentType: "finance",
-      }),
+     body: JSON.stringify({
+  income: sanitizeNumber(income),
+  expenses: sanitizeNumber(expenses),
+  savings: sanitizeNumber(savings),
+  price: sanitizeNumber(price),
+  paymentType: "finance",
+})
     });
 
     const data = await res.json();

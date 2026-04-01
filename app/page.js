@@ -698,13 +698,13 @@ export default function Home() {
                         color: "#374151",
                       }}
                     >
-                     (sections.summary
+ {sections.summary
   ? sections.summary.replace("Summary:", "").trim()
   : result.canAfford
   ? "This purchase fits within your current financial situation."
   : result.monthlyAvailable < 0
   ? "Your current budget does not support this purchase."
-  : "This purchase may be possible but requires careful budgeting.")
+  : "This purchase may be possible but requires careful budgeting."}
                     </p>
                   </div>
                 </div>

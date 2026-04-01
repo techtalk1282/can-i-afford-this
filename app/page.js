@@ -732,7 +732,7 @@ export default function Home() {
   </>
 )}
                     </p>
-                      div style={{ marginTop: 20, textAlign: "center" }}>
+                      <div style={{ marginTop: 20, textAlign: "center" }}>
   <button
     style={{
       background: "linear-gradient(135deg, #facc15 0%, #fbbf24 100%)",

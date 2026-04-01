@@ -43,6 +43,7 @@ export default function Home() {
     return checks.every(Boolean);
   }
   async function handleCheck() {
+    if (!validateAll()) return;
     const res = await fetch("/api/affordability", {
       method: "POST",
       headers: {
@@ -448,13 +449,37 @@ export default function Home() {
 
                   <input
                     value={field.value}
-                    onChange={(e) => field.setValue(e.target.value)}
+                   onChange={(e) => {
+  const val = e.target.value;
+  field.setValue(val);
+  validateField(
+    field.label === "Monthly Income"
+      ? "income"
+      : field.label === "Monthly Expenses"
+      ? "expenses"
+      : field.label === "Savings"
+      ? "savings"
+      : "price",
+    val
+  );
+}}
                     placeholder={field.placeholder}
                     style={{
                       width: "100%",
                       height: 46,
                       borderRadius: 12,
-                      border: "1px solid #d1d5db",
+                      border:
+  errors[
+    field.label === "Monthly Income"
+      ? "income"
+      : field.label === "Monthly Expenses"
+      ? "expenses"
+      : field.label === "Savings"
+      ? "savings"
+      : "price"
+  ]
+    ? "1px solid #ef4444"
+    : "1px solid #d1d5db",
                       padding: "0 16px",
                       fontSize: 17,
                       color: "#111827",
@@ -463,6 +488,29 @@ export default function Home() {
                       boxSizing: "border-box",
                     }}
                   />
+    {errors[
+  field.label === "Monthly Income"
+    ? "income"
+    : field.label === "Monthly Expenses"
+    ? "expenses"
+    : field.label === "Savings"
+    ? "savings"
+    : "price"
+] && (                
+  <p style={{ color: "#ef4444", fontSize: 14, marginTop: 6 }}>
+    {
+      errors[
+        field.label === "Monthly Income"
+          ? "income"
+          : field.label === "Monthly Expenses"
+          ? "expenses"
+          : field.label === "Savings"
+          ? "savings"
+          : "price"
+      ]
+    }
+  </p>
+)}
                 </div>
               ))}
             </div>

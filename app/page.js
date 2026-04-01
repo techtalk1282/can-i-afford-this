@@ -626,8 +626,10 @@ export default function Home() {
                 }}
               >
                 {result.canAfford
-                  ? "You are in a safe position for this purchase."
-                  : "This purchase may stretch your finances."}
+  ? "You can afford this purchase comfortably based on your current finances."
+  : result.monthlyAvailable < 0
+  ? "Your expenses exceed your income. This purchase is not affordable right now."
+  : "This purchase may stretch your finances. Consider adjusting your budget."}
               </p>
             </div>
 

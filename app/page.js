@@ -29,6 +29,22 @@ const safeExpenses = sanitizeNumber(expenses);
 const safeSavings = sanitizeNumber(savings);
 const safePrice = sanitizeNumber(price);
   async function handleCheck() {
+    // VALIDATION — block invalid input
+const cleanIncome = sanitizeNumber(income);
+const cleanExpenses = sanitizeNumber(expenses);
+const cleanSavings = sanitizeNumber(savings);
+const cleanPrice = sanitizeNumber(price);
+
+// Detect invalid input (user typed something but it sanitized to 0)
+if (
+  (income && cleanIncome === 0) ||
+  (expenses && cleanExpenses === 0) ||
+  (savings && cleanSavings === 0) ||
+  (price && cleanPrice === 0)
+) {
+  alert("Please enter valid positive numbers");
+  return;
+}
     const cleanIncome = sanitizeNumber(income);
 const cleanExpenses = sanitizeNumber(expenses);
 const cleanSavings = sanitizeNumber(savings);

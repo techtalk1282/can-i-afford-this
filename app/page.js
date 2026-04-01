@@ -660,11 +660,21 @@ export default function Home() {
 
   <button
     onClick={() => {
+  if (!showBreakdown) {
+    setShowBreakdown(true);
+    setTimeout(() => {
       const el = document.getElementById("summary-section");
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "start" });
       }
-    }}
+    }, 150);
+  } else {
+    const el = document.getElementById("summary-section");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+}}
     style={{
       height: 48,
       padding: "0 18px",

@@ -12,6 +12,13 @@ export default function Home() {
   const [savings, setSavings] = useState("");
   const [price, setPrice] = useState("");
 
+  const [errors, setErrors] = useState({
+    income: "",
+    expenses: "",
+    savings: "",
+    price: "",
+  });
+
   const [result, setResult] = useState(null);
   const [showBreakdown, setShowBreakdown] = useState(false);
 

@@ -732,6 +732,27 @@ export default function Home() {
   </>
 )}
                     </p>
+                      div style={{ marginTop: 20, textAlign: "center" }}>
+  <button
+    style={{
+      background: "linear-gradient(135deg, #facc15 0%, #fbbf24 100%)",
+      color: "#111827",
+      border: "none",
+      borderRadius: 999,
+      padding: "14px 28px",
+      fontSize: 16,
+      fontWeight: 700,
+      cursor: "pointer",
+      boxShadow: "0 10px 25px rgba(251, 191, 36, 0.35)",
+    }}
+  >
+    Unlock Smart Spending Insights — $7 One-Time
+  </button>
+
+  <div style={{ marginTop: 8, fontSize: 13, color: "#6b7280" }}>
+    No subscription. Make better decisions forever.
+  </div>
+</div>
                   </div>
                 </div>
               );

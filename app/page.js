@@ -45,10 +45,7 @@ if (
   alert("Please enter valid positive numbers");
   return;
 }
-    const cleanIncome = sanitizeNumber(income);
-const cleanExpenses = sanitizeNumber(expenses);
-const cleanSavings = sanitizeNumber(savings);
-const cleanPrice = sanitizeNumber(price);
+    
 
 const res = await fetch("/api/affordability", {
   method: "POST",

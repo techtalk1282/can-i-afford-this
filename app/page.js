@@ -698,11 +698,39 @@ export default function Home() {
                         color: "#374151",
                       }}
                     >
-{result.canAfford
-  ? "This purchase fits within your current financial situation."
-  : result.monthlyAvailable < 0
-  ? "Your current budget does not support this purchase."
-  : "This purchase may stretch your finances. Consider adjusting your budget."}
+{result.canAfford ? (
+  <>
+    <strong>You can afford this purchase — but here's the smarter question:</strong>
+    <br /><br />
+    Is this the BEST use of your money?
+    <br /><br />
+    • Could you spend less and still be happy?<br />
+    • Could you keep more savings while buying this?<br />
+    • Are you pushing your financial limits without realizing it?
+    <br /><br />
+    <strong>Unlock Premium to:</strong>
+    <br />
+    • Compare smarter price options<br />
+    • See your safe spending range<br />
+    • Find your optimal purchase point
+  </>
+) : (
+  <>
+    <strong>This purchase may put your finances at risk.</strong>
+    <br /><br />
+    But here's the good news — you still have options:
+    <br /><br />
+    • What price WOULD be safe for you?<br />
+    • How much should you lower your budget?<br />
+    • What changes would make this affordable?
+    <br /><br />
+    <strong>Unlock Premium to:</strong>
+    <br />
+    • See your safe price range<br />
+    • Adjust your numbers instantly<br />
+    • Get a smarter financial plan
+  </>
+)}
                     </p>
                   </div>
                 </div>

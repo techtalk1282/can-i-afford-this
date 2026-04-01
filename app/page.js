@@ -21,7 +21,27 @@ export default function Home() {
 
   const [result, setResult] = useState(null);
   const [showBreakdown, setShowBreakdown] = useState(false);
+ function validateField(name, value) {
+    const valid = /^[0-9]*\.?[0-9]+$/.test(value) && Number(value) > 0;
 
+    setErrors((prev) => ({
+      ...prev,
+      [name]: valid ? "" : "Enter a valid positive number",
+    }));
+
+    return valid;
+  }
+
+  function validateAll() {
+    const checks = [
+      validateField("income", income),
+      validateField("expenses", expenses),
+      validateField("savings", savings),
+      validateField("price", price),
+    ];
+
+    return checks.every(Boolean);
+  }
   async function handleCheck() {
     const res = await fetch("/api/affordability", {
       method: "POST",

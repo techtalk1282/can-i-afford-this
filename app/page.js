@@ -633,24 +633,54 @@ export default function Home() {
               </p>
             </div>
 
-            <button
-              onClick={() => setShowBreakdown(!showBreakdown)}
-              style={{
-                marginBottom: 18,
-                height: 48,
-                padding: "0 18px",
-                borderRadius: 12,
-                border: "1px solid #d1d5db",
-                background: "#ffffff",
-                color: "#111827",
-                fontSize: 16,
-                fontWeight: 700,
-                cursor: "pointer",
-              }}
-            >
-              {showBreakdown ? "Hide full breakdown" : "Show full breakdown"}
-            </button>
+            <div
+  style={{
+    display: "flex",
+    gap: 12,
+    marginBottom: 18,
+    flexWrap: "wrap",
+  }}
+>
+  <button
+    onClick={() => setShowBreakdown(!showBreakdown)}
+    style={{
+      height: 48,
+      padding: "0 18px",
+      borderRadius: 12,
+      border: "1px solid #d1d5db",
+      background: "#ffffff",
+      color: "#111827",
+      fontSize: 16,
+      fontWeight: 700,
+      cursor: "pointer",
+    }}
+  >
+    {showBreakdown ? "Hide full breakdown" : "Show full breakdown"}
+  </button>
 
+  <button
+    onClick={() => {
+      const el = document.getElementById("summary-section");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }}
+    style={{
+      height: 48,
+      padding: "0 18px",
+      borderRadius: 12,
+      border: "none",
+      background: "linear-gradient(135deg, #facc15 0%, #fbbf24 100%)",
+      color: "#111827",
+      fontSize: 16,
+      fontWeight: 700,
+      cursor: "pointer",
+      boxShadow: "0 8px 20px rgba(251, 191, 36, 0.25)",
+    }}
+  >
+    See Smart Spending Insights
+  </button>
+</div>
             {showBreakdown && (() => {
               const sections = parseExplanation(result.explanation);
 
@@ -679,7 +709,7 @@ export default function Home() {
                       boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
                     }}
                   >
-                    <h3
+                    <h3 id="summary-section"
                       style={{
                         margin: 0,
                         fontSize: 20,

@@ -702,12 +702,12 @@ export default function Home() {
                     gap: 12,
                   }}
                 >
-                  {renderBreakdownCard("Monthly leftover", sections.monthly, "monthly")}
-                  {renderBreakdownCard("Loan amount", sections.loan, "loan")}
-                  {renderBreakdownCard("Estimated payment", sections.payment, "payment")}
-                  {renderBreakdownCard("After payment", sections.afterPayment, "afterPayment")}
-                  {renderBreakdownCard("Savings after", sections.savings, "savings")}
-                  {renderBreakdownCard("Safety rules", sections.safety, "safety")}
+                  renderBreakdownCard("Available Monthly Income", sections.monthly, "monthly")
+                  renderBreakdownCard("Amount Financed", sections.loan, "loan")
+                  renderBreakdownCard("Estimated Monthly Payment", sections.payment, "payment")
+                  renderBreakdownCard("Monthly Remaining After Payment", sections.afterPayment, "afterPayment")
+                  renderBreakdownCard("Savings After Purchase", sections.savings, "savings")
+                  renderBreakdownCard("Financial Safety Checks", sections.safety, "safety")
 
                   <div
                     style={{

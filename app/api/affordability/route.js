@@ -104,7 +104,13 @@ export async function POST(req) {
       }, { status: 400 });
     }
   }
-
+// Ensure down payment does not exceed savings
+if (downPayment > savings) {
+  return Response.json({
+    success: false,
+    error: "Down payment cannot exceed your savings"
+  }, { status: 400 });
+}
   const optionalFields = { downPayment, interestRate, loanTermYears };
 
   for (const [key, value] of Object.entries(optionalFields)) {

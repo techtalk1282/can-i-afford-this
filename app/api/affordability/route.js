@@ -1,16 +1,69 @@
-// FILE: app/api/affordability/route.js
-// VERSION: v3 - Clean structured explanation with explicit step math
-// PURPOSE: Make calculations crystal clear + user-trust focused
+/**
+ * File: app/api/affordability/route.js
+ * Version: v4
+ * Date: 2026-04-15
+ *
+ * Purpose:
+ * - Handle affordability calculations for cash and finance purchases
+ * - Return clear step-by-step explanation for user trust
+ *
+ * Inputs:
+ * - income
+ * - expenses
+ * - savings
+ * - price
+ * - paymentType
+ * - downPayment
+ * - interestRate
+ * - loanTermYears
+ *
+ * Outputs:
+ * - canAfford
+ * - monthlyAvailable
+ * - monthlyPayment
+ * - remainingSavings
+ * - explanation
+ *
+ * Sections:
+ * 1. Health check GET route
+ * 2. POST request input parsing
+ * 3. Input validation (SECURITY LAYER)
+ * 4. Shared calculation setup
+ * 5. Cash purchase logic
+ * 6. Finance purchase logic
+ * 7. Final JSON response
+ *
+ * Safe edit zones:
+ * - explanation text
+ * - affordability thresholds
+ * - output structure (with caution)
+ *
+ * Protected caution:
+ * - Do NOT change response shape without checking frontend usage
+ * - Do NOT remove validation layer
+ */
 
+/* =========================================================
+   SECTION 1 — HEALTH CHECK (GET)
+   Purpose: Verify API is running
+========================================================= */
 export async function GET() {
   return Response.json({
     message: "Affordability API is working"
   });
 }
 
+/* =========================================================
+   SECTION 2 — MAIN POST HANDLER
+   Purpose: Receive user input + process affordability
+========================================================= */
 export async function POST(req) {
   const body = await req.json();
 
+  /* =========================================================
+     SECTION 3 — INPUT PARSING
+     Purpose: Extract user-provided financial inputs
+  ========================================================= */
   const {
     income,
     expenses,
@@ -22,6 +75,68 @@ export async function POST(req) {
     loanTermYears = 5
   } = body;
 
+  /* =========================================================
+     SECTION 4 — INPUT VALIDATION (SECURITY LAYER)
+     Purpose: Prevent invalid or unsafe data from breaking logic
+  ========================================================= */
+
+  const requiredFields = { income, expenses, savings, price };
+
+  for (const [key, value] of Object.entries(requiredFields)) {
+    if (value === undefined || value === null || value === "") {
+      return Response.json({
+        success: false,
+        error: `${key} is required`
+      }, { status: 400 });
+    }
+
+    if (typeof value !== "number" || isNaN(value)) {
+      return Response.json({
+        success: false,
+        error: `${key} must be a valid number`
+      }, { status: 400 });
+    }
+
+    if (value < 0) {
+      return Response.json({
+        success: false,
+        error: `${key} cannot be negative`
+      }, { status: 400 });
+    }
+  }
+
+  const optionalFields = { downPayment, interestRate, loanTermYears };
+
+  for (const [key, value] of Object.entries(optionalFields)) {
+    if (value !== undefined && value !== null) {
+      if (typeof value !== "number" || isNaN(value)) {
+        return Response.json({
+          success: false,
+          error: `${key} must be a valid number`
+        }, { status: 400 });
+      }
+
+      if (value < 0) {
+        return Response.json({
+          success: false,
+          error: `${key} cannot be negative`
+        }, { status: 400 });
+      }
+    }
+  }
+
+  if (paymentType !== "cash" && paymentType !== "finance") {
+    return Response.json({
+      success: false,
+      error: "Invalid payment type"
+    }, { status: 400 });
+  }
+
+  /* =========================================================
+     SECTION 5 — SHARED CALCULATION SETUP
+     Purpose: Initialize shared variables for both paths
+  ========================================================= */
+
   const monthlyAvailable = income - expenses;
 
   let monthlyPayment = 0;
@@ -29,7 +144,11 @@ export async function POST(req) {
   let canAfford = false;
   let explanation = "";
 
-  // ---- CASH ----
+  /* =========================================================
+     SECTION 6 — CASH PURCHASE LOGIC
+     Purpose: Evaluate affordability for full cash payment
+  ========================================================= */
+
   if (paymentType === "cash") {
     remainingSavings = savings - price;
 
@@ -56,7 +175,11 @@ ${
 `;
   }
 
-  // ---- FINANCE ----
+  /* =========================================================
+     SECTION 7 — FINANCE PURCHASE LOGIC
+     Purpose: Evaluate affordability for financed purchase
+  ========================================================= */
+
   if (paymentType === "finance") {
     const loanAmount = price - downPayment;
 
@@ -105,6 +228,11 @@ ${
 }
 `;
   }
+
+  /* =========================================================
+     SECTION 8 — FINAL RESPONSE
+     Purpose: Return structured affordability result to frontend
+  ========================================================= */
 
   return Response.json({
     success: true,

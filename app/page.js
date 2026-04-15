@@ -24,15 +24,32 @@ const [errors, setErrors] = useState({
   const [result, setResult] = useState(null);
   const [showBreakdown, setShowBreakdown] = useState(false);
  function validateField(name, value) {
-    const valid = /^[0-9]*\.?[0-9]+$/.test(value) && Number(value) > 0;
+  const isNumber = /^[0-9]*\.?[0-9]+$/.test(value);
+  const num = Number(value);
 
-    setErrors((prev) => ({
-      ...prev,
-      [name]: valid ? "" : "Enter a valid positive number",
-    }));
+  let valid = false;
+  let message = "";
 
-    return valid;
+  if (!isNumber) {
+    valid = false;
+    message = "Enter a valid number";
+  } else {
+    if (name === "income" || name === "price") {
+      valid = num > 0;
+      message = "Must be greater than 0";
+    } else {
+      valid = num >= 0;
+      message = "Cannot be negative";
+    }
   }
+
+  setErrors((prev) => ({
+    ...prev,
+    [name]: valid ? "" : message,
+  }));
+
+  return valid;
+}
 
   function validateAll() {
     const checks = [
@@ -455,15 +472,17 @@ const [errors, setErrors] = useState({
   const val = e.target.value;
   field.setValue(val);
   validateField(
-    field.label === "Monthly Income"
-      ? "income"
-      : field.label === "Monthly Expenses"
-      ? "expenses"
-      : field.label === "Savings"
-      ? "savings"
-      : "price",
-    val
-  );
+  field.label === "Monthly Income"
+    ? "income"
+    : field.label === "Monthly Expenses"
+    ? "expenses"
+    : field.label === "Savings"
+    ? "savings"
+    : field.label === "Down Payment (from savings)"
+    ? "downPayment"
+    : "price",
+  val
+);
 }}
                     placeholder={field.placeholder}
                     style={{
@@ -502,14 +521,16 @@ const [errors, setErrors] = useState({
   <p style={{ color: "#ef4444", fontSize: 14, marginTop: 6 }}>
     {
       errors[
-        field.label === "Monthly Income"
-          ? "income"
-          : field.label === "Monthly Expenses"
-          ? "expenses"
-          : field.label === "Savings"
-          ? "savings"
-          : "price"
-      ]
+  field.label === "Monthly Income"
+    ? "income"
+    : field.label === "Monthly Expenses"
+    ? "expenses"
+    : field.label === "Savings"
+    ? "savings"
+    : field.label === "Down Payment (from savings)"
+    ? "downPayment"
+    : "price"
+]
     }
   </p>
 )}

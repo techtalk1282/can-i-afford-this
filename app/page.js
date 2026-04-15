@@ -228,7 +228,7 @@ export default function Home() {
                 textAlign: "center",
               }}
             >
-              See How It Works
+              How It Works (Example Scenario)
             </h2>
 
             <p
@@ -308,7 +308,7 @@ export default function Home() {
                   color: "#0f766e",
                 }}
               >
-                YES — You can afford this
+               YES — In this example scenario, this is affordable
               </p>
 
               <p

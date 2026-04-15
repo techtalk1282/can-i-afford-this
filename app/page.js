@@ -182,27 +182,20 @@ const [errors, setErrors] = useState({
           </h1>
 
           <p
-            style={{
-              margin: "12px 0 0 0",
-              fontSize: 22,
-              lineHeight: 1.25,
-              color: "#1f2937",
-              fontWeight: 500,
-            }}
-          >
-            Know what you should spend — before you spend it.
-          </p>
+  style={{
+    margin: "12px 0 0 0",
+    fontSize: 16,
+    lineHeight: 1.4,
+    color: "#6b7280",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  }}
+>
+  Know what you should spend before you spend it • Make smarter purchase decisions in seconds
+</p>
 
-          <p
-            style={{
-              margin: "4px 0 0 0",
-              fontSize: 18,
-              lineHeight: 1.25,
-              color: "#6b7280",
-            }}
-          >
-            Make smarter purchase decisions in seconds. No signup required.
-          </p>
+          
         </header>
 
         <section

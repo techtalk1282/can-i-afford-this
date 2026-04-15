@@ -8,16 +8,18 @@ import { useState } from "react";
 
 export default function Home() {
   const [income, setIncome] = useState("");
-  const [expenses, setExpenses] = useState("");
-  const [savings, setSavings] = useState("");
-  const [price, setPrice] = useState("");
+const [expenses, setExpenses] = useState("");
+const [savings, setSavings] = useState("");
+const [downPayment, setDownPayment] = useState("");
+const [price, setPrice] = useState("");
 
-  const [errors, setErrors] = useState({
-    income: "",
-    expenses: "",
-    savings: "",
-    price: "",
-  });
+const [errors, setErrors] = useState({
+  income: "",
+  expenses: "",
+  savings: "",
+  downPayment: "",
+  price: "",
+});
 
   const [result, setResult] = useState(null);
   const [showBreakdown, setShowBreakdown] = useState(false);
@@ -50,12 +52,13 @@ export default function Home() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        income: Number(income),
-        expenses: Number(expenses),
-        savings: Number(savings),
-        price: Number(price),
-        paymentType: "finance",
-      }),
+  income: Number(income),
+  expenses: Number(expenses),
+  savings: Number(savings),
+  downPayment: Number(downPayment || 0),
+  price: Number(price),
+  paymentType: "finance",
+}),
     });
 
     const data = await res.json();
@@ -427,6 +430,12 @@ export default function Home() {
                   setValue: setSavings,
                   placeholder: "Enter current savings",
                 },
+                {
+  label: "Down Payment (from savings)",
+  value: downPayment,
+  setValue: setDownPayment,
+  placeholder: "Enter amount to use toward purchase",
+},
                 {
                   label: "Item Price",
                   value: price,

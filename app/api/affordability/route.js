@@ -214,7 +214,7 @@ STEP 2 — Loan amount
 $${price} (price) - $${downPayment} (down payment) = $${loanAmount}
 
 STEP 3 — Estimated monthly payment
-Calculated loan payment = $${roundedPayment}
+Estimated using 7% interest over 5 years → Monthly payment = $${roundedPayment}
 
 STEP 4 — Money left after payment
 $${monthlyAvailable} - $${roundedPayment} = $${leftoverAfterPayment}

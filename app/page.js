@@ -331,9 +331,9 @@ export default function Home() {
               }}
             >
               {[
-                ["Monthly Left", "$2,000"],
+                ["Available Monthly Income", "$2,000"],
                 ["Est. Payment", "$396"],
-                ["Savings After", "$10,000"],
+                ["Savings After Purchase", "$10,000"],
               ].map(([label, value]) => (
                 <div
                   key={label}
@@ -567,7 +567,7 @@ export default function Home() {
                   color: "#111827",
                 }}
               >
-                Your Result
+               Your Affordability Check
               </h2>
 
               <div
@@ -580,9 +580,9 @@ export default function Home() {
               >
                 {[
                   ["Can Afford", result.canAfford ? "Yes" : "No"],
-                  ["Monthly Left", `$${result.monthlyAvailable}`],
-                  ["Estimated Payment", `$${result.monthlyPayment}`],
-                  ["Savings After", `$${result.remainingSavings}`],
+                  ["Available Monthly Income", `$${result.monthlyAvailable}`],
+                  ["Estimated Monthly Payment", `$${result.monthlyPayment}`],
+                  ["Savings After Purchase", `$${result.remainingSavings}`],
                 ].map(([label, value]) => (
                   <div
                     key={label}
@@ -727,7 +727,7 @@ export default function Home() {
                         color: "#111827",
                       }}
                     >
-                      Summary
+                      What This Means For You
                     </h3>
 
                     <p

@@ -31,12 +31,38 @@ const [errors, setErrors] = useState({
   });
 }
  function validateField(name, value) {
-  const isNumber = /^[0-9]*\.?[0-9]+$/.test(value);
-  const num = Number(value);
+  // Clean leading zeros (but allow "0")
+  const cleanedValue = value.replace(/^0+(?!$)/, "");
+
+  const isNumber = /^[0-9]*\.?[0-9]+$/.test(cleanedValue);
+  const num = Number(cleanedValue);
 
   let valid = false;
   let message = "";
 
+  // 🚫 HARD LIMIT: prevent long spam input
+  if (cleanedValue.length > 9) {
+    return {
+      valid: false,
+      message: "Value is too large",
+    };
+  }
+
+  // 🚫 MAX VALUE RULES
+  const limits = {
+    income: 1000000,
+    expenses: 1000000,
+    savings: 5000000,
+    downPayment: 5000000,
+    price: 10000000,
+  };
+
+  if (limits[name] && num > limits[name]) {
+    return {
+      valid: false,
+      message: `Max allowed: $${limits[name].toLocaleString()}`,
+    };
+  }
   if (!isNumber) {
     valid = false;
     message = "Enter a valid number";

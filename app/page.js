@@ -30,7 +30,14 @@ const [errors, setErrors] = useState({
   let valid = false;
   let message = "";
 
-  if (!isNumber) {
+  const zeroSpam =
+    /^0{2,}$/.test(value) ||
+    (/^0+$/.test(value) && value.length > 1);
+
+  if (zeroSpam) {
+    valid = false;
+    message = "Enter a normal number";
+  } else if (!isNumber) {
     valid = false;
     message = "Enter a valid number";
   } else {

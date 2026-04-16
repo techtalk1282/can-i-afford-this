@@ -34,12 +34,51 @@ const [errors, setErrors] = useState({
     valid = false;
     message = "Enter a valid number";
   } else {
+    // BASE RULES
     if (name === "income" || name === "price") {
-      valid = num > 0;
-      message = "Must be greater than 0";
+      if (num <= 0) {
+        valid = false;
+        message = "Must be greater than 0";
+      } else {
+        valid = true;
+      }
     } else {
-      valid = num >= 0;
-      message = "Cannot be negative";
+      if (num < 0) {
+        valid = false;
+        message = "Cannot be negative";
+      } else {
+        valid = true;
+      }
+    }
+
+    // HARD LIMITS
+    if (valid) {
+      if (name === "income" && num > 1000000) {
+        valid = false;
+        message = "Max allowed: $1,000,000";
+      }
+
+      if (name === "expenses" && num > 1000000) {
+        valid = false;
+        message = "Max allowed: $1,000,000";
+      }
+
+      if (name === "savings" && num > 5000000) {
+        valid = false;
+        message = "Max allowed: $5,000,000";
+      }
+
+      if (name === "price" && num > 10000000) {
+        valid = false;
+        message = "Max allowed: $10,000,000";
+      }
+
+      if (name === "downPayment") {
+        if (num > Number(savings)) {
+          valid = false;
+          message = "Cannot exceed savings";
+        }
+      }
     }
   }
 
@@ -50,7 +89,6 @@ const [errors, setErrors] = useState({
 
   return valid;
 }
-
   function validateAll() {
     const checks = [
       validateField("income", income),

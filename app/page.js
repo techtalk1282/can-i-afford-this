@@ -640,11 +640,20 @@ const [errors, setErrors] = useState({
                 }}
               >
                 {[
-                  ["Can Afford", result.canAfford ? "Yes" : "No"],
-                  ["Available Monthly Income", `$${result.monthlyAvailable}`],
-                  ["Estimated Monthly Payment", `$${result.monthlyPayment}`],
-                  ["Savings After Purchase", `$${result.remainingSavings}`],
-                ].map(([label, value]) => (
+  ["Can Afford", result.canAfford ? "Yes" : "No"],
+  [
+    "Available Monthly Income",
+    `$${Number(result.monthlyAvailable).toLocaleString("en-US")}`,
+  ],
+  [
+    "Estimated Monthly Payment",
+    `$${Number(result.monthlyPayment).toLocaleString("en-US")}`,
+  ],
+  [
+    "Savings After Purchase",
+    `$${Number(result.remainingSavings).toLocaleString("en-US")}`,
+  ],
+].map(([label, value]) => (
                   <div
                     key={label}
                     style={{

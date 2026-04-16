@@ -23,46 +23,13 @@ const [errors, setErrors] = useState({
 
   const [result, setResult] = useState(null);
   const [showBreakdown, setShowBreakdown] = useState(false);
-  function formatCurrency(num) {
-  if (isNaN(num)) return "$0";
-
-  return "$" + Number(num).toLocaleString("en-US", {
-    maximumFractionDigits: 0,
-  });
-}
  function validateField(name, value) {
-  // Clean leading zeros (but allow "0")
-  const cleanedValue = value.replace(/^0+(?!$)/, "");
-
-  const isNumber = /^[0-9]*\.?[0-9]+$/.test(cleanedValue);
-  const num = Number(cleanedValue);
+  const isNumber = /^[0-9]*\.?[0-9]+$/.test(value);
+  const num = Number(value);
 
   let valid = false;
   let message = "";
 
-  // 🚫 HARD LIMIT: prevent long spam input
-  if (cleanedValue.length > 9) {
-    return {
-      valid: false,
-      message: "Value is too large",
-    };
-  }
-
-  // 🚫 MAX VALUE RULES
-  const limits = {
-    income: 1000000,
-    expenses: 1000000,
-    savings: 5000000,
-    downPayment: 5000000,
-    price: 10000000,
-  };
-
-  if (limits[name] && num > limits[name]) {
-    return {
-      valid: false,
-      message: `Max allowed: $${limits[name].toLocaleString()}`,
-    };
-  }
   if (!isNumber) {
     valid = false;
     message = "Enter a valid number";
@@ -673,11 +640,11 @@ const [errors, setErrors] = useState({
                 }}
               >
                 {[
-  ["Can Afford", result.canAfford ? "Yes" : "No"],
-  ["Available Monthly Income", formatCurrency(result.monthlyAvailable)],
-  ["Estimated Monthly Payment", formatCurrency(result.monthlyPayment)],
-  ["Savings After Purchase", formatCurrency(result.remainingSavings)],
-].map(([label, value]) => (
+                  ["Can Afford", result.canAfford ? "Yes" : "No"],
+                  ["Available Monthly Income", `$${result.monthlyAvailable}`],
+                  ["Estimated Monthly Payment", `$${result.monthlyPayment}`],
+                  ["Savings After Purchase", `$${result.remainingSavings}`],
+                ].map(([label, value]) => (
                   <div
                     key={label}
                     style={{

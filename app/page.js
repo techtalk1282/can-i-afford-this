@@ -23,6 +23,13 @@ const [errors, setErrors] = useState({
 
   const [result, setResult] = useState(null);
   const [showBreakdown, setShowBreakdown] = useState(false);
+  function formatCurrency(num) {
+  if (isNaN(num)) return "$0";
+
+  return "$" + Number(num).toLocaleString("en-US", {
+    maximumFractionDigits: 0,
+  });
+}
  function validateField(name, value) {
   const isNumber = /^[0-9]*\.?[0-9]+$/.test(value);
   const num = Number(value);
@@ -640,11 +647,11 @@ const [errors, setErrors] = useState({
                 }}
               >
                 {[
-                  ["Can Afford", result.canAfford ? "Yes" : "No"],
-                  ["Available Monthly Income", `$${result.monthlyAvailable}`],
-                  ["Estimated Monthly Payment", `$${result.monthlyPayment}`],
-                  ["Savings After Purchase", `$${result.remainingSavings}`],
-                ].map(([label, value]) => (
+  ["Can Afford", result.canAfford ? "Yes" : "No"],
+  ["Available Monthly Income", formatCurrency(result.monthlyAvailable)],
+  ["Estimated Monthly Payment", formatCurrency(result.monthlyPayment)],
+  ["Savings After Purchase", formatCurrency(result.remainingSavings)],
+].map(([label, value]) => (
                   <div
                     key={label}
                     style={{

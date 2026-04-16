@@ -139,7 +139,11 @@ const [errors, setErrors] = useState({
     return line.replace(/STEP \d+ — /g, "").replace("Result:", "Summary:");
   }
 
-  function parseExplanation(explanation) {
+  function formatCurrency(value) {
+  const num = Number(value);
+  if (isNaN(num)) return value;
+  return `$${num.toLocaleString("en-US")}`;
+}
     const lines = explanation.split("\n").map(formatLine);
 
     const sections = {
@@ -207,7 +211,10 @@ const [errors, setErrors] = useState({
               color: "#374151",
             }}
           >
-            {line}
+            {line.replace(/\$?(\d+)/g, (match) => {
+  const num = match.replace("$", "");
+  return `$${Number(num).toLocaleString("en-US")}`;
+})}
           </p>
         ))}
       </div>

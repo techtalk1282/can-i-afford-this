@@ -139,11 +139,7 @@ const [errors, setErrors] = useState({
     return line.replace(/STEP \d+ — /g, "").replace("Result:", "Summary:");
   }
 
-  function formatCurrency(value) {
-  const num = Number(value);
-  if (isNaN(num)) return value;
-  return `$${num.toLocaleString("en-US")}`;
-}
+  function parseExplanation(explanation) {
     const lines = explanation.split("\n").map(formatLine);
 
     const sections = {
@@ -202,21 +198,16 @@ const [errors, setErrors] = useState({
         </h3>
 
         {content.map((line, index) => (
-  <p
-    key={index}
-    style={{
-      margin: index === 0 ? 0 : "10px 0 0 0",
-      fontSize: 17,
-      lineHeight: 1.5,
-      color: "#374151",
-    }}
-  >
-    {String(line).replace(/\$?(\d+)/g, (match) => {
-      const num = match.replace("$", "");
-      return `$${Number(num).toLocaleString("en-US")}`;
-    })}
-  </p>
-))}
+          <p
+            key={index}
+            style={{
+              margin: index === 0 ? 0 : "10px 0 0 0",
+              fontSize: 17,
+              lineHeight: 1.5,
+              color: "#374151",
+            }}
+          >
+            {line}
           </p>
         ))}
       </div>

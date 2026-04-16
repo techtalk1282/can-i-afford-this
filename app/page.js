@@ -202,19 +202,21 @@ const [errors, setErrors] = useState({
         </h3>
 
         {content.map((line, index) => (
-          <p
-            key={index}
-            style={{
-              margin: index === 0 ? 0 : "10px 0 0 0",
-              fontSize: 17,
-              lineHeight: 1.5,
-              color: "#374151",
-            }}
-          >
-            {line.replace(/\$?(\d+)/g, (match) => {
-  const num = match.replace("$", "");
-  return `$${Number(num).toLocaleString("en-US")}`;
-})}
+  <p
+    key={index}
+    style={{
+      margin: index === 0 ? 0 : "10px 0 0 0",
+      fontSize: 17,
+      lineHeight: 1.5,
+      color: "#374151",
+    }}
+  >
+    {String(line).replace(/\$?(\d+)/g, (match) => {
+      const num = match.replace("$", "");
+      return `$${Number(num).toLocaleString("en-US")}`;
+    })}
+  </p>
+))}
           </p>
         ))}
       </div>

@@ -519,19 +519,38 @@ const [errors, setErrors] = useState({
                     value={field.value}
                    onChange={(e) => {
   const val = e.target.value;
+
+  const fieldName =
+    field.label === "Monthly Income"
+      ? "income"
+      : field.label === "Monthly Expenses"
+      ? "expenses"
+      : field.label === "Savings"
+      ? "savings"
+      : field.label === "Down Payment (from savings)"
+      ? "downPayment"
+      : "price";
+
+  const maxWholeDigits =
+    fieldName === "price" ? 8 : 7;
+
+  const parts = val.split(".");
+  const wholePart = parts[0] || "";
+  const decimalPart = parts[1];
+
+  if (wholePart.length > maxWholeDigits) {
+    const trimmedValue =
+      decimalPart !== undefined
+        ? `${wholePart.slice(0, maxWholeDigits)}.${decimalPart}`
+        : wholePart.slice(0, maxWholeDigits);
+
+    field.setValue(trimmedValue);
+    validateField(fieldName, trimmedValue);
+    return;
+  }
+
   field.setValue(val);
-  validateField(
-  field.label === "Monthly Income"
-    ? "income"
-    : field.label === "Monthly Expenses"
-    ? "expenses"
-    : field.label === "Savings"
-    ? "savings"
-    : field.label === "Down Payment (from savings)"
-    ? "downPayment"
-    : "price",
-  val
-);
+  validateField(fieldName, val);
 }}
                     placeholder={field.placeholder}
                     style={{

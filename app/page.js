@@ -515,10 +515,22 @@ const [errors, setErrors] = useState({
                     {field.label}
                   </label>
 
-                  <input
-                    value={field.value}
+<input
+                    value={
+  /^[1-9]\d*(\.\d*)?$/.test(field.value) || /^0\.\d*$/.test(field.value)
+    ? (() => {
+        const parts = field.value.split(".");
+        const wholePart = parts[0] || "";
+        const decimalPart = parts[1];
+        const formattedWhole = wholePart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return decimalPart !== undefined
+          ? `${formattedWhole}.${decimalPart}`
+          : formattedWhole;
+      })()
+    : field.value
+}
                    onChange={(e) => {
-  const val = e.target.value;
+  const val = e.target.value.replace(/,/g, "");
 
   const fieldName =
     field.label === "Monthly Income"

@@ -96,13 +96,17 @@ const [errors, setErrors] = useState({
 
   return valid;
 }
-  function validateAll() {
+ function validateAll() {
     const checks = [
       validateField("income", income),
       validateField("expenses", expenses),
       validateField("savings", savings),
       validateField("price", price),
     ];
+
+    if (downPayment !== "") {
+      checks.push(validateField("downPayment", downPayment));
+    }
 
     return checks.every(Boolean);
   }

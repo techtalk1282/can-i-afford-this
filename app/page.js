@@ -544,7 +544,7 @@ const [errors, setErrors] = useState({
       })()
     : field.value
 }
-                   onChange={(e) => {
+                  onChange={(e) => {
   const val = e.target.value.replace(/,/g, "");
 
   const fieldName =
@@ -565,19 +565,55 @@ const [errors, setErrors] = useState({
   const wholePart = parts[0] || "";
   const decimalPart = parts[1];
 
-  if (wholePart.length > maxWholeDigits) {
-    const trimmedValue =
-      decimalPart !== undefined
+  const nextValue =
+    wholePart.length > maxWholeDigits
+      ? decimalPart !== undefined
         ? `${wholePart.slice(0, maxWholeDigits)}.${decimalPart}`
-        : wholePart.slice(0, maxWholeDigits);
+        : wholePart.slice(0, maxWholeDigits)
+      : val;
 
-    field.setValue(trimmedValue);
-    validateField(fieldName, trimmedValue);
-    return;
+  field.setValue(nextValue);
+  validateField(fieldName, nextValue);
+
+  if (fieldName === "savings" || fieldName === "price") {
+    if (downPayment === "") {
+      setErrors((prev) => ({
+        ...prev,
+        downPayment: "",
+      }));
+      return;
+    }
+
+    const nextSavings =
+      fieldName === "savings" ? nextValue : savings;
+
+    const nextPrice =
+      fieldName === "price" ? nextValue : price;
+
+    const downPaymentIsNumber = /^[0-9]*\.?[0-9]+$/.test(downPayment);
+    const downPaymentZeroSpam =
+      /^0{2,}$/.test(downPayment) ||
+      (/^0+$/.test(downPayment) && downPayment.length > 1);
+
+    const downPaymentNum = Number(downPayment);
+
+    let downPaymentMessage = "";
+
+    if (downPaymentZeroSpam) {
+      downPaymentMessage = "Enter a normal number";
+    } else if (!downPaymentIsNumber) {
+      downPaymentMessage = "Enter a valid number";
+    } else if (nextPrice !== "" && downPaymentNum > Number(nextPrice)) {
+      downPaymentMessage = "Cannot exceed item price";
+    } else if (downPaymentNum > Number(nextSavings)) {
+      downPaymentMessage = "Cannot exceed savings";
+    }
+
+    setErrors((prev) => ({
+      ...prev,
+      downPayment: downPaymentMessage,
+    }));
   }
-
-  field.setValue(val);
-  validateField(fieldName, val);
 }}
                     placeholder={field.placeholder}
                     style={{

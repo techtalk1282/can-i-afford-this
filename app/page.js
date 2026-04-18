@@ -546,6 +546,8 @@ const [errors, setErrors] = useState({
       ? "expenses"
       : field.label === "Savings"
       ? "savings"
+      : field.label === "Down Payment (from savings)"
+      ? "downPayment"
       : "price"
   ]
     ? "1px solid #ef4444"
@@ -558,15 +560,17 @@ const [errors, setErrors] = useState({
                       boxSizing: "border-box",
                     }}
                   />
-    {errors[
+     {errors[
   field.label === "Monthly Income"
     ? "income"
     : field.label === "Monthly Expenses"
     ? "expenses"
     : field.label === "Savings"
     ? "savings"
+    : field.label === "Down Payment (from savings)"
+    ? "downPayment"
     : "price"
-] && (                
+] && (               
   <p style={{ color: "#ef4444", fontSize: 14, marginTop: 6 }}>
     {
       errors[

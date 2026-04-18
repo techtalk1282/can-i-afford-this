@@ -111,6 +111,14 @@ if (downPayment > savings) {
     error: "Down payment cannot exceed your savings"
   }, { status: 400 });
 }
+
+// Ensure down payment does not exceed item price
+if (downPayment > price) {
+  return Response.json({
+    success: false,
+    error: "Down payment cannot exceed item price"
+  }, { status: 400 });
+}
   const optionalFields = { downPayment, interestRate, loanTermYears };
 
   for (const [key, value] of Object.entries(optionalFields)) {

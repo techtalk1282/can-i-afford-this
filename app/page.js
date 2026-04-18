@@ -81,8 +81,11 @@ const [errors, setErrors] = useState({
         message = "Max allowed: $10,000,000";
       }
 
-      if (name === "downPayment") {
-        if (num > Number(savings)) {
+     if (name === "downPayment") {
+        if (price !== "" && num > Number(price)) {
+          valid = false;
+          message = "Cannot exceed item price";
+        } else if (num > Number(savings)) {
           valid = false;
           message = "Cannot exceed savings";
         }

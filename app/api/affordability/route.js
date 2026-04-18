@@ -218,7 +218,12 @@ ${
       leftoverAfterPayment > 500 &&
       remainingSavings >= 3000;
 
-ormatCurrency(price)} (price) - ${formatCurrency(downPayment)} (down payment) = ${formatCurrency(loanAmount)}
+    explanation = `
+STEP 1 — Monthly leftover
+${formatCurrency(income)} (income) - ${formatCurrency(expenses)} (expenses) = ${formatCurrency(monthlyAvailable)}
+
+STEP 2 — Loan amount
+${formatCurrency(price)} (price) - ${formatCurrency(downPayment)} (down payment) = ${formatCurrency(loanAmount)}
 
 STEP 3 — Estimated monthly payment
 Estimated using 7% interest over 5 years → Monthly payment = ${formatCurrency(roundedPayment)}

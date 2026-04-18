@@ -23,6 +23,7 @@ const [errors, setErrors] = useState({
 
   const [result, setResult] = useState(null);
   const [showBreakdown, setShowBreakdown] = useState(false);
+  const [apiError, setApiError] = useState("");
  function validateField(name, value) {
   const isNumber = /^[0-9]*\.?[0-9]+$/.test(value);
   const num = Number(value);
@@ -110,8 +111,11 @@ const [errors, setErrors] = useState({
 
     return checks.every(Boolean);
   }
-  async function handleCheck() {
+ async function handleCheck() {
     if (!validateAll()) return;
+
+    setApiError("");
+
     const res = await fetch("/api/affordability", {
       method: "POST",
       headers: {
@@ -128,6 +132,14 @@ const [errors, setErrors] = useState({
     });
 
     const data = await res.json();
+
+    if (!res.ok || data.success === false) {
+      setApiError(data.error || "Unable to check affordability right now.");
+      setResult(null);
+      setShowBreakdown(false);
+      return;
+    }
+
     setResult(data.result);
     setShowBreakdown(false);
 
@@ -640,6 +652,20 @@ const [errors, setErrors] = useState({
             >
               Check My Affordability →
             </button>
+
+ {apiError && (
+              <p
+                style={{
+                  margin: "12px 0 0 0",
+                  textAlign: "center",
+                  fontSize: 15,
+                  color: "#ef4444",
+                  fontWeight: 600,
+                }}
+              >
+                {apiError}
+              </p>
+            )}
 
             <p
               style={{

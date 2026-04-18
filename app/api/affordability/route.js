@@ -153,6 +153,10 @@ if (downPayment > price) {
 
   const monthlyAvailable = income - expenses;
 
+  function formatCurrency(value) {
+    return `$${Number(value).toLocaleString("en-US")}`;
+  }
+
   let monthlyPayment = 0;
   let remainingSavings = savings;
   let canAfford = false;
@@ -172,13 +176,13 @@ if (downPayment > price) {
 
     explanation = `
 STEP 1 — Monthly leftover
-$${income} (income) - $${expenses} (expenses) = $${monthlyAvailable}
+${formatCurrency(income)} (income) - ${formatCurrency(expenses)} (expenses) = ${formatCurrency(monthlyAvailable)}
 
 STEP 2 — Savings after purchase
-$${savings} - $${price} = $${remainingSavings}
+${formatCurrency(savings)} - ${formatCurrency(price)} = ${formatCurrency(remainingSavings)}
 
 STEP 3 — Safety check
-Minimum recommended savings: $3000
+Minimum recommended savings: ${formatCurrency(3000)}
 
 Result:
 ${
@@ -214,25 +218,20 @@ ${
       leftoverAfterPayment > 500 &&
       remainingSavings >= 3000;
 
-    explanation = `
-STEP 1 — Monthly leftover
-$${income} (income) - $${expenses} (expenses) = $${monthlyAvailable}
-
-STEP 2 — Loan amount
-$${price} (price) - $${downPayment} (down payment) = $${loanAmount}
+ormatCurrency(price)} (price) - ${formatCurrency(downPayment)} (down payment) = ${formatCurrency(loanAmount)}
 
 STEP 3 — Estimated monthly payment
-Estimated using 7% interest over 5 years → Monthly payment = $${roundedPayment}
+Estimated using 7% interest over 5 years → Monthly payment = ${formatCurrency(roundedPayment)}
 
 STEP 4 — Money left after payment
-$${monthlyAvailable} - $${roundedPayment} = $${leftoverAfterPayment}
+${formatCurrency(monthlyAvailable)} - ${formatCurrency(roundedPayment)} = ${formatCurrency(leftoverAfterPayment)}
 
 STEP 5 — Savings after down payment
-$${savings} - $${downPayment} = $${remainingSavings}
+${formatCurrency(savings)} - ${formatCurrency(downPayment)} = ${formatCurrency(remainingSavings)}
 
 STEP 6 — Safety rules
-• Minimum leftover after payment: $500  
-• Minimum savings: $3000  
+• Minimum leftover after payment: ${formatCurrency(500)}  
+• Minimum savings: ${formatCurrency(3000)}  
 
 Result:
 ${

@@ -16,7 +16,7 @@ const [price, setPrice] = useState("");
 const [errors, setErrors] = useState({
   income: "",
   expenses: "",
-  savings: "",f
+  savings: "",
   downPayment: "",
   price: "",
 });
@@ -103,10 +103,6 @@ const [errors, setErrors] = useState({
       validateField("savings", savings),
       validateField("price", price),
     ];
-
-    if (downPayment !== "") {
-      checks.push(validateField("downPayment", downPayment));
-    }
 
     return checks.every(Boolean);
   }
@@ -538,19 +534,16 @@ const [errors, setErrors] = useState({
                       width: "100%",
                       height: 46,
                       borderRadius: 12,
-
-                                           border:
-  {errors[
-  field.label === "Monthly Income"
-    ? "income"
-    : field.label === "Monthly Expenses"
-    ? "expenses"
-    : field.label === "Savings"
-    ? "savings"
-    : field.label === "Down Payment (from savings)"
-    ? "downPayment"
-    : "price"
-] && (    
+                      border:
+  errors[
+    field.label === "Monthly Income"
+      ? "income"
+      : field.label === "Monthly Expenses"
+      ? "expenses"
+      : field.label === "Savings"
+      ? "savings"
+      : "price"
+  ]
     ? "1px solid #ef4444"
     : "1px solid #d1d5db",
                       padding: "0 16px",

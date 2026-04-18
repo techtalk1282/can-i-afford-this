@@ -756,15 +756,30 @@ const [errors, setErrors] = useState({
   ["Can Afford", result.canAfford ? "Yes" : "No"],
   [
     "Available Monthly Income",
-    `$${Number(result.monthlyAvailable).toLocaleString("en-US")}`,
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(Number(result.monthlyAvailable)),
   ],
   [
     "Estimated Monthly Payment",
-    `$${Number(result.monthlyPayment).toLocaleString("en-US")}`,
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(Number(result.monthlyPayment)),
   ],
   [
     "Savings After Purchase",
-    `$${Number(result.remainingSavings).toLocaleString("en-US")}`,
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(Number(result.remainingSavings)),
   ],
 ].map(([label, value]) => (
                   <div

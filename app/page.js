@@ -567,12 +567,22 @@ const [errors, setErrors] = useState({
   const wholePart = parts[0] || "";
   const decimalPart = parts[1];
 
-  const nextValue =
+  const limitedWholePart =
     wholePart.length > maxWholeDigits
-      ? decimalPart !== undefined
-        ? `${wholePart.slice(0, maxWholeDigits)}.${decimalPart}`
-        : wholePart.slice(0, maxWholeDigits)
-      : val;
+      ? wholePart.slice(0, maxWholeDigits)
+      : wholePart;
+
+  const normalizedWholePart =
+    limitedWholePart === ""
+      ? ""
+      : limitedWholePart.replace(/^0+(?=\d)/, "");
+
+  const nextValue =
+    decimalPart !== undefined
+      ? wholePart === ""
+        ? val
+        : `${normalizedWholePart}.${decimalPart}`
+      : normalizedWholePart;
 
   field.setValue(nextValue);
   validateField(fieldName, nextValue);

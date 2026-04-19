@@ -547,7 +547,8 @@ const [errors, setErrors] = useState({
     : field.value
 }
                    onChange={(e) => {
-  const val = e.target.value.replace(/[$,]/g, "");
+ const rawVal = e.target.value.replace(/[$,]/g, "");
+  const val = rawVal.includes(".") ? rawVal.split(".")[0] : rawVal;
 
   const fieldName =
     field.label === "Monthly Income"

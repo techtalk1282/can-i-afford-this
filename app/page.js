@@ -831,64 +831,302 @@ const [errors, setErrors] = useState({
               </p>
             </div>
 
-            <div
-  style={{
-    display: "flex",
-    gap: 12,
-    marginBottom: 18,
-    flexWrap: "wrap",
-  }}
->
-  <button
-    onClick={() => setShowBreakdown(!showBreakdown)}
-    style={{
-      height: 48,
-      padding: "0 18px",
-      borderRadius: 12,
-      border: "1px solid #d1d5db",
-      background: "#ffffff",
-      color: "#111827",
-      fontSize: 16,
-      fontWeight: 700,
-      cursor: "pointer",
-    }}
-  >
-    {showBreakdown ? "Hide full breakdown" : "Show full breakdown"}
-  </button>
+<div
+              style={{
+                background: "#ffffff",
+                border: "1px solid #e5e7eb",
+                borderRadius: 20,
+                padding: 24,
+                boxShadow: "0 18px 45px rgba(15, 23, 42, 0.08)",
+                marginBottom: 18,
+              }}
+            >
+              <h2
+                style={{
+                  margin: 0,
+                  fontSize: 30,
+                  fontWeight: 800,
+                  color: "#111827",
+                  textAlign: "center",
+                }}
+              >
+                Access Your Smart Spending Insights
+              </h2>
 
-  <button
-    onClick={() => {
-  if (!showBreakdown) {
-    setShowBreakdown(true);
-    setTimeout(() => {
-      const el = document.getElementById("summary-section");
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    }, 150);
-  } else {
-    const el = document.getElementById("summary-section");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  }
-}}
-    style={{
-      height: 48,
-      padding: "0 18px",
-      borderRadius: 12,
-      border: "none",
-      background: "linear-gradient(135deg, #facc15 0%, #fbbf24 100%)",
-      color: "#111827",
-      fontSize: 16,
-      fontWeight: 700,
-      cursor: "pointer",
-      boxShadow: "0 8px 20px rgba(251, 191, 36, 0.25)",
-    }}
-  >
-    See Smart Spending Insights
-  </button>
-</div>
+              <div
+                style={{
+                  width: 18,
+                  height: 3,
+                  borderRadius: 999,
+                  background: "#facc15",
+                  margin: "10px auto 0 auto",
+                }}
+              />
+
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                  gap: 14,
+                  marginTop: 22,
+                }}
+              >
+                <div
+                  style={{
+                    background: "#ffffff",
+                    border: "1px solid #e5e7eb",
+                    borderRadius: 18,
+                    padding: 24,
+                    textAlign: "center",
+                    boxShadow: "0 10px 24px rgba(15, 23, 42, 0.04)",
+                  }}
+                >
+                  <h3
+                    style={{
+                      margin: 0,
+                      fontSize: 20,
+                      fontWeight: 800,
+                      color: "#111827",
+                    }}
+                  >
+                    Continue Free
+                  </h3>
+
+                  <p
+                    style={{
+                      margin: "10px 0 0 0",
+                      fontSize: 18,
+                      color: "#6b7280",
+                    }}
+                  >
+                    Watch a Short Ad
+                  </p>
+
+                  <p
+                    style={{
+                      margin: "8px 0 0 0",
+                      fontSize: 16,
+                      color: "#9ca3af",
+                    }}
+                  >
+                    1 Extra Free Check
+                  </p>
+
+                  <button
+                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                    style={{
+                      width: "100%",
+                      marginTop: 18,
+                      height: 54,
+                      border: "none",
+                      borderRadius: 14,
+                      background: "linear-gradient(135deg, #facc15 0%, #fbbf24 100%)",
+                      color: "#111827",
+                      fontSize: 18,
+                      fontWeight: 800,
+                      cursor: "pointer",
+                      boxShadow: "0 10px 25px rgba(251, 191, 36, 0.28)",
+                    }}
+                  >
+                    Continue Free
+                    <div
+                      style={{
+                        fontSize: 14,
+                        fontWeight: 600,
+                        marginTop: 2,
+                      }}
+                    >
+                      Watch a Short Ad
+                    </div>
+                  </button>
+
+                  <p
+                    style={{
+                      margin: "16px 0 0 0",
+                      fontSize: 16,
+                      color: "#6b7280",
+                    }}
+                  >
+                    1 Extra Free Check
+                  </p>
+                </div>
+
+                <div
+                  style={{
+                    background: "linear-gradient(180deg, #f3fbf8 0%, #eef8f4 100%)",
+                    border: "1px solid #d8eee7",
+                    borderRadius: 18,
+                    padding: 24,
+                    textAlign: "center",
+                    boxShadow: "0 10px 24px rgba(15, 23, 42, 0.04)",
+                  }}
+                >
+                  <h3
+                    style={{
+                      margin: 0,
+                      fontSize: 20,
+                      fontWeight: 800,
+                      color: "#0f766e",
+                      lineHeight: 1.35,
+                    }}
+                  >
+                    Unlock Smart Spending
+                    <br />
+                    Insights
+                  </h3>
+
+                  <p
+                    style={{
+                      margin: "12px 0 0 0",
+                      fontSize: 18,
+                      color: "#374151",
+                      fontWeight: 700,
+                    }}
+                  >
+                    $7 One-Time
+                  </p>
+
+                  <button
+                    onClick={() => {
+                      if (!showBreakdown) {
+                        setShowBreakdown(true);
+                        setTimeout(() => {
+                          const el = document.getElementById("summary-section");
+                          if (el) {
+                            el.scrollIntoView({ behavior: "smooth", block: "start" });
+                          }
+                        }, 150);
+                      } else {
+                        const el = document.getElementById("summary-section");
+                        if (el) {
+                          el.scrollIntoView({ behavior: "smooth", block: "start" });
+                        }
+                      }
+                    }}
+                    style={{
+                      width: "100%",
+                      marginTop: 18,
+                      height: 58,
+                      border: "none",
+                      borderRadius: 14,
+                      background: "linear-gradient(135deg, #1f8a70 0%, #43b692 100%)",
+                      color: "#ffffff",
+                      fontSize: 17,
+                      fontWeight: 800,
+                      cursor: "pointer",
+                      boxShadow: "0 12px 28px rgba(31, 138, 112, 0.28)",
+                      lineHeight: 1.2,
+                    }}
+                  >
+                    Unlock Smart
+                    <br />
+                    Spending Insights
+                  </button>
+
+                  <div
+                    style={{
+                      marginTop: 14,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 8,
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: 18,
+                        fontWeight: 800,
+                        color: "#111827",
+                      }}
+                    >
+                      $7 One-Time
+                    </span>
+
+                    <span
+                      style={{
+                        fontSize: 20,
+                        lineHeight: 1,
+                      }}
+                    >
+                      Lock
+                    </span>
+                  </div>
+
+                  <p
+                    style={{
+                      margin: "12px 0 0 0",
+                      fontSize: 15,
+                      lineHeight: 1.5,
+                      color: "#6b7280",
+                    }}
+                  >
+                    No subscription. One payment.
+                    <br />
+                    Better decisions every time.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                gap: 12,
+                marginBottom: 18,
+                flexWrap: "wrap",
+              }}
+            >
+              <button
+                onClick={() => setShowBreakdown(!showBreakdown)}
+                style={{
+                  height: 48,
+                  padding: "0 18px",
+                  borderRadius: 12,
+                  border: "1px solid #d1d5db",
+                  background: "#ffffff",
+                  color: "#111827",
+                  fontSize: 16,
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
+              >
+                {showBreakdown ? "Hide full breakdown" : "Show full breakdown"}
+              </button>
+
+              <button
+                onClick={() => {
+                  if (!showBreakdown) {
+                    setShowBreakdown(true);
+                    setTimeout(() => {
+                      const el = document.getElementById("summary-section");
+                      if (el) {
+                        el.scrollIntoView({ behavior: "smooth", block: "start" });
+                      }
+                    }, 150);
+                  } else {
+                    const el = document.getElementById("summary-section");
+                    if (el) {
+                      el.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }
+                  }
+                }}
+                style={{
+                  height: 48,
+                  padding: "0 18px",
+                  borderRadius: 12,
+                  border: "none",
+                  background: "linear-gradient(135deg, #facc15 0%, #fbbf24 100%)",
+                  color: "#111827",
+                  fontSize: 16,
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  boxShadow: "0 8px 20px rgba(251, 191, 36, 0.25)",
+                }}
+              >
+                See Smart Spending Insights
+              </button>
+            </div>
+
             {showBreakdown && (() => {
               const sections = parseExplanation(result.explanation);
 
@@ -896,7 +1134,7 @@ const [errors, setErrors] = useState({
                 <div
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+                    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
                     gap: 12,
                   }}
                 >
@@ -917,7 +1155,8 @@ const [errors, setErrors] = useState({
                       boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
                     }}
                   >
-                    <h3 id="summary-section"
+                    <h3
+                      id="summary-section"
                       style={{
                         margin: 0,
                         fontSize: 20,
@@ -936,61 +1175,51 @@ const [errors, setErrors] = useState({
                         color: "#374151",
                       }}
                     >
-{result.canAfford ? (
-  <>
-    <strong>You can afford this purchase — but here's the smarter question:</strong>
-    <br /><br />
-    Is this the BEST use of your money?
-    <br /><br />
-    • Could you spend less and still be happy?<br />
-    • Could you keep more savings while buying this?<br />
-    • Are you pushing your financial limits without realizing it?
-    <br /><br />
-    <strong>Unlock Premium to:</strong>
-    <br />
-    • Compare smarter price options<br />
-    • See your safe spending range<br />
-    • Find your optimal purchase point
-  </>
-) : (
-  <>
-    <strong>This purchase may put your finances at risk.</strong>
-    <br /><br />
-    But here's the good news — you still have options:
-    <br /><br />
-    • What price WOULD be safe for you?<br />
-    • How much should you lower your budget?<br />
-    • What changes would make this affordable?
-    <br /><br />
-    <strong>Unlock Premium to:</strong>
-    <br />
-    • See your safe price range<br />
-    • Adjust your numbers instantly<br />
-    • Get a smarter financial plan
-  </>
-)}
+                      {result.canAfford ? (
+                        <>
+                          <strong>You can afford this purchase — but here's the smarter question:</strong>
+                          <br /><br />
+                          Is this the BEST use of your money?
+                          <br /><br />
+                          • Could you spend less and still be happy?<br />
+                          • Could you keep more savings while buying this?<br />
+                          • Are you pushing your financial limits without realizing it?
+                          <br /><br />
+                          <strong>Unlock Premium to:</strong>
+                          <br />
+                          • Compare smarter price options<br />
+                          • See your safe spending range<br />
+                          • Find your optimal purchase point
+                        </>
+                      ) : (
+                        <>
+                          <strong>This purchase may put your finances at risk.</strong>
+                          <br /><br />
+                          But here's the good news — you still have options:
+                          <br /><br />
+                          • What price WOULD be safe for you?<br />
+                          • How much should you lower your budget?<br />
+                          • What changes would make this affordable?
+                          <br /><br />
+                          <strong>Unlock Premium to:</strong>
+                          <br />
+                          • See your safe price range<br />
+                          • Adjust your numbers instantly<br />
+                          • Get a smarter financial plan
+                        </>
+                      )}
                     </p>
-                      <div style={{ marginTop: 20, textAlign: "center" }}>
-  <button
-    style={{
-      background: "linear-gradient(135deg, #facc15 0%, #fbbf24 100%)",
-      color: "#111827",
-      border: "none",
-      borderRadius: 999,
-      padding: "14px 28px",
-      fontSize: 16,
-      fontWeight: 700,
-      cursor: "pointer",
-      boxShadow: "0 10px 25px rgba(251, 191, 36, 0.35)",
-    }}
-  >
-    Unlock Smart Spending Insights — $7 One-Time
-  </button>
 
-  <div style={{ marginTop: 8, fontSize: 13, color: "#6b7280" }}>
-    No subscription. Make better decisions forever.
-  </div>
-</div>
+                    <div
+                      style={{
+                        marginTop: 10,
+                        fontSize: 13,
+                        color: "#6b7280",
+                        textAlign: "center",
+                      }}
+                    >
+                      Premium unlock CTA moved to the monetization panel above.
+                    </div>
                   </div>
                 </div>
               );

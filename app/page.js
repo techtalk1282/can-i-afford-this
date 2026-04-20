@@ -932,12 +932,12 @@ const [errors, setErrors] = useState({
 
               return (
                 <>
-                  <div
+             <div
                     style={{
                       display: "grid",
                       gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
                       gap: 12,
-                      marginBottom: 12,
+                      marginBottom: 18,
                     }}
                   >
                     {renderBreakdownCard("Available Monthly Income", sections.monthly, "monthly")}
@@ -945,17 +945,6 @@ const [errors, setErrors] = useState({
                     {renderBreakdownCard("Estimated Monthly Payment", sections.payment, "payment")}
                     {renderBreakdownCard("Monthly Remaining After Payment", sections.afterPayment, "afterPayment")}
                     {renderBreakdownCard("Savings After Purchase", sections.savings, "savings")}
-                  </div>
-
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-                      gap: 12,
-                      marginBottom: 18,
-                      alignItems: "stretch",
-                    }}
-                  >
                     {renderBreakdownCard("Financial Safety Checks", sections.safety, "safety")}
 
                     <div
@@ -982,42 +971,70 @@ const [errors, setErrors] = useState({
                       <p
                         style={{
                           margin: "12px 0 0 0",
-                          fontSize: 17,
+                          fontSize: 16,
                           lineHeight: 1.6,
                           color: "#374151",
                         }}
                       >
                         {result.canAfford ? (
                           <>
-                            <strong>You can afford this purchase — but here's the smarter question:</strong>
+                            <strong>This purchase fits your budget right now.</strong>
                             <br /><br />
-                            Is this the BEST use of your money?
-                            <br /><br />
-                            • Could you spend less and still be happy?<br />
-                            • Could you keep more savings while buying this?<br />
-                            • Are you pushing your financial limits without realizing it?
-                            <br /><br />
-                            <strong>Unlock Premium to:</strong>
+                            That is the first answer.
                             <br />
-                            • Compare smarter price options<br />
-                            • See your safe spending range<br />
-                            • Find your optimal purchase point
+                            The smarter answer is whether this is the best use of your money.
                           </>
                         ) : (
                           <>
-                            <strong>This purchase may put your finances at risk.</strong>
+                            <strong>This purchase is not in a safe range right now.</strong>
                             <br /><br />
-                            But here's the good news — you still have options:
-                            <br /><br />
-                            • What price WOULD be safe for you?<br />
-                            • How much should you lower your budget?<br />
-                            • What changes would make this affordable?
-                            <br /><br />
-                            <strong>Unlock Premium to:</strong>
+                            That does not mean you are stuck.
                             <br />
-                            • See your safe price range<br />
-                            • Adjust your numbers instantly<br />
-                            • Get a smarter financial plan
+                            It means the numbers need a smarter target.
+                          </>
+                        )}
+                      </p>
+                    </div>
+
+                    <div
+                      style={{
+                        background: "#eef6ff",
+                        border: "1px solid #d7e8ff",
+                        borderRadius: 16,
+                        padding: 20,
+                        boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
+                      }}
+                    >
+                      <h3
+                        style={{
+                          margin: 0,
+                          fontSize: 20,
+                          fontWeight: 800,
+                          color: "#111827",
+                        }}
+                      >
+                        Your Next Smart Move
+                      </h3>
+
+                      <p
+                        style={{
+                          margin: "12px 0 0 0",
+                          fontSize: 16,
+                          lineHeight: 1.6,
+                          color: "#374151",
+                        }}
+                      >
+                        {result.canAfford ? (
+                          <>
+                            • Could you spend less and still be happy?<br />
+                            • Could you keep more savings after buying this?<br />
+                            • Could you choose a smarter price point?
+                          </>
+                        ) : (
+                          <>
+                            • What price would be safer for you?<br />
+                            • How much should you lower your budget?<br />
+                            • What change would make this affordable?
                           </>
                         )}
                       </p>

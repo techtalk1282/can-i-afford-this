@@ -118,6 +118,8 @@ const [errors, setErrors] = useState({
  async function handleCheck() {
     if (!validateAll()) return;
 
+    const hadPreviousResult = Boolean(result);
+
     setApiError("");
 
     const res = await fetch("/api/affordability", {
@@ -145,6 +147,20 @@ const [errors, setErrors] = useState({
     }
 
     setResult(data.result);
+
+    if (hadPreviousResult) {
+      setShowBreakdown(true);
+
+      setTimeout(() => {
+        const smartSpendingPanel = document.getElementById("smart-spending-panel");
+        if (smartSpendingPanel) {
+          smartSpendingPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 180);
+
+      return;
+    }
+
     setShowBreakdown(false);
 
     setTimeout(() => {

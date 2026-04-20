@@ -4,7 +4,9 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+const FREE_SESSION_STORAGE_KEY = "ciat_free_session_used";
 
 export default function Home() {
   const [income, setIncome] = useState("");
@@ -21,11 +23,23 @@ const [errors, setErrors] = useState({
   price: "",
 });
 
-  const [result, setResult] = useState(null);
+const [result, setResult] = useState(null);
   const [showBreakdown, setShowBreakdown] = useState(false);
  const [apiError, setApiError] = useState("");
  const [decimalBlockedField, setDecimalBlockedField] = useState("");
   const [showContinueNotice, setShowContinueNotice] = useState(false);
+  const [hasUsedFreeSession, setHasUsedFreeSession] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const savedFreeSessionState = window.localStorage.getItem(FREE_SESSION_STORAGE_KEY);
+
+    if (savedFreeSessionState === "1") {
+      setHasUsedFreeSession(true);
+    }
+  }, []);
+
  function validateField(name, value) {
   const isNumber = /^[0-9]*\.?[0-9]+$/.test(value);
   const num = Number(value);
@@ -119,9 +133,18 @@ const [errors, setErrors] = useState({
 async function handleCheck() {
     if (!validateAll()) return;
 
-    const hadPreviousResult = Boolean(result);
-
     setApiError("");
+
+    if (hasUsedFreeSession) {
+      setShowContinueNotice(true);
+
+      if (result) {
+        setShowBreakdown(true);
+      }
+
+      scrollToSmartSpendingPanel();
+      return;
+    }
 
     const res = await fetch("/api/affordability", {
       method: "POST",
@@ -149,19 +172,10 @@ async function handleCheck() {
     }
 
     setResult(data.result);
+    setHasUsedFreeSession(true);
 
-    if (hadPreviousResult) {
-      setShowBreakdown(true);
-      setShowContinueNotice(true);
-
-      setTimeout(() => {
-        const smartSpendingPanel = document.getElementById("smart-spending-panel");
-        if (smartSpendingPanel) {
-          smartSpendingPanel.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }, 180);
-
-      return;
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(FREE_SESSION_STORAGE_KEY, "1");
     }
 
     setShowBreakdown(false);
@@ -214,7 +228,7 @@ async function handleCheck() {
     return sections;
   }
 
-  function renderBreakdownCard(title, content, key) {
+function renderBreakdownCard(title, content, key) {
     return (
       <div
         key={key}
@@ -250,6 +264,197 @@ async function handleCheck() {
             {line}
           </p>
         ))}
+      </div>
+    );
+  }
+
+  function scrollToSmartSpendingPanel() {
+    setTimeout(() => {
+      const smartSpendingPanel = document.getElementById("smart-spending-panel");
+      if (smartSpendingPanel) {
+        smartSpendingPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 180);
+  }
+
+  function renderSmartSpendingPanel() {
+    return (
+      <div
+        id="smart-spending-panel"
+        style={{
+          background: "#ffffff",
+          border: "1px solid #e5e7eb",
+          borderRadius: 20,
+          padding: 24,
+          boxShadow: "0 18px 45px rgba(15, 23, 42, 0.08)",
+        }}
+      >
+        <h2
+          style={{
+            margin: 0,
+            fontSize: 30,
+            fontWeight: 800,
+            color: "#111827",
+            textAlign: "center",
+          }}
+        >
+          Access Your Smart Spending Insights
+        </h2>
+
+        <div
+          style={{
+            width: 18,
+            height: 3,
+            borderRadius: 999,
+            background: "#facc15",
+            margin: "10px auto 0 auto",
+          }}
+        />
+
+        {showContinueNotice && (
+          <div
+            style={{
+              marginTop: 16,
+              background: "linear-gradient(180deg, #effaf5 0%, #f7fffb 100%)",
+              border: "1px solid #cdeee0",
+              borderRadius: 14,
+              padding: "12px 16px",
+              textAlign: "center",
+              fontSize: 15,
+              fontWeight: 700,
+              lineHeight: 1.5,
+              color: "#0f766e",
+            }}
+          >
+            You’ve used your free affordability session. Choose an option below to continue.
+          </div>
+        )}
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: 14,
+            marginTop: 22,
+          }}
+        >
+          <div
+            style={{
+              background: "#ffffff",
+              border: "1px solid #e5e7eb",
+              borderRadius: 18,
+              padding: 24,
+              textAlign: "center",
+              boxShadow: "0 10px 24px rgba(15, 23, 42, 0.04)",
+            }}
+          >
+            <h3
+              style={{
+                margin: 0,
+                fontSize: 20,
+                fontWeight: 800,
+                color: "#111827",
+              }}
+            >
+              Continue Free
+            </h3>
+
+            <p
+              style={{
+                margin: "12px 0 0 0",
+                fontSize: 17,
+                lineHeight: 1.5,
+                color: "#6b7280",
+              }}
+            >
+              Watch one short ad to unlock 1 extra free check.
+            </p>
+
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              style={{
+                width: "100%",
+                marginTop: 18,
+                height: 54,
+                border: "none",
+                borderRadius: 14,
+                background: "linear-gradient(135deg, #facc15 0%, #fbbf24 100%)",
+                color: "#111827",
+                fontSize: 18,
+                fontWeight: 800,
+                cursor: "pointer",
+                boxShadow: "0 10px 25px rgba(251, 191, 36, 0.28)",
+              }}
+            >
+              Watch Ad to Continue
+            </button>
+          </div>
+
+          <div
+            style={{
+              background: "linear-gradient(180deg, #f3fbf8 0%, #eef8f4 100%)",
+              border: "1px solid #d8eee7",
+              borderRadius: 18,
+              padding: 24,
+              textAlign: "center",
+              boxShadow: "0 10px 24px rgba(15, 23, 42, 0.04)",
+            }}
+          >
+            <h3
+              style={{
+                margin: 0,
+                fontSize: 16,
+                fontWeight: 800,
+                color: "#0f766e",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Unlock Smart Spending Insights
+            </h3>
+
+            <p
+              style={{
+                margin: "12px 0 0 0",
+                fontSize: 18,
+                color: "#374151",
+                fontWeight: 700,
+              }}
+            >
+              $7 One-Time
+            </p>
+
+            <button
+              style={{
+                width: "100%",
+                marginTop: 18,
+                height: 58,
+                border: "none",
+                borderRadius: 14,
+                background: "linear-gradient(135deg, #1f8a70 0%, #43b692 100%)",
+                color: "#ffffff",
+                fontSize: 18,
+                fontWeight: 800,
+                cursor: "pointer",
+                boxShadow: "0 12px 28px rgba(31, 138, 112, 0.28)",
+              }}
+            >
+              Unlock Now
+            </button>
+
+            <p
+              style={{
+                margin: "12px 0 0 0",
+                fontSize: 15,
+                lineHeight: 1.5,
+                color: "#6b7280",
+              }}
+            >
+              No subscription. One payment.
+              <br />
+              Better decisions every time.
+            </p>
+          </div>
+        </div>
       </div>
     );
   }
@@ -774,7 +979,13 @@ async function handleCheck() {
               Takes 10 seconds • No commitment
             </p>
           </div>
-        </section>
+       </section>
+
+        {!result && hasUsedFreeSession && showContinueNotice && (
+          <section style={{ marginTop: 40 }}>
+            {renderSmartSpendingPanel()}
+          </section>
+        )}
 
         {result && (
           <section id="result-section" style={{ marginTop: 40 }}>
@@ -1209,185 +1420,9 @@ async function handleCheck() {
                         )}
                       </p>
                     </div>
-                  </div>
+                </div>
 
-            <div
-                    id="smart-spending-panel"
-                    style={{
-                      background: "#ffffff",
-                      border: "1px solid #e5e7eb",
-                      borderRadius: 20,
-                      padding: 24,
-                      boxShadow: "0 18px 45px rgba(15, 23, 42, 0.08)",
-                    }}
-                  >
-                    <h2
-                      style={{
-                        margin: 0,
-                        fontSize: 30,
-                        fontWeight: 800,
-                        color: "#111827",
-                        textAlign: "center",
-                      }}
-                    >
-                      Access Your Smart Spending Insights
-                    </h2>
-
-                    <div
-                      style={{
-                        width: 18,
-                        height: 3,
-                        borderRadius: 999,
-                        background: "#facc15",
-                        margin: "10px auto 0 auto",
-                      }}
-                    />
-
-                    {showContinueNotice && (
-                      <div
-                        style={{
-                          marginTop: 16,
-                          background: "linear-gradient(180deg, #effaf5 0%, #f7fffb 100%)",
-                          border: "1px solid #cdeee0",
-                          borderRadius: 14,
-                          padding: "12px 16px",
-                          textAlign: "center",
-                          fontSize: 15,
-                          fontWeight: 700,
-                          lineHeight: 1.5,
-                          color: "#0f766e",
-                        }}
-                      >
-                        You’ve used your free affordability session. Choose an option below to continue.
-                      </div>
-                    )}
-
-                    <div
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-                        gap: 14,
-                        marginTop: 22,
-                      }}
-                    >
-                      <div
-                        style={{
-                          background: "#ffffff",
-                          border: "1px solid #e5e7eb",
-                          borderRadius: 18,
-                          padding: 24,
-                          textAlign: "center",
-                          boxShadow: "0 10px 24px rgba(15, 23, 42, 0.04)",
-                        }}
-                      >
-                        <h3
-                          style={{
-                            margin: 0,
-                            fontSize: 20,
-                            fontWeight: 800,
-                            color: "#111827",
-                          }}
-                        >
-                          Continue Free
-                        </h3>
-
-                        <p
-                          style={{
-                            margin: "12px 0 0 0",
-                            fontSize: 17,
-                            lineHeight: 1.5,
-                            color: "#6b7280",
-                          }}
-                        >
-                          Watch one short ad to unlock 1 extra free check.
-                        </p>
-
-                        <button
-                          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                          style={{
-                            width: "100%",
-                            marginTop: 18,
-                            height: 54,
-                            border: "none",
-                            borderRadius: 14,
-                            background: "linear-gradient(135deg, #facc15 0%, #fbbf24 100%)",
-                            color: "#111827",
-                            fontSize: 18,
-                            fontWeight: 800,
-                            cursor: "pointer",
-                            boxShadow: "0 10px 25px rgba(251, 191, 36, 0.28)",
-                          }}
-                        >
-                          Watch Ad to Continue
-                        </button>
-                      </div>
-
-                      <div
-                        style={{
-                          background: "linear-gradient(180deg, #f3fbf8 0%, #eef8f4 100%)",
-                          border: "1px solid #d8eee7",
-                          borderRadius: 18,
-                          padding: 24,
-                          textAlign: "center",
-                          boxShadow: "0 10px 24px rgba(15, 23, 42, 0.04)",
-                        }}
-                      >
-                        <h3
-                          style={{
-                            margin: 0,
-                            fontSize: 16,
-                            fontWeight: 800,
-                            color: "#0f766e",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          Unlock Smart Spending Insights
-                        </h3>
-
-                        <p
-                          style={{
-                            margin: "12px 0 0 0",
-                            fontSize: 18,
-                            color: "#374151",
-                            fontWeight: 700,
-                          }}
-                        >
-                          $7 One-Time
-                        </p>
-
-                        <button
-                          style={{
-                            width: "100%",
-                            marginTop: 18,
-                            height: 58,
-                            border: "none",
-                            borderRadius: 14,
-                            background: "linear-gradient(135deg, #1f8a70 0%, #43b692 100%)",
-                            color: "#ffffff",
-                            fontSize: 18,
-                            fontWeight: 800,
-                            cursor: "pointer",
-                            boxShadow: "0 12px 28px rgba(31, 138, 112, 0.28)",
-                          }}
-                        >
-                          Unlock Now
-                        </button>
-
-                        <p
-                          style={{
-                            margin: "12px 0 0 0",
-                            fontSize: 15,
-                            lineHeight: 1.5,
-                            color: "#6b7280",
-                          }}
-                        >
-                          No subscription. One payment.
-                          <br />
-                          Better decisions every time.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                  {renderSmartSpendingPanel()}
                 </>
               );
             })()}

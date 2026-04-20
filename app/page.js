@@ -944,8 +944,116 @@ const [errors, setErrors] = useState({
                     {renderBreakdownCard("Amount Financed", sections.loan, "loan")}
                     {renderBreakdownCard("Estimated Monthly Payment", sections.payment, "payment")}
                     {renderBreakdownCard("Monthly Remaining After Payment", sections.afterPayment, "afterPayment")}
-                    {renderBreakdownCard("Savings After Purchase", sections.savings, "savings")}
-                    {renderBreakdownCard("Financial Safety Checks", sections.safety, "safety")}
+                <div
+                      style={{
+                        background: "#ffffff",
+                        border: "1px solid #e5e7eb",
+                        borderRadius: 16,
+                        padding: 20,
+                        boxShadow: "0 10px 30px rgba(15, 23, 42, 0.06)",
+                      }}
+                    >
+                      <h3
+                        style={{
+                          margin: "0 0 12px 0",
+                          fontSize: 20,
+                          fontWeight: 700,
+                          color: "#111827",
+                        }}
+                      >
+                        Savings After Purchase
+                      </h3>
+
+                      {sections.savings.map((line, index) => (
+                        <p
+                          key={index}
+                          style={{
+                            margin: index === 0 ? 0 : "10px 0 0 0",
+                            fontSize: 17,
+                            lineHeight: 1.5,
+                            color: "#374151",
+                          }}
+                        >
+                          {line}
+                        </p>
+                      ))}
+
+                      <p
+                        style={{
+                          margin: "12px 0 0 0",
+                          fontSize: 15,
+                          lineHeight: 1.6,
+                          color: "#6b7280",
+                        }}
+                      >
+                        {Number(result.remainingSavings) >= 3000
+                          ? "You still keep a healthy savings cushion after this purchase."
+                          : Number(result.remainingSavings) > 0
+                          ? "You keep some savings, but you fall below the recommended cushion."
+                          : "This purchase leaves you with no savings cushion after buying."}
+                      </p>
+                    </div>
+
+                    <div
+                      style={{
+                        background: "#ffffff",
+                        border: "1px solid #e5e7eb",
+                        borderRadius: 16,
+                        padding: 20,
+                        boxShadow: "0 10px 30px rgba(15, 23, 42, 0.06)",
+                      }}
+                    >
+                      <h3
+                        style={{
+                          margin: "0 0 12px 0",
+                          fontSize: 20,
+                          fontWeight: 700,
+                          color: "#111827",
+                        }}
+                      >
+                        Financial Safety Checks
+                      </h3>
+
+                      {sections.safety.map((line, index) => (
+                        <p
+                          key={index}
+                          style={{
+                            margin: index === 0 ? 0 : "10px 0 0 0",
+                            fontSize: 17,
+                            lineHeight: 1.5,
+                            color: "#374151",
+                          }}
+                        >
+                          {line}
+                        </p>
+                      ))}
+
+                      <p
+                        style={{
+                          margin: "12px 0 0 0",
+                          fontSize: 15,
+                          lineHeight: 1.6,
+                          color: "#6b7280",
+                        }}
+                      >
+                        {Math.round(Number(result.monthlyAvailable) - Number(result.monthlyPayment)) >= 500
+                          ? "Your monthly leftover stays above the recommended minimum."
+                          : "Your monthly leftover falls below the recommended minimum."}
+                      </p>
+
+                      <p
+                        style={{
+                          margin: "8px 0 0 0",
+                          fontSize: 15,
+                          lineHeight: 1.6,
+                          color: "#6b7280",
+                        }}
+                      >
+                        {Number(result.remainingSavings) >= 3000
+                          ? "Your savings level also stays above the recommended minimum."
+                          : "Your savings level falls below the recommended minimum."}
+                      </p>
+                    </div>
 
                     <div
                       style={{
@@ -1041,7 +1149,7 @@ const [errors, setErrors] = useState({
                     </div>
                   </div>
 
-                  <div
+            <div
                     id="smart-spending-panel"
                     style={{
                       background: "#ffffff",
@@ -1104,22 +1212,13 @@ const [errors, setErrors] = useState({
 
                         <p
                           style={{
-                            margin: "10px 0 0 0",
-                            fontSize: 18,
+                            margin: "12px 0 0 0",
+                            fontSize: 17,
+                            lineHeight: 1.5,
                             color: "#6b7280",
                           }}
                         >
-                          Watch a Short Ad
-                        </p>
-
-                        <p
-                          style={{
-                            margin: "8px 0 0 0",
-                            fontSize: 16,
-                            color: "#9ca3af",
-                          }}
-                        >
-                          1 Extra Free Check
+                          Watch one short ad to unlock 1 extra free check.
                         </p>
 
                         <button
@@ -1138,27 +1237,8 @@ const [errors, setErrors] = useState({
                             boxShadow: "0 10px 25px rgba(251, 191, 36, 0.28)",
                           }}
                         >
-                          Continue Free
-                          <div
-                            style={{
-                              fontSize: 14,
-                              fontWeight: 600,
-                              marginTop: 2,
-                            }}
-                          >
-                            Watch a Short Ad
-                          </div>
+                          Watch Ad to Continue
                         </button>
-
-                        <p
-                          style={{
-                            margin: "16px 0 0 0",
-                            fontSize: 16,
-                            color: "#6b7280",
-                          }}
-                        >
-                          1 Extra Free Check
-                        </p>
                       </div>
 
                       <div
@@ -1174,15 +1254,13 @@ const [errors, setErrors] = useState({
                         <h3
                           style={{
                             margin: 0,
-                            fontSize: 20,
+                            fontSize: 16,
                             fontWeight: 800,
                             color: "#0f766e",
-                            lineHeight: 1.35,
+                            whiteSpace: "nowrap",
                           }}
                         >
-                          Unlock Smart Spending
-                          <br />
-                          Insights
+                          Unlock Smart Spending Insights
                         </h3>
 
                         <p
@@ -1205,28 +1283,14 @@ const [errors, setErrors] = useState({
                             borderRadius: 14,
                             background: "linear-gradient(135deg, #1f8a70 0%, #43b692 100%)",
                             color: "#ffffff",
-                            fontSize: 17,
+                            fontSize: 18,
                             fontWeight: 800,
                             cursor: "pointer",
                             boxShadow: "0 12px 28px rgba(31, 138, 112, 0.28)",
-                            lineHeight: 1.2,
                           }}
                         >
-                          Unlock Smart
-                          <br />
-                          Spending Insights
+                          Unlock Now
                         </button>
-
-                        <div
-                          style={{
-                            marginTop: 14,
-                            fontSize: 16,
-                            fontWeight: 700,
-                            color: "#111827",
-                          }}
-                        >
-                          $7 One-Time Locked
-                        </div>
 
                         <p
                           style={{

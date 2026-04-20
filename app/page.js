@@ -931,97 +931,302 @@ const [errors, setErrors] = useState({
               const sections = parseExplanation(result.explanation);
 
               return (
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-                    gap: 12,
-                  }}
-                >
-                  {renderBreakdownCard("Available Monthly Income", sections.monthly, "monthly")}
-                  {renderBreakdownCard("Amount Financed", sections.loan, "loan")}
-                  {renderBreakdownCard("Estimated Monthly Payment", sections.payment, "payment")}
-                  {renderBreakdownCard("Monthly Remaining After Payment", sections.afterPayment, "afterPayment")}
-                  {renderBreakdownCard("Savings After Purchase", sections.savings, "savings")}
-                  {renderBreakdownCard("Financial Safety Checks", sections.safety, "safety")}
+                <>
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+                      gap: 12,
+                      marginBottom: 12,
+                    }}
+                  >
+                    {renderBreakdownCard("Available Monthly Income", sections.monthly, "monthly")}
+                    {renderBreakdownCard("Amount Financed", sections.loan, "loan")}
+                    {renderBreakdownCard("Estimated Monthly Payment", sections.payment, "payment")}
+                    {renderBreakdownCard("Monthly Remaining After Payment", sections.afterPayment, "afterPayment")}
+                    {renderBreakdownCard("Savings After Purchase", sections.savings, "savings")}
+                  </div>
 
                   <div
                     style={{
-                      gridColumn: "1 / -1",
-                      background: "#eef6ff",
-                      border: "1px solid #d7e8ff",
-                      borderRadius: 16,
-                      padding: 20,
-                      boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
+                      display: "grid",
+                      gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+                      gap: 12,
+                      marginBottom: 18,
+                      alignItems: "stretch",
                     }}
                   >
-                    <h3
-                      id="summary-section"
-                      style={{
-                        margin: 0,
-                        fontSize: 20,
-                        fontWeight: 800,
-                        color: "#111827",
-                      }}
-                    >
-                      What This Means For You
-                    </h3>
-
-                    <p
-                      style={{
-                        margin: "12px 0 0 0",
-                        fontSize: 17,
-                        lineHeight: 1.6,
-                        color: "#374151",
-                      }}
-                    >
-                      {result.canAfford ? (
-                        <>
-                          <strong>You can afford this purchase — but here's the smarter question:</strong>
-                          <br /><br />
-                          Is this the BEST use of your money?
-                          <br /><br />
-                          • Could you spend less and still be happy?<br />
-                          • Could you keep more savings while buying this?<br />
-                          • Are you pushing your financial limits without realizing it?
-                          <br /><br />
-                          <strong>Unlock Premium to:</strong>
-                          <br />
-                          • Compare smarter price options<br />
-                          • See your safe spending range<br />
-                          • Find your optimal purchase point
-                        </>
-                      ) : (
-                        <>
-                          <strong>This purchase may put your finances at risk.</strong>
-                          <br /><br />
-                          But here's the good news — you still have options:
-                          <br /><br />
-                          • What price WOULD be safe for you?<br />
-                          • How much should you lower your budget?<br />
-                          • What changes would make this affordable?
-                          <br /><br />
-                          <strong>Unlock Premium to:</strong>
-                          <br />
-                          • See your safe price range<br />
-                          • Adjust your numbers instantly<br />
-                          • Get a smarter financial plan
-                        </>
-                      )}
-                    </p>
+                    {renderBreakdownCard("Financial Safety Checks", sections.safety, "safety")}
 
                     <div
                       style={{
-                        marginTop: 10,
-                        fontSize: 13,
-                        color: "#6b7280",
+                        background: "#eef6ff",
+                        border: "1px solid #d7e8ff",
+                        borderRadius: 16,
+                        padding: 20,
+                        boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
+                      }}
+                    >
+                      <h3
+                        id="summary-section"
+                        style={{
+                          margin: 0,
+                          fontSize: 20,
+                          fontWeight: 800,
+                          color: "#111827",
+                        }}
+                      >
+                        What This Means For You
+                      </h3>
+
+                      <p
+                        style={{
+                          margin: "12px 0 0 0",
+                          fontSize: 17,
+                          lineHeight: 1.6,
+                          color: "#374151",
+                        }}
+                      >
+                        {result.canAfford ? (
+                          <>
+                            <strong>You can afford this purchase — but here's the smarter question:</strong>
+                            <br /><br />
+                            Is this the BEST use of your money?
+                            <br /><br />
+                            • Could you spend less and still be happy?<br />
+                            • Could you keep more savings while buying this?<br />
+                            • Are you pushing your financial limits without realizing it?
+                            <br /><br />
+                            <strong>Unlock Premium to:</strong>
+                            <br />
+                            • Compare smarter price options<br />
+                            • See your safe spending range<br />
+                            • Find your optimal purchase point
+                          </>
+                        ) : (
+                          <>
+                            <strong>This purchase may put your finances at risk.</strong>
+                            <br /><br />
+                            But here's the good news — you still have options:
+                            <br /><br />
+                            • What price WOULD be safe for you?<br />
+                            • How much should you lower your budget?<br />
+                            • What changes would make this affordable?
+                            <br /><br />
+                            <strong>Unlock Premium to:</strong>
+                            <br />
+                            • See your safe price range<br />
+                            • Adjust your numbers instantly<br />
+                            • Get a smarter financial plan
+                          </>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div
+                    id="smart-spending-panel"
+                    style={{
+                      background: "#ffffff",
+                      border: "1px solid #e5e7eb",
+                      borderRadius: 20,
+                      padding: 24,
+                      boxShadow: "0 18px 45px rgba(15, 23, 42, 0.08)",
+                    }}
+                  >
+                    <h2
+                      style={{
+                        margin: 0,
+                        fontSize: 30,
+                        fontWeight: 800,
+                        color: "#111827",
                         textAlign: "center",
                       }}
                     >
-                      Premium unlock CTA moved to the monetization panel above.
+                      Access Your Smart Spending Insights
+                    </h2>
+
+                    <div
+                      style={{
+                        width: 18,
+                        height: 3,
+                        borderRadius: 999,
+                        background: "#facc15",
+                        margin: "10px auto 0 auto",
+                      }}
+                    />
+
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                        gap: 14,
+                        marginTop: 22,
+                      }}
+                    >
+                      <div
+                        style={{
+                          background: "#ffffff",
+                          border: "1px solid #e5e7eb",
+                          borderRadius: 18,
+                          padding: 24,
+                          textAlign: "center",
+                          boxShadow: "0 10px 24px rgba(15, 23, 42, 0.04)",
+                        }}
+                      >
+                        <h3
+                          style={{
+                            margin: 0,
+                            fontSize: 20,
+                            fontWeight: 800,
+                            color: "#111827",
+                          }}
+                        >
+                          Continue Free
+                        </h3>
+
+                        <p
+                          style={{
+                            margin: "10px 0 0 0",
+                            fontSize: 18,
+                            color: "#6b7280",
+                          }}
+                        >
+                          Watch a Short Ad
+                        </p>
+
+                        <p
+                          style={{
+                            margin: "8px 0 0 0",
+                            fontSize: 16,
+                            color: "#9ca3af",
+                          }}
+                        >
+                          1 Extra Free Check
+                        </p>
+
+                        <button
+                          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                          style={{
+                            width: "100%",
+                            marginTop: 18,
+                            height: 54,
+                            border: "none",
+                            borderRadius: 14,
+                            background: "linear-gradient(135deg, #facc15 0%, #fbbf24 100%)",
+                            color: "#111827",
+                            fontSize: 18,
+                            fontWeight: 800,
+                            cursor: "pointer",
+                            boxShadow: "0 10px 25px rgba(251, 191, 36, 0.28)",
+                          }}
+                        >
+                          Continue Free
+                          <div
+                            style={{
+                              fontSize: 14,
+                              fontWeight: 600,
+                              marginTop: 2,
+                            }}
+                          >
+                            Watch a Short Ad
+                          </div>
+                        </button>
+
+                        <p
+                          style={{
+                            margin: "16px 0 0 0",
+                            fontSize: 16,
+                            color: "#6b7280",
+                          }}
+                        >
+                          1 Extra Free Check
+                        </p>
+                      </div>
+
+                      <div
+                        style={{
+                          background: "linear-gradient(180deg, #f3fbf8 0%, #eef8f4 100%)",
+                          border: "1px solid #d8eee7",
+                          borderRadius: 18,
+                          padding: 24,
+                          textAlign: "center",
+                          boxShadow: "0 10px 24px rgba(15, 23, 42, 0.04)",
+                        }}
+                      >
+                        <h3
+                          style={{
+                            margin: 0,
+                            fontSize: 20,
+                            fontWeight: 800,
+                            color: "#0f766e",
+                            lineHeight: 1.35,
+                          }}
+                        >
+                          Unlock Smart Spending
+                          <br />
+                          Insights
+                        </h3>
+
+                        <p
+                          style={{
+                            margin: "12px 0 0 0",
+                            fontSize: 18,
+                            color: "#374151",
+                            fontWeight: 700,
+                          }}
+                        >
+                          $7 One-Time
+                        </p>
+
+                        <button
+                          style={{
+                            width: "100%",
+                            marginTop: 18,
+                            height: 58,
+                            border: "none",
+                            borderRadius: 14,
+                            background: "linear-gradient(135deg, #1f8a70 0%, #43b692 100%)",
+                            color: "#ffffff",
+                            fontSize: 17,
+                            fontWeight: 800,
+                            cursor: "pointer",
+                            boxShadow: "0 12px 28px rgba(31, 138, 112, 0.28)",
+                            lineHeight: 1.2,
+                          }}
+                        >
+                          Unlock Smart
+                          <br />
+                          Spending Insights
+                        </button>
+
+                        <div
+                          style={{
+                            marginTop: 14,
+                            fontSize: 16,
+                            fontWeight: 700,
+                            color: "#111827",
+                          }}
+                        >
+                          $7 One-Time Locked
+                        </div>
+
+                        <p
+                          style={{
+                            margin: "12px 0 0 0",
+                            fontSize: 15,
+                            lineHeight: 1.5,
+                            color: "#6b7280",
+                          }}
+                        >
+                          No subscription. One payment.
+                          <br />
+                          Better decisions every time.
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </>
               );
             })()}
           </section>

@@ -944,7 +944,7 @@ const [errors, setErrors] = useState({
                     {renderBreakdownCard("Amount Financed", sections.loan, "loan")}
                     {renderBreakdownCard("Estimated Monthly Payment", sections.payment, "payment")}
                     {renderBreakdownCard("Monthly Remaining After Payment", sections.afterPayment, "afterPayment")}
-                <div
+                 <div
                       style={{
                         background: "#ffffff",
                         border: "1px solid #e5e7eb",
@@ -991,6 +991,34 @@ const [errors, setErrors] = useState({
                           : Number(result.remainingSavings) > 0
                           ? "You keep some savings, but you fall below the recommended cushion."
                           : "This purchase leaves you with no savings cushion after buying."}
+                      </p>
+
+                      <p
+                        style={{
+                          margin: "8px 0 0 0",
+                          fontSize: 15,
+                          lineHeight: 1.6,
+                          color: "#6b7280",
+                        }}
+                      >
+                        {Number(result.remainingSavings) >= 3000
+                          ? "That gives you more room for emergencies, repairs, and unexpected bills after the purchase."
+                          : Number(result.remainingSavings) > 0
+                          ? "A thin cushion leaves less room for emergencies, repairs, or timing changes after you buy."
+                          : "Savings are important because they protect your financial health when unexpected costs show up after the purchase."}
+                      </p>
+
+                      <p
+                        style={{
+                          margin: "8px 0 0 0",
+                          fontSize: 15,
+                          lineHeight: 1.6,
+                          color: "#6b7280",
+                        }}
+                      >
+                        {result.canAfford
+                          ? "The unlock section below can help you compare smarter price points while keeping more money in reserve."
+                          : "The unlock section below can help you find a safer target price and protect more of your savings."}
                       </p>
                     </div>
 
@@ -1053,12 +1081,26 @@ const [errors, setErrors] = useState({
                           ? "Your savings level also stays above the recommended minimum."
                           : "Your savings level falls below the recommended minimum."}
                       </p>
+
+                      <p
+                        style={{
+                          margin: "8px 0 0 0",
+                          fontSize: 15,
+                          lineHeight: 1.6,
+                          color: "#6b7280",
+                        }}
+                      >
+                        {(Math.round(Number(result.monthlyAvailable) - Number(result.monthlyPayment)) >= 500) &&
+                        (Number(result.remainingSavings) >= 3000)
+                          ? "Passing both checks usually means the purchase fits more safely inside your budget."
+                          : "The safest purchases pass both checks, not just one, so weak spots matter here."}
+                      </p>
                     </div>
 
                     <div
                       style={{
-                        background: "#eef6ff",
-                        border: "1px solid #d7e8ff",
+                        background: "linear-gradient(180deg, #effaf5 0%, #f7fffb 100%)",
+                        border: "1px solid #cdeee0",
                         borderRadius: 16,
                         padding: 20,
                         boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",
@@ -1106,8 +1148,8 @@ const [errors, setErrors] = useState({
 
                     <div
                       style={{
-                        background: "#eef6ff",
-                        border: "1px solid #d7e8ff",
+                        background: "linear-gradient(180deg, #effaf5 0%, #f7fffb 100%)",
+                        border: "1px solid #cdeee0",
                         borderRadius: 16,
                         padding: 20,
                         boxShadow: "0 10px 30px rgba(15, 23, 42, 0.05)",

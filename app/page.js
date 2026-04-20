@@ -24,7 +24,8 @@ const [errors, setErrors] = useState({
   const [result, setResult] = useState(null);
   const [showBreakdown, setShowBreakdown] = useState(false);
  const [apiError, setApiError] = useState("");
-  const [decimalBlockedField, setDecimalBlockedField] = useState("");
+ const [decimalBlockedField, setDecimalBlockedField] = useState("");
+  const [showContinueNotice, setShowContinueNotice] = useState(false);
  function validateField(name, value) {
   const isNumber = /^[0-9]*\.?[0-9]+$/.test(value);
   const num = Number(value);
@@ -115,7 +116,7 @@ const [errors, setErrors] = useState({
 
     return checks.every(Boolean);
   }
- async function handleCheck() {
+async function handleCheck() {
     if (!validateAll()) return;
 
     const hadPreviousResult = Boolean(result);
@@ -143,6 +144,7 @@ const [errors, setErrors] = useState({
       setApiError(data.error || "Unable to check affordability right now.");
       setResult(null);
       setShowBreakdown(false);
+      setShowContinueNotice(false);
       return;
     }
 
@@ -150,6 +152,7 @@ const [errors, setErrors] = useState({
 
     if (hadPreviousResult) {
       setShowBreakdown(true);
+      setShowContinueNotice(true);
 
       setTimeout(() => {
         const smartSpendingPanel = document.getElementById("smart-spending-panel");
@@ -162,6 +165,7 @@ const [errors, setErrors] = useState({
     }
 
     setShowBreakdown(false);
+    setShowContinueNotice(false);
 
     setTimeout(() => {
       const resultSection = document.getElementById("result-section");
@@ -1238,6 +1242,25 @@ const [errors, setErrors] = useState({
                         margin: "10px auto 0 auto",
                       }}
                     />
+
+                    {showContinueNotice && (
+                      <div
+                        style={{
+                          marginTop: 16,
+                          background: "linear-gradient(180deg, #effaf5 0%, #f7fffb 100%)",
+                          border: "1px solid #cdeee0",
+                          borderRadius: 14,
+                          padding: "12px 16px",
+                          textAlign: "center",
+                          fontSize: 15,
+                          fontWeight: 700,
+                          lineHeight: 1.5,
+                          color: "#0f766e",
+                        }}
+                      >
+                        You’ve used your free affordability session. Choose an option below to continue.
+                      </div>
+                    )}
 
                     <div
                       style={{

@@ -23,7 +23,8 @@ const [errors, setErrors] = useState({
 
   const [result, setResult] = useState(null);
   const [showBreakdown, setShowBreakdown] = useState(false);
-  const [apiError, setApiError] = useState("");
+ const [apiError, setApiError] = useState("");
+  const [decimalBlockedField, setDecimalBlockedField] = useState("");
  function validateField(name, value) {
   const isNumber = /^[0-9]*\.?[0-9]+$/.test(value);
   const num = Number(value);
@@ -538,13 +539,38 @@ const [errors, setErrors] = useState({
     : field.value
 }
                    onKeyDown={(e) => {
+  const currentFieldName =
+    field.label === "Monthly Income"
+      ? "income"
+      : field.label === "Monthly Expenses"
+      ? "expenses"
+      : field.label === "Savings"
+      ? "savings"
+      : field.label === "Down Payment (from savings)"
+      ? "downPayment"
+      : "price";
+
   if ([".", ",", "e", "E", "+", "-"].includes(e.key)) {
     e.preventDefault();
+    setDecimalBlockedField(currentFieldName);
+    return;
   }
+
+  if (
+    e.key === "Backspace" ||
+    e.key === "Delete" ||
+    e.key === "Tab" ||
+    e.key.startsWith("Arrow")
+  ) {
+    setDecimalBlockedField("");
+  }
+}}
+                   onBlur={() => {
+  setDecimalBlockedField("");
 }}
                    onChange={(e) => {
   const rawVal = e.target.value.replace(/[$,]/g, "");
-  const val = rawVal.match(/^\d+/)?.[0] ?? "";
+  const val = rawVal.includes(".") ? rawVal.split(".")[0] : rawVal;
 
   const fieldName =
     field.label === "Monthly Income"
@@ -556,6 +582,8 @@ const [errors, setErrors] = useState({
       : field.label === "Down Payment (from savings)"
       ? "downPayment"
       : "price";
+
+  if (decimalBlockedField === fieldName) return;
 
   const maxWholeDigits =
     fieldName === "price" ? 8 : 7;

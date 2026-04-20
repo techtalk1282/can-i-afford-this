@@ -531,24 +531,20 @@ const [errors, setErrors] = useState({
                   </label>
 
 <input
+                    inputMode="numeric"
                     value={
-  /^[1-9]\d*(\.\d*)?$/.test(field.value) || /^0(\.\d*)?$/.test(field.value)
-    ? (() => {
-        const parts = field.value.split(".");
-        const wholePart = parts[0] || "";
-        const decimalPart = parts[1];
-        const formattedWhole = wholePart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        const formattedValue =
-          decimalPart !== undefined
-            ? `${formattedWhole}.${decimalPart}`
-            : formattedWhole;
-        return `$${formattedValue}`;
-      })()
+  /^[1-9]\d*$/.test(field.value) || /^0$/.test(field.value)
+    ? `$${field.value.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`
     : field.value
 }
+                   onKeyDown={(e) => {
+  if ([".", ",", "e", "E", "+", "-"].includes(e.key)) {
+    e.preventDefault();
+  }
+}}
                    onChange={(e) => {
- const rawVal = e.target.value.replace(/[$,]/g, "");
-  const val = rawVal.includes(".") ? rawVal.split(".")[0] : rawVal;
+  const rawVal = e.target.value.replace(/[$,]/g, "");
+  const val = rawVal.match(/^\d+/)?.[0] ?? "";
 
   const fieldName =
     field.label === "Monthly Income"

@@ -748,11 +748,13 @@ function renderBreakdownCard(title, content, key) {
                   setValue: setSavings,
                   placeholder: "Enter current savings",
                 },
-                {
+                 {
   label: "Down Payment (from savings)",
   value: downPayment,
   setValue: setDownPayment,
-  placeholder: "Enter amount to use toward purchase",
+  placeholder: isSmallPhone
+    ? "Enter down payment"
+    : "Enter amount to use toward purchase",
 },
                 {
                   label: "Item Price",

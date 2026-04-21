@@ -29,6 +29,7 @@ const [result, setResult] = useState(null);
  const [decimalBlockedField, setDecimalBlockedField] = useState("");
   const [showContinueNotice, setShowContinueNotice] = useState(false);
   const [hasUsedFreeSession, setHasUsedFreeSession] = useState(false);
+  const [viewportWidth, setViewportWidth] = useState(1200);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -38,7 +39,21 @@ const [result, setResult] = useState(null);
     if (savedFreeSessionState === "1") {
       setHasUsedFreeSession(true);
     }
+
+    const updateViewportWidth = () => {
+      setViewportWidth(window.innerWidth);
+    };
+
+    updateViewportWidth();
+    window.addEventListener("resize", updateViewportWidth);
+
+    return () => {
+      window.removeEventListener("resize", updateViewportWidth);
+    };
   }, []);
+
+  const isPhone = viewportWidth <= 767;
+  const isSmallPhone = viewportWidth <= 480;
 
  function validateField(name, value) {
   const isNumber = /^[0-9]*\.?[0-9]+$/.test(value);
@@ -292,10 +307,11 @@ function renderBreakdownCard(title, content, key) {
         <h2
           style={{
             margin: 0,
-            fontSize: 30,
+            fontSize: isPhone ? 22 : 30,
             fontWeight: 800,
             color: "#111827",
             textAlign: "center",
+            lineHeight: 1.2,
           }}
         >
           Access Your Smart Spending Insights
@@ -400,13 +416,14 @@ function renderBreakdownCard(title, content, key) {
               boxShadow: "0 10px 24px rgba(15, 23, 42, 0.04)",
             }}
           >
-            <h3
+             <h3
               style={{
                 margin: 0,
-                fontSize: 16,
+                fontSize: isPhone ? 14 : 16,
                 fontWeight: 800,
                 color: "#0f766e",
-                whiteSpace: "nowrap",
+                whiteSpace: isPhone ? "normal" : "nowrap",
+                lineHeight: 1.3,
               }}
             >
               Unlock Smart Spending Insights
@@ -479,7 +496,7 @@ function renderBreakdownCard(title, content, key) {
           <h1
             style={{
               margin: 0,
-              fontSize: 48,
+              fontSize: isPhone ? 34 : 48,
               lineHeight: 1.05,
               fontWeight: 800,
               color: "#111827",
@@ -491,12 +508,13 @@ function renderBreakdownCard(title, content, key) {
           <p
   style={{
     margin: "12px 0 0 0",
-    fontSize: 16,
+    fontSize: isPhone ? 15 : 16,
     lineHeight: 1.4,
     color: "#6b7280",
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
+    whiteSpace: isPhone ? "normal" : "nowrap",
+    overflow: isPhone ? "visible" : "hidden",
+    textOverflow: isPhone ? "clip" : "ellipsis",
+    padding: isPhone ? "0 10px" : 0,
   }}
 >
   Know what you should spend before you spend it • Make smarter purchase decisions in seconds
@@ -505,11 +523,11 @@ function renderBreakdownCard(title, content, key) {
           
         </header>
 
-        <section
+         <section
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-            gap: 16,
+            gridTemplateColumns: isPhone ? "1fr" : "repeat(2, minmax(0, 1fr))",
+            gap: isPhone ? 20 : 16,
             alignItems: "stretch",
           }}
         >
@@ -629,7 +647,7 @@ function renderBreakdownCard(title, content, key) {
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+                gridTemplateColumns: isPhone ? "1fr" : "repeat(3, minmax(0, 1fr))",
                 gap: 14,
               }}
             >
@@ -994,7 +1012,7 @@ function renderBreakdownCard(title, content, key) {
                 background: "#ffffff",
                 border: "1px solid #e5e7eb",
                 borderRadius: 20,
-                padding: 28,
+                padding: isPhone ? 20 : 28,
                 boxShadow: "0 18px 45px rgba(15, 23, 42, 0.08)",
                 marginBottom: 18,
               }}
@@ -1002,9 +1020,10 @@ function renderBreakdownCard(title, content, key) {
               <h2
                 style={{
                   margin: 0,
-                  fontSize: 28,
+                  fontSize: isPhone ? 22 : 28,
                   fontWeight: 800,
                   color: "#111827",
+                  lineHeight: 1.15,
                 }}
               >
                Your Affordability Check
@@ -1013,7 +1032,11 @@ function renderBreakdownCard(title, content, key) {
               <div
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+                  gridTemplateColumns: isSmallPhone
+                    ? "1fr"
+                    : isPhone
+                    ? "repeat(2, minmax(0, 1fr))"
+                    : "repeat(4, minmax(0, 1fr))",
                   gap: 16,
                   marginTop: 20,
                 }}
@@ -1067,12 +1090,13 @@ function renderBreakdownCard(title, content, key) {
                       {label}
                     </p>
 
-                    <p
+                     <p
                       style={{
                         margin: "10px 0 0 0",
-                        fontSize: 24,
+                        fontSize: isPhone ? 18 : 24,
                         fontWeight: 800,
                         color: "#111827",
+                        lineHeight: 1.2,
                       }}
                     >
                       {value}

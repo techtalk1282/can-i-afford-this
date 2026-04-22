@@ -35,13 +35,29 @@ const [result, setResult] = useState(null);
   const [premiumStatusMessage, setPremiumStatusMessage] = useState("");
   const [viewportWidth, setViewportWidth] = useState(1200);
 
-  useEffect(() => {
+   useEffect(() => {
     if (typeof window === "undefined") return;
 
     const savedFreeSessionState = window.localStorage.getItem(FREE_SESSION_STORAGE_KEY);
+    const savedPremiumUnlockState = window.localStorage.getItem(PREMIUM_UNLOCKED_STORAGE_KEY);
+    const searchParams = new URLSearchParams(window.location.search);
+    const checkoutState = searchParams.get("checkout");
+    const sessionId = searchParams.get("session_id");
 
     if (savedFreeSessionState === "1") {
       setHasUsedFreeSession(true);
+    }
+
+    if (savedPremiumUnlockState === "1") {
+      setIsPremiumUnlocked(true);
+    }
+
+    if (checkoutState === "cancel") {
+      setPremiumStatusMessage("Checkout was canceled. You can try again whenever you're ready.");
+    }
+
+    if (checkoutState === "success" && sessionId) {
+      setPremiumStatusMessage("Verifying your premium unlock...");
     }
 
     const updateViewportWidth = () => {

@@ -264,7 +264,7 @@ async function handleCheck() {
 
     setApiError("");
 
-    if (hasUsedFreeSession) {
+    if (hasUsedFreeSession && !isPremiumUnlocked) {
       setShowContinueNotice(true);
 
       if (result) {
@@ -301,10 +301,13 @@ async function handleCheck() {
     }
 
     setResult(data.result);
-    setHasUsedFreeSession(true);
 
-    if (typeof window !== "undefined") {
-      window.localStorage.setItem(FREE_SESSION_STORAGE_KEY, "1");
+    if (!isPremiumUnlocked) {
+      setHasUsedFreeSession(true);
+
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem(FREE_SESSION_STORAGE_KEY, "1");
+      }
     }
 
     setShowBreakdown(false);

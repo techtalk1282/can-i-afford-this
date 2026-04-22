@@ -75,6 +75,100 @@ const [result, setResult] = useState(null);
   const isPhone = viewportWidth <= 767;
   const isSmallPhone = viewportWidth <= 480;
 
+  function clearCheckoutParams() {
+    if (typeof window === "undefined") return;
+
+    const url = new URL(window.location.href);
+    url.searchParams.delete("checkout");
+    url.searchParams.delete("session_id");
+    window.history.replaceState({}, "", url.toString());
+  }
+
+  function wait(ms) {
+    return new Promise((resolve) => {
+      window.setTimeout(resolve, ms);
+    });
+  }
+
+  async function verifyPremiumUnlock(sessionId) {
+    setIsCheckoutLoading(true);
+    setPremiumStatusMessage("Verifying your premium unlock...");
+
+    try {
+      for (let attempt = 1; attempt <= 6; attempt += 1) {
+        const res = await fetch(
+          `/api/verify?session_id=${encodeURIComponent(sessionId)}`,
+          {
+            cache: "no-store",
+          }
+        );
+
+        const data = await res.json();
+
+        if (res.ok && data.ok) {
+          setIsPremiumUnlocked(true);
+          setShowContinueNotice(false);
+          setPremiumStatusMessage(
+            "Premium unlocked successfully. You can continue without the free-session gate."
+          );
+
+          if (typeof window !== "undefined") {
+            window.localStorage.setItem(PREMIUM_UNLOCKED_STORAGE_KEY, "1");
+          }
+
+          clearCheckoutParams();
+          return;
+        }
+
+        if (!data.retry || attempt === 6) {
+          setPremiumStatusMessage(
+            "We could not verify premium yet. Refresh once in a moment and it should finish syncing."
+          );
+          clearCheckoutParams();
+          return;
+        }
+
+        await wait(1500);
+      }
+    } catch (err) {
+      console.error("CIAT_PREMIUM_VERIFY_ERROR:", err);
+      setPremiumStatusMessage(
+        "We could not verify premium right now. Refresh once in a moment and try again."
+      );
+      clearCheckoutParams();
+    } finally {
+      setIsCheckoutLoading(false);
+    }
+  }
+
+  async function handleUnlockNow() {
+    setApiError("");
+    setPremiumStatusMessage("");
+    setIsCheckoutLoading(true);
+
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.url) {
+        setPremiumStatusMessage(
+          data.error || "Unable to start checkout right now."
+        );
+        setIsCheckoutLoading(false);
+        return;
+      }
+
+      window.location.href = data.url;
+    } catch (err) {
+      console.error("CIAT_CHECKOUT_START_ERROR:", err);
+      setPremiumStatusMessage("Unable to start checkout right now.");
+      setIsCheckoutLoading(false);
+    }
+  }
+
  function validateField(name, value) {
   const isNumber = /^[0-9]*\.?[0-9]+$/.test(value);
   const num = Number(value);

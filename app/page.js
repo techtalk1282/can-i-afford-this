@@ -7,6 +7,7 @@
 import { useEffect, useState } from "react";
 
 const FREE_SESSION_STORAGE_KEY = "ciat_free_session_used";
+const PREMIUM_UNLOCKED_STORAGE_KEY = "ciat_premium_unlocked";
 
 export default function Home() {
   const [income, setIncome] = useState("");
@@ -29,6 +30,9 @@ const [result, setResult] = useState(null);
  const [decimalBlockedField, setDecimalBlockedField] = useState("");
   const [showContinueNotice, setShowContinueNotice] = useState(false);
   const [hasUsedFreeSession, setHasUsedFreeSession] = useState(false);
+  const [isPremiumUnlocked, setIsPremiumUnlocked] = useState(false);
+  const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
+  const [premiumStatusMessage, setPremiumStatusMessage] = useState("");
   const [viewportWidth, setViewportWidth] = useState(1200);
 
   useEffect(() => {

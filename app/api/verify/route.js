@@ -1,19 +1,19 @@
 /**
  * File: app/api/verify/route.js
- * Version: v1.0
+ * Version: v1.1
  * Date: 2026-04-22
  *
  * Purpose:
  * - Verify CIAT premium unlock from KV
  * - Set premium cookie after webhook-confirmed payment
- * - Keep unlock verification isolated from Best Meeting Time
+ * - Use the correct relative import path for the CIAT project
  *
  * Rollback:
- * - Safe to delete this file if payment flow wiring needs to be backed out
+ * - Revert to prior app/api/verify/route.js if needed
  */
 
 import { NextResponse } from "next/server";
-import { readUnlockStatus } from "@/lib/storage/kv";
+import { readUnlockStatus } from "../../../lib/storage/kv";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";

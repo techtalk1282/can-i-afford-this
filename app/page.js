@@ -558,6 +558,8 @@ function renderBreakdownCard(title, content, key) {
             </p>
 
             <button
+              onClick={handleUnlockNow}
+              disabled={isCheckoutLoading}
               style={{
                 width: "100%",
                 marginTop: 18,
@@ -568,11 +570,12 @@ function renderBreakdownCard(title, content, key) {
                 color: "#ffffff",
                 fontSize: 18,
                 fontWeight: 800,
-                cursor: "pointer",
+                cursor: isCheckoutLoading ? "not-allowed" : "pointer",
+                opacity: isCheckoutLoading ? 0.7 : 1,
                 boxShadow: "0 12px 28px rgba(31, 138, 112, 0.28)",
               }}
             >
-              Unlock Now
+              {isCheckoutLoading ? "Starting Checkout..." : "Unlock Now"}
             </button>
 
             <p

@@ -640,7 +640,25 @@ function renderBreakdownCard(title, content, key) {
   Know what you should spend before you spend it • Make smarter purchase decisions in seconds
 </p>
 
-          
+          {premiumStatusMessage && (
+            <div
+              style={{
+                maxWidth: 720,
+                margin: "16px auto 0 auto",
+                background: "linear-gradient(180deg, #effaf5 0%, #f7fffb 100%)",
+                border: "1px solid #cdeee0",
+                borderRadius: 14,
+                padding: "12px 16px",
+                fontSize: 15,
+                fontWeight: 700,
+                lineHeight: 1.5,
+                color: "#0f766e",
+              }}
+            >
+              {premiumStatusMessage}
+            </div>
+          )}
+
         </header>
 
          <section

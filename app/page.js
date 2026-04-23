@@ -57,7 +57,7 @@ const [result, setResult] = useState(null);
     }
 
     if (checkoutState === "success" && sessionId) {
-      setPremiumStatusMessage("Verifying your premium unlock...");
+      void verifyPremiumUnlock(sessionId);
     }
 
     const updateViewportWidth = () => {

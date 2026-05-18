@@ -4,6 +4,7 @@
 
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const FREE_SESSION_STORAGE_KEY = "ciat_free_session_used";
@@ -596,12 +597,82 @@ function renderBreakdownCard(title, content, key) {
     );
   }
 
+  const guideCards = [
+    {
+      href: "/guides/can-i-afford-this",
+      title: "Can I afford this?",
+      description:
+        "Learn the core affordability checks that compare cash flow, savings, financing pressure, and risk.",
+    },
+    {
+      href: "/guides/how-much-car-can-i-afford",
+      title: "How much car can I afford?",
+      description:
+        "Look beyond the car payment and consider insurance, maintenance, savings, and total ownership cost.",
+    },
+    {
+      href: "/guides/should-i-finance-this",
+      title: "Should I finance this?",
+      description:
+        "Understand when financing can be reasonable and when a monthly payment may hide long-term risk.",
+    },
+    {
+      href: "/guides/safe-monthly-payment",
+      title: "Safe monthly payment",
+      description:
+        "Build a calmer payment range that leaves room for regular bills, savings, and surprises.",
+    },
+  ];
+
+  const affordabilitySteps = [
+    [
+      "Start with monthly breathing room",
+      "A purchase is safer when the payment fits after normal bills and still leaves money for savings, irregular expenses, and daily life.",
+    ],
+    [
+      "Protect your savings cushion",
+      "A down payment can lower the payment, but draining savings can make repairs, deductibles, or income changes harder to handle.",
+    ],
+    [
+      "Compare price, payment, and risk",
+      "The lowest monthly payment is not always the safest choice if it depends on a long loan, higher total interest, or a fragile budget.",
+    ],
+  ];
+
+  const faqs = [
+    [
+      "What does “affordable” really mean?",
+      "Affordable means the purchase fits your income, expenses, savings, and risk tolerance without relying on perfect conditions. A purchase can be technically possible and still feel too tight.",
+    ],
+    [
+      "Should I focus on the price or the monthly payment?",
+      "You should consider both. Price affects total cost and savings impact, while monthly payment affects cash flow. A safer decision balances the two instead of optimizing only one number.",
+    ],
+    [
+      "How much savings should I keep after buying something?",
+      "The right cushion depends on your life, but keeping emergency savings after a purchase is important. If buying would leave you with little or no backup, waiting or choosing a lower price may be safer.",
+    ],
+    [
+      "Is financing bad?",
+      "Financing is not automatically bad. It becomes risky when the payment leaves too little room, the term is stretched too long, the interest cost is high, or the purchase depends on future income you do not have yet.",
+    ],
+    [
+      "Why can a calculator say no even if I can make the payment?",
+      "A payment may be possible in a narrow sense but still unsafe after savings, emergencies, and monthly leftover income are considered. The goal is not just approval; it is financial comfort.",
+    ],
+    [
+      "What should I do if a purchase looks too expensive?",
+      "Try a lower price, a larger down payment that does not drain savings, waiting longer, reducing other expenses, or choosing a less risky alternative. The safest answer may be to delay the decision.",
+    ],
+  ];
+
   return (
     <main
       style={{
         minHeight: "100vh",
-        background: "#f5f7fb",
-        padding: "24px 20px 48px",
+        background:
+          "radial-gradient(circle at top left, rgba(31, 138, 112, 0.10), transparent 32%), #f5f7fb",
+        padding: isPhone ? "20px 16px 56px" : "36px 20px 64px",
         fontFamily: "Arial, sans-serif",
       }}
     >
@@ -612,33 +683,112 @@ function renderBreakdownCard(title, content, key) {
           margin: "0 auto",
         }}
       >
-        <header style={{ textAlign: "center", marginBottom: 20 }}>
-          <h1
+        <header
+          style={{
+            textAlign: "center",
+            marginBottom: 28,
+            background: "rgba(255, 255, 255, 0.86)",
+            border: "1px solid #e6eaf0",
+            borderRadius: 28,
+            padding: isPhone ? "30px 18px" : "44px 36px",
+            boxShadow: "0 22px 60px rgba(15, 23, 42, 0.08)",
+          }}
+        >
+          <div
             style={{
-              margin: 0,
-              fontSize: isPhone ? 34 : 48,
-              lineHeight: 1.05,
-              fontWeight: 800,
-              color: "#111827",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              background: "#eef8f4",
+              border: "1px solid #d8eee7",
+              borderRadius: 999,
+              padding: "8px 12px",
+              color: "#0f766e",
+              fontSize: 13,
+              fontWeight: 900,
+              letterSpacing: "0.04em",
+              textTransform: "uppercase",
+              marginBottom: 14,
             }}
           >
-            Can I Afford This?
+            Smarter purchase decisions
+          </div>
+
+          <h1
+            style={{
+              maxWidth: 820,
+              margin: "0 auto",
+              fontSize: isPhone ? 38 : 58,
+              lineHeight: 1.02,
+              fontWeight: 900,
+              color: "#111827",
+              letterSpacing: "-0.05em",
+            }}
+          >
+            Know what you can safely afford before you spend.
           </h1>
 
           <p
-  style={{
-    margin: "12px 0 0 0",
-    fontSize: isPhone ? 15 : 16,
-    lineHeight: 1.4,
-    color: "#6b7280",
-    whiteSpace: isPhone ? "normal" : "nowrap",
-    overflow: isPhone ? "visible" : "hidden",
-    textOverflow: isPhone ? "clip" : "ellipsis",
-    padding: isPhone ? "0 10px" : 0,
-  }}
->
-  Know what you should spend before you spend it • Make smarter purchase decisions in seconds
-</p>
+            style={{
+              maxWidth: 760,
+              margin: "16px auto 0 auto",
+              fontSize: isPhone ? 16 : 19,
+              lineHeight: 1.6,
+              color: "#5b6472",
+              padding: isPhone ? "0 4px" : 0,
+            }}
+          >
+            Compare income, expenses, savings, down payment, and estimated payments in seconds — then read plain-language guidance before you commit.
+          </p>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: 12,
+              flexWrap: "wrap",
+              marginTop: 24,
+            }}
+          >
+            <a
+              href="#calculator"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                minHeight: 46,
+                padding: "0 18px",
+                borderRadius: 999,
+                background: "linear-gradient(135deg, #1f8a70 0%, #43b692 100%)",
+                color: "#ffffff",
+                fontSize: 16,
+                fontWeight: 900,
+                textDecoration: "none",
+                boxShadow: "0 14px 30px rgba(31, 138, 112, 0.24)",
+              }}
+            >
+              Check affordability
+            </a>
+            <Link
+              href="/guides"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                minHeight: 46,
+                padding: "0 18px",
+                borderRadius: 999,
+                background: "#ffffff",
+                color: "#0f766e",
+                border: "1px solid #d8eee7",
+                fontSize: 16,
+                fontWeight: 900,
+                textDecoration: "none",
+              }}
+            >
+              Browse guides
+            </Link>
+          </div>
 
           {premiumStatusMessage && (
             <div
@@ -662,10 +812,11 @@ function renderBreakdownCard(title, content, key) {
         </header>
 
          <section
+          id="calculator"
           style={{
             display: "grid",
             gridTemplateColumns: isPhone ? "1fr" : "repeat(2, minmax(0, 1fr))",
-            gap: isPhone ? 20 : 16,
+            gap: isPhone ? 20 : 22,
             alignItems: "stretch",
           }}
         >
@@ -673,9 +824,9 @@ function renderBreakdownCard(title, content, key) {
             style={{
               background: "#ffffff",
               border: "1px solid #e5e7eb",
-              borderRadius: 20,
-              padding: 18,
-              boxShadow: "0 16px 40px rgba(15, 23, 42, 0.08)",
+              borderRadius: 22,
+              padding: isPhone ? 18 : 22,
+              boxShadow: "0 18px 48px rgba(15, 23, 42, 0.08)",
             }}
           >
             <h2
@@ -833,9 +984,9 @@ function renderBreakdownCard(title, content, key) {
             style={{
               background: "#ffffff",
               border: "1px solid #dfe4ea",
-              borderRadius: 20,
-              padding: 18,
-              boxShadow: "0 18px 45px rgba(15, 23, 42, 0.10)",
+              borderRadius: 22,
+              padding: isPhone ? 18 : 22,
+              boxShadow: "0 20px 52px rgba(15, 23, 42, 0.10)",
             }}
           >
             <h2
@@ -1103,10 +1254,11 @@ function renderBreakdownCard(title, content, key) {
                 borderRadius: 999,
                 background: "linear-gradient(135deg, #1f8a70 0%, #43b692 100%)",
                 color: "#ffffff",
-                fontSize: 22,
-                fontWeight: 800,
+                fontSize: 21,
+                fontWeight: 900,
                 cursor: "pointer",
-                boxShadow: "0 14px 30px rgba(31, 138, 112, 0.28)",
+                letterSpacing: "-0.01em",
+                boxShadow: "0 16px 34px rgba(31, 138, 112, 0.30)",
               }}
             >
               Check My Affordability →
@@ -1592,6 +1744,387 @@ function renderBreakdownCard(title, content, key) {
             })()}
           </section>
         )}
+
+        <section
+          style={{
+            marginTop: 34,
+            background: "#ffffff",
+            border: "1px solid #e6eaf0",
+            borderRadius: 24,
+            padding: isPhone ? 22 : 32,
+            boxShadow: "0 18px 46px rgba(15, 23, 42, 0.07)",
+          }}
+        >
+          <p
+            style={{
+              margin: 0,
+              color: "#0f766e",
+              fontSize: 14,
+              fontWeight: 800,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              textAlign: "center",
+            }}
+          >
+            Learn before you commit
+          </p>
+
+          <h2
+            style={{
+              margin: "10px 0 0 0",
+              color: "#111827",
+              fontSize: isPhone ? 26 : 34,
+              lineHeight: 1.15,
+              fontWeight: 800,
+              textAlign: "center",
+            }}
+          >
+            Popular Affordability Guides
+          </h2>
+
+          <p
+            style={{
+              maxWidth: 760,
+              margin: "12px auto 0 auto",
+              color: "#6b7280",
+              fontSize: 17,
+              lineHeight: 1.6,
+              textAlign: "center",
+            }}
+          >
+            Use these plain-language guides to understand the financial decision
+            behind the calculator result, then come back with a clearer target
+            price and safer monthly payment range.
+          </p>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: 16,
+              marginTop: 24,
+            }}
+          >
+            {guideCards.map((guide) => (
+              <Link
+                key={guide.href}
+                href={guide.href}
+                style={{
+                  display: "block",
+                  background: "#f9fafb",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: 16,
+                  padding: 18,
+                  textDecoration: "none",
+                }}
+              >
+                <h3
+                  style={{
+                    margin: 0,
+                    color: "#111827",
+                    fontSize: 20,
+                    fontWeight: 800,
+                    lineHeight: 1.25,
+                  }}
+                >
+                  {guide.title}
+                </h3>
+
+                <p
+                  style={{
+                    margin: "10px 0 0 0",
+                    color: "#6b7280",
+                    fontSize: 16,
+                    lineHeight: 1.6,
+                  }}
+                >
+                  {guide.description}
+                </p>
+
+                <p
+                  style={{
+                    margin: "14px 0 0 0",
+                    color: "#0f766e",
+                    fontSize: 15,
+                    fontWeight: 800,
+                  }}
+                >
+                  Read guide →
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section
+          style={{
+            marginTop: 34,
+            background: "#ffffff",
+            border: "1px solid #e6eaf0",
+            borderRadius: 24,
+            padding: isPhone ? 22 : 32,
+            boxShadow: "0 18px 46px rgba(15, 23, 42, 0.07)",
+          }}
+        >
+          <h2
+            style={{
+              margin: 0,
+              color: "#111827",
+              fontSize: isPhone ? 26 : 34,
+              lineHeight: 1.15,
+              fontWeight: 800,
+              textAlign: "center",
+            }}
+          >
+            How Affordability Decisions Work
+          </h2>
+
+          <p
+            style={{
+              maxWidth: 760,
+              margin: "12px auto 0 auto",
+              color: "#6b7280",
+              fontSize: 17,
+              lineHeight: 1.6,
+              textAlign: "center",
+            }}
+          >
+            A strong affordability decision is not based on one number. It
+            combines cash flow, savings, debt pressure, financing cost, and the
+            real-life stress a purchase may create after the checkout moment.
+          </p>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: isPhone ? "1fr" : "repeat(3, minmax(0, 1fr))",
+              gap: 16,
+              marginTop: 24,
+            }}
+          >
+            {affordabilitySteps.map(([title, copy], index) => (
+              <div
+                key={title}
+                style={{
+                  background: "#f9fafb",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: 16,
+                  padding: 18,
+                }}
+              >
+                <div
+                  style={{
+                    width: 34,
+                    height: 34,
+                    borderRadius: 999,
+                    background: "linear-gradient(135deg, #1f8a70 0%, #43b692 100%)",
+                    color: "#ffffff",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 16,
+                    fontWeight: 800,
+                    marginBottom: 12,
+                  }}
+                >
+                  {index + 1}
+                </div>
+
+                <h3
+                  style={{
+                    margin: 0,
+                    color: "#111827",
+                    fontSize: 20,
+                    fontWeight: 800,
+                  }}
+                >
+                  {title}
+                </h3>
+
+                <p
+                  style={{
+                    margin: "10px 0 0 0",
+                    color: "#6b7280",
+                    fontSize: 16,
+                    lineHeight: 1.6,
+                  }}
+                >
+                  {copy}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <p
+            style={{
+              margin: "22px 0 0 0",
+              color: "#374151",
+              fontSize: 17,
+              lineHeight: 1.7,
+            }}
+          >
+            The calculator is designed to support that thinking by comparing the
+            item price against monthly income, existing expenses, savings, down
+            payment, estimated payment, and savings left after the purchase. For
+            more context, read the guides on {" "}
+            <Link href="/guides/should-i-finance-this" style={{ color: "#0f766e", fontWeight: 800 }}>
+              financing decisions
+            </Link>{" "}
+            and {" "}
+            <Link href="/guides/safe-monthly-payment" style={{ color: "#0f766e", fontWeight: 800 }}>
+              safe monthly payments
+            </Link>
+            .
+          </p>
+        </section>
+
+        <section
+          style={{
+            marginTop: 34,
+            background: "#ffffff",
+            border: "1px solid #e6eaf0",
+            borderRadius: 24,
+            padding: isPhone ? 22 : 32,
+            boxShadow: "0 18px 46px rgba(15, 23, 42, 0.07)",
+          }}
+        >
+          <h2
+            style={{
+              margin: 0,
+              color: "#111827",
+              fontSize: isPhone ? 26 : 34,
+              lineHeight: 1.15,
+              fontWeight: 800,
+              textAlign: "center",
+            }}
+          >
+            Affordability FAQ
+          </h2>
+
+          <p
+            style={{
+              maxWidth: 760,
+              margin: "12px auto 0 auto",
+              color: "#6b7280",
+              fontSize: 17,
+              lineHeight: 1.6,
+              textAlign: "center",
+            }}
+          >
+            Quick answers to common questions people ask before financing,
+            buying, or committing to a recurring payment.
+          </p>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+              gap: 16,
+              marginTop: 24,
+            }}
+          >
+            {faqs.map(([question, answer]) => (
+              <div
+                key={question}
+                style={{
+                  background: "#f9fafb",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: 16,
+                  padding: 18,
+                }}
+              >
+                <h3
+                  style={{
+                    margin: 0,
+                    color: "#111827",
+                    fontSize: 19,
+                    fontWeight: 800,
+                    lineHeight: 1.3,
+                  }}
+                >
+                  {question}
+                </h3>
+
+                <p
+                  style={{
+                    margin: "10px 0 0 0",
+                    color: "#6b7280",
+                    fontSize: 16,
+                    lineHeight: 1.6,
+                  }}
+                >
+                  {answer}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section
+          style={{
+            marginTop: 34,
+            background: "linear-gradient(180deg, #effaf5 0%, #f7fffb 100%)",
+            border: "1px solid #cdeee0",
+            borderRadius: 24,
+            padding: isPhone ? 22 : 32,
+            boxShadow: "0 18px 46px rgba(15, 23, 42, 0.07)",
+          }}
+        >
+          <h2
+            style={{
+              margin: 0,
+              color: "#111827",
+              fontSize: isPhone ? 25 : 32,
+              lineHeight: 1.15,
+              fontWeight: 800,
+            }}
+          >
+            Trust, privacy, and financial disclaimer
+          </h2>
+
+          <p
+            style={{
+              margin: "12px 0 0 0",
+              color: "#374151",
+              fontSize: 17,
+              lineHeight: 1.7,
+            }}
+          >
+            Can I Afford This? is an educational decision tool. It provides
+            estimates to help you think through purchases, but it is not
+            financial, legal, tax, lending, or investment advice. Your real-life
+            decision should also account for debt, insurance, repairs, job
+            stability, family obligations, medical costs, and any details not
+            captured by a quick calculator.
+          </p>
+
+          <p
+            style={{
+              margin: "12px 0 0 0",
+              color: "#374151",
+              fontSize: 17,
+              lineHeight: 1.7,
+            }}
+          >
+            For more information about the site, review the {" "}
+            <Link href="/about" style={{ color: "#0f766e", fontWeight: 800 }}>
+              About page
+            </Link>
+            , {" "}
+            <Link href="/privacy" style={{ color: "#0f766e", fontWeight: 800 }}>
+              Privacy Policy
+            </Link>
+            , {" "}
+            <Link href="/terms" style={{ color: "#0f766e", fontWeight: 800 }}>
+              Terms of Service
+            </Link>
+            , or {" "}
+            <Link href="/contact" style={{ color: "#0f766e", fontWeight: 800 }}>
+              Contact page
+            </Link>
+            .
+          </p>
+        </section>
       </div>
     </main>
   );

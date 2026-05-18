@@ -4,6 +4,7 @@
 
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const FREE_SESSION_STORAGE_KEY = "ciat_free_session_used";
@@ -595,6 +596,75 @@ function renderBreakdownCard(title, content, key) {
       </div>
     );
   }
+
+  const guideCards = [
+    {
+      href: "/guides/can-i-afford-this",
+      title: "Can I afford this?",
+      description:
+        "Learn the core affordability checks that compare cash flow, savings, financing pressure, and risk.",
+    },
+    {
+      href: "/guides/how-much-car-can-i-afford",
+      title: "How much car can I afford?",
+      description:
+        "Look beyond the car payment and consider insurance, maintenance, savings, and total ownership cost.",
+    },
+    {
+      href: "/guides/should-i-finance-this",
+      title: "Should I finance this?",
+      description:
+        "Understand when financing can be reasonable and when a monthly payment may hide long-term risk.",
+    },
+    {
+      href: "/guides/safe-monthly-payment",
+      title: "Safe monthly payment",
+      description:
+        "Build a calmer payment range that leaves room for regular bills, savings, and surprises.",
+    },
+  ];
+
+  const affordabilitySteps = [
+    [
+      "Start with monthly breathing room",
+      "A purchase is safer when the payment fits after normal bills and still leaves money for savings, irregular expenses, and daily life.",
+    ],
+    [
+      "Protect your savings cushion",
+      "A down payment can lower the payment, but draining savings can make repairs, deductibles, or income changes harder to handle.",
+    ],
+    [
+      "Compare price, payment, and risk",
+      "The lowest monthly payment is not always the safest choice if it depends on a long loan, higher total interest, or a fragile budget.",
+    ],
+  ];
+
+  const faqs = [
+    [
+      "What does “affordable” really mean?",
+      "Affordable means the purchase fits your income, expenses, savings, and risk tolerance without relying on perfect conditions. A purchase can be technically possible and still feel too tight.",
+    ],
+    [
+      "Should I focus on the price or the monthly payment?",
+      "You should consider both. Price affects total cost and savings impact, while monthly payment affects cash flow. A safer decision balances the two instead of optimizing only one number.",
+    ],
+    [
+      "How much savings should I keep after buying something?",
+      "The right cushion depends on your life, but keeping emergency savings after a purchase is important. If buying would leave you with little or no backup, waiting or choosing a lower price may be safer.",
+    ],
+    [
+      "Is financing bad?",
+      "Financing is not automatically bad. It becomes risky when the payment leaves too little room, the term is stretched too long, the interest cost is high, or the purchase depends on future income you do not have yet.",
+    ],
+    [
+      "Why can a calculator say no even if I can make the payment?",
+      "A payment may be possible in a narrow sense but still unsafe after savings, emergencies, and monthly leftover income are considered. The goal is not just approval; it is financial comfort.",
+    ],
+    [
+      "What should I do if a purchase looks too expensive?",
+      "Try a lower price, a larger down payment that does not drain savings, waiting longer, reducing other expenses, or choosing a less risky alternative. The safest answer may be to delay the decision.",
+    ],
+  ];
 
   return (
     <main
@@ -1592,6 +1662,387 @@ function renderBreakdownCard(title, content, key) {
             })()}
           </section>
         )}
+
+        <section
+          style={{
+            marginTop: 28,
+            background: "#ffffff",
+            border: "1px solid #e5e7eb",
+            borderRadius: 20,
+            padding: isPhone ? 20 : 28,
+            boxShadow: "0 16px 40px rgba(15, 23, 42, 0.08)",
+          }}
+        >
+          <p
+            style={{
+              margin: 0,
+              color: "#0f766e",
+              fontSize: 14,
+              fontWeight: 800,
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              textAlign: "center",
+            }}
+          >
+            Learn before you commit
+          </p>
+
+          <h2
+            style={{
+              margin: "10px 0 0 0",
+              color: "#111827",
+              fontSize: isPhone ? 26 : 34,
+              lineHeight: 1.15,
+              fontWeight: 800,
+              textAlign: "center",
+            }}
+          >
+            Popular Affordability Guides
+          </h2>
+
+          <p
+            style={{
+              maxWidth: 760,
+              margin: "12px auto 0 auto",
+              color: "#6b7280",
+              fontSize: 17,
+              lineHeight: 1.6,
+              textAlign: "center",
+            }}
+          >
+            Use these plain-language guides to understand the financial decision
+            behind the calculator result, then come back with a clearer target
+            price and safer monthly payment range.
+          </p>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+              gap: 16,
+              marginTop: 24,
+            }}
+          >
+            {guideCards.map((guide) => (
+              <Link
+                key={guide.href}
+                href={guide.href}
+                style={{
+                  display: "block",
+                  background: "#f9fafb",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: 16,
+                  padding: 18,
+                  textDecoration: "none",
+                }}
+              >
+                <h3
+                  style={{
+                    margin: 0,
+                    color: "#111827",
+                    fontSize: 20,
+                    fontWeight: 800,
+                    lineHeight: 1.25,
+                  }}
+                >
+                  {guide.title}
+                </h3>
+
+                <p
+                  style={{
+                    margin: "10px 0 0 0",
+                    color: "#6b7280",
+                    fontSize: 16,
+                    lineHeight: 1.6,
+                  }}
+                >
+                  {guide.description}
+                </p>
+
+                <p
+                  style={{
+                    margin: "14px 0 0 0",
+                    color: "#0f766e",
+                    fontSize: 15,
+                    fontWeight: 800,
+                  }}
+                >
+                  Read guide →
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section
+          style={{
+            marginTop: 28,
+            background: "#ffffff",
+            border: "1px solid #e5e7eb",
+            borderRadius: 20,
+            padding: isPhone ? 20 : 28,
+            boxShadow: "0 16px 40px rgba(15, 23, 42, 0.08)",
+          }}
+        >
+          <h2
+            style={{
+              margin: 0,
+              color: "#111827",
+              fontSize: isPhone ? 26 : 34,
+              lineHeight: 1.15,
+              fontWeight: 800,
+              textAlign: "center",
+            }}
+          >
+            How Affordability Decisions Work
+          </h2>
+
+          <p
+            style={{
+              maxWidth: 760,
+              margin: "12px auto 0 auto",
+              color: "#6b7280",
+              fontSize: 17,
+              lineHeight: 1.6,
+              textAlign: "center",
+            }}
+          >
+            A strong affordability decision is not based on one number. It
+            combines cash flow, savings, debt pressure, financing cost, and the
+            real-life stress a purchase may create after the checkout moment.
+          </p>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: isPhone ? "1fr" : "repeat(3, minmax(0, 1fr))",
+              gap: 16,
+              marginTop: 24,
+            }}
+          >
+            {affordabilitySteps.map(([title, copy], index) => (
+              <div
+                key={title}
+                style={{
+                  background: "#f9fafb",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: 16,
+                  padding: 18,
+                }}
+              >
+                <div
+                  style={{
+                    width: 34,
+                    height: 34,
+                    borderRadius: 999,
+                    background: "linear-gradient(135deg, #1f8a70 0%, #43b692 100%)",
+                    color: "#ffffff",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 16,
+                    fontWeight: 800,
+                    marginBottom: 12,
+                  }}
+                >
+                  {index + 1}
+                </div>
+
+                <h3
+                  style={{
+                    margin: 0,
+                    color: "#111827",
+                    fontSize: 20,
+                    fontWeight: 800,
+                  }}
+                >
+                  {title}
+                </h3>
+
+                <p
+                  style={{
+                    margin: "10px 0 0 0",
+                    color: "#6b7280",
+                    fontSize: 16,
+                    lineHeight: 1.6,
+                  }}
+                >
+                  {copy}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <p
+            style={{
+              margin: "22px 0 0 0",
+              color: "#374151",
+              fontSize: 17,
+              lineHeight: 1.7,
+            }}
+          >
+            The calculator is designed to support that thinking by comparing the
+            item price against monthly income, existing expenses, savings, down
+            payment, estimated payment, and savings left after the purchase. For
+            more context, read the guides on {" "}
+            <Link href="/guides/should-i-finance-this" style={{ color: "#0f766e", fontWeight: 800 }}>
+              financing decisions
+            </Link>{" "}
+            and {" "}
+            <Link href="/guides/safe-monthly-payment" style={{ color: "#0f766e", fontWeight: 800 }}>
+              safe monthly payments
+            </Link>
+            .
+          </p>
+        </section>
+
+        <section
+          style={{
+            marginTop: 28,
+            background: "#ffffff",
+            border: "1px solid #e5e7eb",
+            borderRadius: 20,
+            padding: isPhone ? 20 : 28,
+            boxShadow: "0 16px 40px rgba(15, 23, 42, 0.08)",
+          }}
+        >
+          <h2
+            style={{
+              margin: 0,
+              color: "#111827",
+              fontSize: isPhone ? 26 : 34,
+              lineHeight: 1.15,
+              fontWeight: 800,
+              textAlign: "center",
+            }}
+          >
+            Affordability FAQ
+          </h2>
+
+          <p
+            style={{
+              maxWidth: 760,
+              margin: "12px auto 0 auto",
+              color: "#6b7280",
+              fontSize: 17,
+              lineHeight: 1.6,
+              textAlign: "center",
+            }}
+          >
+            Quick answers to common questions people ask before financing,
+            buying, or committing to a recurring payment.
+          </p>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+              gap: 16,
+              marginTop: 24,
+            }}
+          >
+            {faqs.map(([question, answer]) => (
+              <div
+                key={question}
+                style={{
+                  background: "#f9fafb",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: 16,
+                  padding: 18,
+                }}
+              >
+                <h3
+                  style={{
+                    margin: 0,
+                    color: "#111827",
+                    fontSize: 19,
+                    fontWeight: 800,
+                    lineHeight: 1.3,
+                  }}
+                >
+                  {question}
+                </h3>
+
+                <p
+                  style={{
+                    margin: "10px 0 0 0",
+                    color: "#6b7280",
+                    fontSize: 16,
+                    lineHeight: 1.6,
+                  }}
+                >
+                  {answer}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section
+          style={{
+            marginTop: 28,
+            background: "linear-gradient(180deg, #effaf5 0%, #f7fffb 100%)",
+            border: "1px solid #cdeee0",
+            borderRadius: 20,
+            padding: isPhone ? 20 : 28,
+            boxShadow: "0 16px 40px rgba(15, 23, 42, 0.08)",
+          }}
+        >
+          <h2
+            style={{
+              margin: 0,
+              color: "#111827",
+              fontSize: isPhone ? 25 : 32,
+              lineHeight: 1.15,
+              fontWeight: 800,
+            }}
+          >
+            Trust, privacy, and financial disclaimer
+          </h2>
+
+          <p
+            style={{
+              margin: "12px 0 0 0",
+              color: "#374151",
+              fontSize: 17,
+              lineHeight: 1.7,
+            }}
+          >
+            Can I Afford This? is an educational decision tool. It provides
+            estimates to help you think through purchases, but it is not
+            financial, legal, tax, lending, or investment advice. Your real-life
+            decision should also account for debt, insurance, repairs, job
+            stability, family obligations, medical costs, and any details not
+            captured by a quick calculator.
+          </p>
+
+          <p
+            style={{
+              margin: "12px 0 0 0",
+              color: "#374151",
+              fontSize: 17,
+              lineHeight: 1.7,
+            }}
+          >
+            For more information about the site, review the {" "}
+            <Link href="/about" style={{ color: "#0f766e", fontWeight: 800 }}>
+              About page
+            </Link>
+            , {" "}
+            <Link href="/privacy" style={{ color: "#0f766e", fontWeight: 800 }}>
+              Privacy Policy
+            </Link>
+            , {" "}
+            <Link href="/terms" style={{ color: "#0f766e", fontWeight: 800 }}>
+              Terms of Service
+            </Link>
+            , or {" "}
+            <Link href="/contact" style={{ color: "#0f766e", fontWeight: 800 }}>
+              Contact page
+            </Link>
+            .
+          </p>
+        </section>
       </div>
     </main>
   );

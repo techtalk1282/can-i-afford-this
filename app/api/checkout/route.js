@@ -27,9 +27,11 @@ function requireEnv(name) {
   return value.trim();
 }
 
-const stripe = new Stripe(requireEnv("STRIPE_SECRET_KEY"), {
-  apiVersion: "2024-06-20",
-});
+function createStripeClient() {
+  return new Stripe(requireEnv("STRIPE_SECRET_KEY"), {
+    apiVersion: "2024-06-20",
+  });
+}
 
 export async function POST(req) {
   try {
@@ -41,6 +43,8 @@ export async function POST(req) {
         { status: 500 }
       );
     }
+
+    const stripe = createStripeClient();
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",

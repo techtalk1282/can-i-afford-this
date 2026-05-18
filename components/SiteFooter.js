@@ -11,7 +11,7 @@ export default function SiteFooter() {
     <footer
       style={{
         background: "#ffffff",
-        borderTop: "1px solid #e5e7eb",
+        borderTop: "1px solid #e6eaf0",
       }}
     >
       <div
@@ -19,7 +19,7 @@ export default function SiteFooter() {
           width: "100%",
           maxWidth: 1180,
           margin: "0 auto",
-          padding: "28px 20px",
+          padding: "34px 20px",
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
           gap: 18,
@@ -31,8 +31,9 @@ export default function SiteFooter() {
             style={{
               margin: 0,
               color: "#111827",
-              fontSize: 18,
-              fontWeight: 800,
+              fontSize: 19,
+              fontWeight: 900,
+              letterSpacing: "-0.03em",
             }}
           >
             Can I Afford This?
@@ -78,7 +79,7 @@ export default function SiteFooter() {
                 style={{
                   color: "#0f766e",
                   fontSize: 15,
-                  fontWeight: 700,
+                  fontWeight: 800,
                   textDecoration: "none",
                 }}
               >

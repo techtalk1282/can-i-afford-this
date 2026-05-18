@@ -670,8 +670,9 @@ function renderBreakdownCard(title, content, key) {
     <main
       style={{
         minHeight: "100vh",
-        background: "#f5f7fb",
-        padding: "24px 20px 48px",
+        background:
+          "radial-gradient(circle at top left, rgba(31, 138, 112, 0.10), transparent 32%), #f5f7fb",
+        padding: isPhone ? "20px 16px 56px" : "36px 20px 64px",
         fontFamily: "Arial, sans-serif",
       }}
     >
@@ -682,33 +683,112 @@ function renderBreakdownCard(title, content, key) {
           margin: "0 auto",
         }}
       >
-        <header style={{ textAlign: "center", marginBottom: 20 }}>
-          <h1
+        <header
+          style={{
+            textAlign: "center",
+            marginBottom: 28,
+            background: "rgba(255, 255, 255, 0.86)",
+            border: "1px solid #e6eaf0",
+            borderRadius: 28,
+            padding: isPhone ? "30px 18px" : "44px 36px",
+            boxShadow: "0 22px 60px rgba(15, 23, 42, 0.08)",
+          }}
+        >
+          <div
             style={{
-              margin: 0,
-              fontSize: isPhone ? 34 : 48,
-              lineHeight: 1.05,
-              fontWeight: 800,
-              color: "#111827",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              background: "#eef8f4",
+              border: "1px solid #d8eee7",
+              borderRadius: 999,
+              padding: "8px 12px",
+              color: "#0f766e",
+              fontSize: 13,
+              fontWeight: 900,
+              letterSpacing: "0.04em",
+              textTransform: "uppercase",
+              marginBottom: 14,
             }}
           >
-            Can I Afford This?
+            Smarter purchase decisions
+          </div>
+
+          <h1
+            style={{
+              maxWidth: 820,
+              margin: "0 auto",
+              fontSize: isPhone ? 38 : 58,
+              lineHeight: 1.02,
+              fontWeight: 900,
+              color: "#111827",
+              letterSpacing: "-0.05em",
+            }}
+          >
+            Know what you can safely afford before you spend.
           </h1>
 
           <p
-  style={{
-    margin: "12px 0 0 0",
-    fontSize: isPhone ? 15 : 16,
-    lineHeight: 1.4,
-    color: "#6b7280",
-    whiteSpace: isPhone ? "normal" : "nowrap",
-    overflow: isPhone ? "visible" : "hidden",
-    textOverflow: isPhone ? "clip" : "ellipsis",
-    padding: isPhone ? "0 10px" : 0,
-  }}
->
-  Know what you should spend before you spend it • Make smarter purchase decisions in seconds
-</p>
+            style={{
+              maxWidth: 760,
+              margin: "16px auto 0 auto",
+              fontSize: isPhone ? 16 : 19,
+              lineHeight: 1.6,
+              color: "#5b6472",
+              padding: isPhone ? "0 4px" : 0,
+            }}
+          >
+            Compare income, expenses, savings, down payment, and estimated payments in seconds — then read plain-language guidance before you commit.
+          </p>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: 12,
+              flexWrap: "wrap",
+              marginTop: 24,
+            }}
+          >
+            <a
+              href="#calculator"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                minHeight: 46,
+                padding: "0 18px",
+                borderRadius: 999,
+                background: "linear-gradient(135deg, #1f8a70 0%, #43b692 100%)",
+                color: "#ffffff",
+                fontSize: 16,
+                fontWeight: 900,
+                textDecoration: "none",
+                boxShadow: "0 14px 30px rgba(31, 138, 112, 0.24)",
+              }}
+            >
+              Check affordability
+            </a>
+            <Link
+              href="/guides"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                minHeight: 46,
+                padding: "0 18px",
+                borderRadius: 999,
+                background: "#ffffff",
+                color: "#0f766e",
+                border: "1px solid #d8eee7",
+                fontSize: 16,
+                fontWeight: 900,
+                textDecoration: "none",
+              }}
+            >
+              Browse guides
+            </Link>
+          </div>
 
           {premiumStatusMessage && (
             <div
@@ -732,10 +812,11 @@ function renderBreakdownCard(title, content, key) {
         </header>
 
          <section
+          id="calculator"
           style={{
             display: "grid",
             gridTemplateColumns: isPhone ? "1fr" : "repeat(2, minmax(0, 1fr))",
-            gap: isPhone ? 20 : 16,
+            gap: isPhone ? 20 : 22,
             alignItems: "stretch",
           }}
         >
@@ -743,9 +824,9 @@ function renderBreakdownCard(title, content, key) {
             style={{
               background: "#ffffff",
               border: "1px solid #e5e7eb",
-              borderRadius: 20,
-              padding: 18,
-              boxShadow: "0 16px 40px rgba(15, 23, 42, 0.08)",
+              borderRadius: 22,
+              padding: isPhone ? 18 : 22,
+              boxShadow: "0 18px 48px rgba(15, 23, 42, 0.08)",
             }}
           >
             <h2
@@ -903,9 +984,9 @@ function renderBreakdownCard(title, content, key) {
             style={{
               background: "#ffffff",
               border: "1px solid #dfe4ea",
-              borderRadius: 20,
-              padding: 18,
-              boxShadow: "0 18px 45px rgba(15, 23, 42, 0.10)",
+              borderRadius: 22,
+              padding: isPhone ? 18 : 22,
+              boxShadow: "0 20px 52px rgba(15, 23, 42, 0.10)",
             }}
           >
             <h2
@@ -1173,10 +1254,11 @@ function renderBreakdownCard(title, content, key) {
                 borderRadius: 999,
                 background: "linear-gradient(135deg, #1f8a70 0%, #43b692 100%)",
                 color: "#ffffff",
-                fontSize: 22,
-                fontWeight: 800,
+                fontSize: 21,
+                fontWeight: 900,
                 cursor: "pointer",
-                boxShadow: "0 14px 30px rgba(31, 138, 112, 0.28)",
+                letterSpacing: "-0.01em",
+                boxShadow: "0 16px 34px rgba(31, 138, 112, 0.30)",
               }}
             >
               Check My Affordability →
@@ -1665,12 +1747,12 @@ function renderBreakdownCard(title, content, key) {
 
         <section
           style={{
-            marginTop: 28,
+            marginTop: 34,
             background: "#ffffff",
-            border: "1px solid #e5e7eb",
-            borderRadius: 20,
-            padding: isPhone ? 20 : 28,
-            boxShadow: "0 16px 40px rgba(15, 23, 42, 0.08)",
+            border: "1px solid #e6eaf0",
+            borderRadius: 24,
+            padding: isPhone ? 22 : 32,
+            boxShadow: "0 18px 46px rgba(15, 23, 42, 0.07)",
           }}
         >
           <p
@@ -1776,12 +1858,12 @@ function renderBreakdownCard(title, content, key) {
 
         <section
           style={{
-            marginTop: 28,
+            marginTop: 34,
             background: "#ffffff",
-            border: "1px solid #e5e7eb",
-            borderRadius: 20,
-            padding: isPhone ? 20 : 28,
-            boxShadow: "0 16px 40px rgba(15, 23, 42, 0.08)",
+            border: "1px solid #e6eaf0",
+            borderRadius: 24,
+            padding: isPhone ? 22 : 32,
+            boxShadow: "0 18px 46px rgba(15, 23, 42, 0.07)",
           }}
         >
           <h2
@@ -1898,12 +1980,12 @@ function renderBreakdownCard(title, content, key) {
 
         <section
           style={{
-            marginTop: 28,
+            marginTop: 34,
             background: "#ffffff",
-            border: "1px solid #e5e7eb",
-            borderRadius: 20,
-            padding: isPhone ? 20 : 28,
-            boxShadow: "0 16px 40px rgba(15, 23, 42, 0.08)",
+            border: "1px solid #e6eaf0",
+            borderRadius: 24,
+            padding: isPhone ? 22 : 32,
+            boxShadow: "0 18px 46px rgba(15, 23, 42, 0.07)",
           }}
         >
           <h2
@@ -1980,12 +2062,12 @@ function renderBreakdownCard(title, content, key) {
 
         <section
           style={{
-            marginTop: 28,
+            marginTop: 34,
             background: "linear-gradient(180deg, #effaf5 0%, #f7fffb 100%)",
             border: "1px solid #cdeee0",
-            borderRadius: 20,
-            padding: isPhone ? 20 : 28,
-            boxShadow: "0 16px 40px rgba(15, 23, 42, 0.08)",
+            borderRadius: 24,
+            padding: isPhone ? 22 : 32,
+            boxShadow: "0 18px 46px rgba(15, 23, 42, 0.07)",
           }}
         >
           <h2
